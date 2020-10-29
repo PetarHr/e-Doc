@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace eDoc.Data.Models
 {
-    public class Doctor: User
+    public class Doctor: ApplicationUser
     {
         //Променливи, които притежават лекарите (УИН, Код специалност)
         public int UIN { get; set; }

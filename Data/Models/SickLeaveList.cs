@@ -13,7 +13,7 @@ namespace eDoc.Data.Models
         public int OutpatientJournalNumber { get; set; }
         public bool Continuation { get; set; }
 
-        public User Patient { get; set; }
+        public ApplicationUser Patient { get; set; }
         public Doctor Doctor { get; set; }
 
         public string Diagnosis { get; set; }

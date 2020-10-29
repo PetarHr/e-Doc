@@ -1,23 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Net.Sockets;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
 namespace eDoc.Data.Models
 {
-    public class User
+    public class ApplicationUser : IdentityUser
     {
-        [Key]
-        public string Id { get; set; }
-        public string Username => 
-                            this.Contacts.Where(x => x.Type =="email")
-                                .FirstOrDefault()
-                                .ToString();
         public string FirstName { get; set; }
         public string FathersName { get; set; }
         public string FamilyName { get; set; }
