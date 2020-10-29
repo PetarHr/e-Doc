@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using eDoc.Data.Models;
+using eDoc.Services;
 
 namespace eDoc
 {
@@ -35,6 +36,7 @@ namespace eDoc
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddTransient<IPatientService, PatientService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
