@@ -8,9 +8,9 @@ namespace eDoc.Services
 {
     public interface IPatientService
     {
-        public int GetMyRecipesCount();
-        public int GetMyAmbulatoryListsCount();
-        public ICollection<Recipe> GetMyRecipes();
+        public int GetMyRecipesCount(string userId);
+        public int GetMyAmbulatoryListsCount(string userId);
+        public ICollection<Recipe> GetMyRecipes(string userId);
         public ICollection<AmbulatoryList> GetMyAmbulatoryLists(string userId);
     }
 }

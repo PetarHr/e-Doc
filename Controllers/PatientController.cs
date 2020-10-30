@@ -14,14 +14,22 @@ namespace eDoc.Controllers
             this.patient = patient;
         }
         [Authorize]
-        public IActionResult Dashboard()
+        public IActionResult MyRecipes()
         {
-            //TODO: Да открия начин да изтегля ID-то
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var viewModelList = patient.GetMyAmbulatoryLists(userId);
-            
-            return View(viewModelList);
+            var myRecipesList = patient.GetMyRecipes(userId);
+
+            return View(myRecipesList);
+        }
+
+        public IActionResult MyAmbulatoryLists()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var myAmbulatoryLists = patient.GetMyAmbulatoryLists(userId);
+
+            return View(myAmbulatoryLists);
         }
     }
 }

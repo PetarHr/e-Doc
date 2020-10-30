@@ -25,19 +25,25 @@ namespace eDoc.Services
             return userLists;
         }
 
-        public int GetMyAmbulatoryListsCount()
+        public int GetMyAmbulatoryListsCount(string userId)
         {
-            throw new NotImplementedException();
+            var userLists = db.AmbulatoryLists.Where(x => x.Patient.Id == userId).ToList();
+
+            return userLists.Count();
         }
 
-        public ICollection<Recipe> GetMyRecipes()
+        public ICollection<Recipe> GetMyRecipes(string userId)
         {
-            throw new NotImplementedException();
+            var userLists = db.Recipes.Where(x => x.Patient.Id == userId).ToList();
+
+            return userLists;
         }
 
-        public int GetMyRecipesCount()
+        public int GetMyRecipesCount(string userId)
         {
-            throw new NotImplementedException();
+            var userLists = db.Recipes.Where(x => x.Patient.Id == userId).ToList();
+
+            return userLists.Count();
         }
     }
 }

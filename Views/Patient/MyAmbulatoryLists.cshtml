@@ -1,0 +1,27 @@
+﻿@model List<eDoc.Data.Models.AmbulatoryList>
+<body>
+    <h1>Моите Рецепти</h1>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Пациент</th>
+                <th scope="col">Доктор</th>
+                <th scope="col">Издадена на</th>
+                <th scope="col">За многократно изпълнение</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var list in Model)
+            {
+            <tr>
+                <th scope="row">@list.Id</th>
+                <td>ДА СЕ ДОБАВИ</td>
+                <td>ДА СЕ ДОБАВИ</td>
+                <td>@list.IssuedOn</td>
+            </tr>
+            }
+            
+        </tbody>
+    </table>
+</body>

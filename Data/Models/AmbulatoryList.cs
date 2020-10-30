@@ -6,6 +6,11 @@ namespace eDoc.Data.Models
 {
     public class AmbulatoryList
     {
+        public AmbulatoryList()
+        {
+            this.IssuedDocs = new HashSet<IssuedDoc>();
+            this.Tests = new HashSet<Test>();
+        }
         public string Id { get; set; }
         public ApplicationUser Patient { get; set; }
         public Doctor Doctor { get; set; }
