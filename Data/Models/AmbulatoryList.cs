@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eDoc.Data.Models
 {
@@ -12,7 +13,13 @@ namespace eDoc.Data.Models
             this.Tests = new HashSet<Test>();
         }
         public string Id { get; set; }
+
+        [ForeignKey(nameof(Patient))]
+        public string PatientId { get; set; }
         public ApplicationUser Patient { get; set; }
+
+        [ForeignKey(nameof(Doctor))]
+        public string DoctorId { get; set; }
         public Doctor Doctor { get; set; }
         public DateTime IssuedOn { get; set; }
         public string VisitReason { get; set; }
