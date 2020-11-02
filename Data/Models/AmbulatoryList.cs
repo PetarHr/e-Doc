@@ -17,10 +17,10 @@ namespace eDoc.Data.Models
         [ForeignKey(nameof(Patient))]
         public string PatientId { get; set; }
         public ApplicationUser Patient { get; set; }
-
         [ForeignKey(nameof(Doctor))]
         public string DoctorId { get; set; }
-        public Doctor Doctor { get; set; }
+        public ApplicationUser Doctor { get; set; }
+
         public DateTime IssuedOn { get; set; }
         public string VisitReason { get; set; }
         public string CheckUpType { get; set; }

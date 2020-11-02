@@ -1,9 +1,19 @@
-﻿namespace eDoc.Data.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace eDoc.Data.Models
 {
     public class Workplace
     {
+        public Workplace()
+        {
+            this.Id = Guid.NewGuid().ToString();
+            this.Employees = new HashSet<ApplicationUser>();
+        }
         public string Id { get; set; }
         public string Name { get; set; }
         public Address Address { get; set; }
+
+        public ICollection<ApplicationUser> Employees { get; set; }
     }
 }

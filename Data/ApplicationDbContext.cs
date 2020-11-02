@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using eDoc.Controllers;
 using eDoc.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +16,6 @@ namespace eDoc.Data
         public DbSet<AmbulatoryList> AmbulatoryLists { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Country> Countries { get; set; }
-        public DbSet<Doctor> Doctors { get; set; }
         public DbSet<IssuedDoc> IssuedDocuments { get; set; }
         public DbSet<MedicalCenter> MedicalCenters { get; set; }
         public DbSet<MKBDiagnose> MKBDiagnoses { get; set; }
@@ -26,6 +28,34 @@ namespace eDoc.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<ApplicationUser>()
+                     .HasMany(d => d.AmbulatoryLists);
+            builder.Entity<ApplicationUser>()
+         .HasMany(d => d.Recipes);
+            builder.Entity<ApplicationUser>()
+         .HasMany(d => d.SickLeaveLists);
+
+            builder.Entity<AmbulatoryList>().
+                HasOne(y => y.Doctor);
+            builder.Entity<AmbulatoryList>().
+                HasOne(y => y.Patient);
+
+            builder.Entity<Recipe>().
+                HasOne(y => y.Patient);
+            builder.Entity<Recipe>().
+                HasOne(y => y.Doctor);
+
+            builder.Entity<SickLeaveList>().
+                 HasOne(y => y.Patient);
+            builder.Entity<SickLeaveList>().
+                HasOne(y => y.Doctor);
+
+
+            base.OnModelCreating(builder);
         }
     }
 }

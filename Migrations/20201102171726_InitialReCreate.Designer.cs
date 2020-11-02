@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eDoc.Data;
 
-namespace eDoc.Data.Migrations
+namespace eDoc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201030040856_UpdatedModelCtor")]
-    partial class UpdatedModelCtor
+    [Migration("20201102171726_InitialReCreate")]
+    partial class InitialReCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -207,6 +207,9 @@ namespace eDoc.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("CheckUpType")
                         .HasColumnType("nvarchar(max)");
 
@@ -239,6 +242,8 @@ namespace eDoc.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
@@ -264,10 +269,6 @@ namespace eDoc.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -289,6 +290,9 @@ namespace eDoc.Data.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("MedicalCenterId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
@@ -313,17 +317,20 @@ namespace eDoc.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Sex")
                         .HasColumnType("int");
 
+                    b.Property<string>("Specialtycode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
+
+                    b.Property<int>("UIN")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
@@ -336,6 +343,8 @@ namespace eDoc.Data.Migrations
 
                     b.HasIndex("AddressId");
 
+                    b.HasIndex("MedicalCenterId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
@@ -347,8 +356,6 @@ namespace eDoc.Data.Migrations
                     b.HasIndex("WorkplaceId");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("ApplicationUser");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.Contact", b =>
@@ -404,7 +411,7 @@ namespace eDoc.Data.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -422,7 +429,7 @@ namespace eDoc.Data.Migrations
                     b.Property<int>("Code")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -466,6 +473,9 @@ namespace eDoc.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("DoctorId")
                         .HasColumnType("nvarchar(450)");
 
@@ -473,6 +483,8 @@ namespace eDoc.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("DoctorId");
 
@@ -499,8 +511,14 @@ namespace eDoc.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<bool>("Continuation")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("DateOfIssue")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Diagnosis")
                         .HasColumnType("nvarchar(max)");
@@ -512,9 +530,6 @@ namespace eDoc.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("IssuedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("LAKNumber")
@@ -539,6 +554,8 @@ namespace eDoc.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("DoctorId");
 
@@ -586,24 +603,6 @@ namespace eDoc.Data.Migrations
                     b.HasIndex("AddressId");
 
                     b.ToTable("Workplaces");
-                });
-
-            modelBuilder.Entity("eDoc.Data.Models.Doctor", b =>
-                {
-                    b.HasBaseType("eDoc.Data.Models.ApplicationUser");
-
-                    b.Property<string>("MedicalCenterId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Specialtycode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UIN")
-                        .HasColumnType("int");
-
-                    b.HasIndex("MedicalCenterId");
-
-                    b.HasDiscriminator().HasValue("Doctor");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -674,12 +673,16 @@ namespace eDoc.Data.Migrations
 
             modelBuilder.Entity("eDoc.Data.Models.AmbulatoryList", b =>
                 {
-                    b.HasOne("eDoc.Data.Models.Doctor", "Doctor")
+                    b.HasOne("eDoc.Data.Models.ApplicationUser", null)
+                        .WithMany("AmbulatoryLists")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("eDoc.Data.Models.ApplicationUser", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorId");
 
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "Patient")
-                        .WithMany("AmbulatoryLists")
+                        .WithMany()
                         .HasForeignKey("PatientId");
                 });
 
@@ -689,8 +692,12 @@ namespace eDoc.Data.Migrations
                         .WithMany()
                         .HasForeignKey("AddressId");
 
-                    b.HasOne("eDoc.Data.Models.Workplace", "Workplace")
+                    b.HasOne("eDoc.Data.Models.MedicalCenter", "MedicalCenter")
                         .WithMany()
+                        .HasForeignKey("MedicalCenterId");
+
+                    b.HasOne("eDoc.Data.Models.Workplace", "Workplace")
+                        .WithMany("Employees")
                         .HasForeignKey("WorkplaceId");
                 });
 
@@ -717,18 +724,26 @@ namespace eDoc.Data.Migrations
 
             modelBuilder.Entity("eDoc.Data.Models.Recipe", b =>
                 {
-                    b.HasOne("eDoc.Data.Models.Doctor", "Doctor")
+                    b.HasOne("eDoc.Data.Models.ApplicationUser", null)
+                        .WithMany("Recipes")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("eDoc.Data.Models.ApplicationUser", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorId");
 
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "Patient")
-                        .WithMany("Recipes")
+                        .WithMany()
                         .HasForeignKey("PatientId");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.SickLeaveList", b =>
                 {
-                    b.HasOne("eDoc.Data.Models.Doctor", "Doctor")
+                    b.HasOne("eDoc.Data.Models.ApplicationUser", null)
+                        .WithMany("SickLeaveLists")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("eDoc.Data.Models.ApplicationUser", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorId");
 
@@ -737,13 +752,13 @@ namespace eDoc.Data.Migrations
                         .HasForeignKey("MKBDiagnoseId");
 
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "Patient")
-                        .WithMany("SickLeaveLists")
+                        .WithMany()
                         .HasForeignKey("PatientId");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.Test", b =>
                 {
-                    b.HasOne("eDoc.Data.Models.AmbulatoryList", null)
+                    b.HasOne("eDoc.Data.Models.AmbulatoryList", "AmbulatoryList")
                         .WithMany("Tests")
                         .HasForeignKey("AmbulatoryListId");
                 });
@@ -753,13 +768,6 @@ namespace eDoc.Data.Migrations
                     b.HasOne("eDoc.Data.Models.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
-                });
-
-            modelBuilder.Entity("eDoc.Data.Models.Doctor", b =>
-                {
-                    b.HasOne("eDoc.Data.Models.MedicalCenter", "MedicalCenter")
-                        .WithMany()
-                        .HasForeignKey("MedicalCenterId");
                 });
 #pragma warning restore 612, 618
         }
