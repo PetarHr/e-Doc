@@ -34,25 +34,26 @@ namespace eDoc.Data
         {
             builder.Entity<ApplicationUser>()
                      .HasMany(d => d.AmbulatoryLists);
+
             builder.Entity<ApplicationUser>()
-         .HasMany(d => d.Recipes);
+                    .HasMany(d => d.Recipes);
             builder.Entity<ApplicationUser>()
-         .HasMany(d => d.SickLeaveLists);
+                    .HasMany(d => d.SickLeaveLists);
 
-            builder.Entity<AmbulatoryList>().
-                HasOne(y => y.Doctor);
-            builder.Entity<AmbulatoryList>().
-                HasOne(y => y.Patient);
+            builder.Entity<AmbulatoryList>()
+                     .HasOne(y => y.Doctor);
+            builder.Entity<AmbulatoryList>()
+                    .HasOne(y => y.Patient);
 
-            builder.Entity<Recipe>().
-                HasOne(y => y.Patient);
-            builder.Entity<Recipe>().
-                HasOne(y => y.Doctor);
+            builder.Entity<Recipe>()
+                    .HasOne(y => y.Patient);
+            builder.Entity<Recipe>()
+                    .HasOne(y => y.Doctor);
 
-            builder.Entity<SickLeaveList>().
-                 HasOne(y => y.Patient);
-            builder.Entity<SickLeaveList>().
-                HasOne(y => y.Doctor);
+            builder.Entity<SickLeaveList>()
+                    .HasOne(y => y.Patient);
+            builder.Entity<SickLeaveList>()
+                    .HasOne(y => y.Doctor);
 
 
             base.OnModelCreating(builder);
