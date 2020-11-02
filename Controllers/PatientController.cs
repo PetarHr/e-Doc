@@ -23,6 +23,7 @@ namespace eDoc.Controllers
             return View(myRecipesList);
         }
 
+        [Authorize]
         public IActionResult MyAmbulatoryLists()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

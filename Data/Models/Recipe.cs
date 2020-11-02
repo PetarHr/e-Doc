@@ -12,6 +12,7 @@ namespace eDoc.Data.Models
         public string Id { get; set; }
         public DateTime CreatedOn => DateTime.UtcNow;
 
+        public string Description { get; set; }
 
         [ForeignKey(nameof(Patient))]
         public string PatientId { get; set; }
