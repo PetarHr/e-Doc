@@ -1,0 +1,48 @@
+﻿<header>
+    <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+        <div class="container-fluid">
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"> Личен профил </a>
+            <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link" data-toggle="dropdown">
+                            <i class="nc-icon nc-badge"></i>
+                            <span class="d-lg-none">Личен профил</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nc-icon nc-zoom-split"></i>
+                            <span class="d-lg-block">&nbsp;Search</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link">
+                            <span class="no-icon">Личен лекар</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="no-icon">Моите документи</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="#">Рецепти</a>
+                            <a class="dropdown-item" href="#">Амбулаторни листове</a>
+                            <a class="dropdown-item" href="#">Болнични</a>
+                            <a class="dropdown-item" href="#">Изследвания</a>
+                            <div class="divider"></div>
+                            <a class="dropdown-item" href="#">Съобщи за проблем</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Home", "Index", new { area = " " })">
+                            <span class="no-icon">Изход</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
