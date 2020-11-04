@@ -2,101 +2,67 @@
 @inject SignInManager<eDoc.Data.Models.ApplicationUser> SignInManager
 @inject UserManager<eDoc.Data.Models.ApplicationUser> UserManager
 
-    <div class="row">
-        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+<div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
+    <!--
+        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
 
-            <div class="sidebar-sticky pt-3">
-                <!-- SIDEBAR USERPIC -->
-                <div class="profile-userpic">
-                    <a asp-area="Identity" asp-page="/Account/Manage/Index">
-                        <img src="https://mybroadband.co.za/news/wp-content/uploads/2017/01/Profile-Picture.jpg" class="img-responsive" alt="">
-                        </a>
-                </div>
-                <!-- END SIDEBAR USERPIC -->
-                <!-- SIDEBAR USER TITLE -->
-                <div class="profile-usertitle">
-                    <div class="profile-usertitle-name">
-                        <a asp-area ="Identity" asp-page="/Account/Manage/Index">
-                        @User.Identity.Name</a>
-                    </div>
-                    <div class="profile-usertitle-job">
-                       USER ROLE GOES HERE
-                    </div>
-                </div>
-                <!-- END SIDEBAR USER TITLE -->
-
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Dashboard">
-                            <span data-feather="home"></span>
-                            Начало<span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Patient" asp-action="MyRecipes">
-                            <span data-feather="file"></span>
-                            Моите рецепти
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Patient" asp-action="MyAmbulatoryLists">
-                            <span data-feather="file"></span>
-                            Моите амбулаторни листове
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Patient" asp-action="MySickLeaveLists">
-                            <span data-feather="file"></span>
-                            Моите болнични листове
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Patient" asp-action="MyDoctor">
-                            <span data-feather="file"></span>
-                            Моят личен лекар
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Patient" asp-action="MyEmployer">
-                            <span data-feather="file"></span>
-                            Моят работодател
-                        </a>
-                    </li>
-                </ul>
-
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Saved reports</span>
-                    <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
-                        <span data-feather="plus-circle"></span>
-                    </a>
-                </h6>
-                <ul class="nav flex-column mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Current month
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Last quarter
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Social engagement
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Year-end sale
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-        </nav>
+        Tip 2: you can also add an image using data-image tag
+    -->
+    <div class="sidebar-wrapper">
+        <div class="logo">
+            <a href="http://www.creative-tim.com" class="simple-text">
+                Creative Tim
+            </a>
+        </div>
+        <ul class="nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="dashboard.html">
+                    <i class="nc-icon nc-chart-pie-35"></i>
+                    <p>Dashboard</p>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="./user.html">
+                    <i class="nc-icon nc-circle-09"></i>
+                    <p>User Profile</p>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="./table.html">
+                    <i class="nc-icon nc-notes"></i>
+                    <p>Table List</p>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="./typography.html">
+                    <i class="nc-icon nc-paper-2"></i>
+                    <p>Typography</p>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="./icons.html">
+                    <i class="nc-icon nc-atom"></i>
+                    <p>Icons</p>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="./maps.html">
+                    <i class="nc-icon nc-pin-3"></i>
+                    <p>Maps</p>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="./notifications.html">
+                    <i class="nc-icon nc-bell-55"></i>
+                    <p>Notifications</p>
+                </a>
+            </li>
+            <li class="nav-item active active-pro">
+                <a class="nav-link active" href="upgrade.html">
+                    <i class="nc-icon nc-alien-33"></i>
+                    <p>Upgrade to PRO</p>
+                </a>
+            </li>
+        </ul>
     </div>
+</div>

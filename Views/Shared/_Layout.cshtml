@@ -7,28 +7,39 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>@ViewData["Title"] - eDoc</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link href="~/css/dashboard.css" rel="stylesheet">
-    <link href="~/css/sidebar.css" rel="stylesheet">
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- CSS Files -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
+    <script src="../assets/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+    <script src="../assets/js/core/popper.min.js" type="text/javascript"></script>
+    <script src="../assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-light sticky-top bg-light flex-md-nowrap p-0 shadow navbar-expand-sm navbar-toggleable-sm mb-3">
-            <div class="container">
-                <a class="" asp-area="" asp-controller="Home" asp-action="Index">eDoc</a>
-                <button class="navbar-toggler d-md-none collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex">
-                    <ul class="navbar-nav flex-grow-1">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+            <div class="container-fluid">
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"> Личен профил </a>
+                <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                    <ul class="nav navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link" data-toggle="dropdown">
+                                <i class="nc-icon nc-badge"></i>
+                                <span class="d-lg-none">Личен профил</span>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Поверителност</a>
+                            <a href="#" class="nav-link">
+                                <i class="nc-icon nc-zoom-split"></i>
+                                <span class="d-lg-block">&nbsp;Search</span>
+                            </a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -36,43 +47,23 @@
             </div>
         </nav>
     </header>
-    <div class="container-fluid">
+    <div class="wrapper">
         @if (SignInManager.IsSignedIn(User))
         {
             <partial name="_Sidebar" />
         }
+        <div class="main-panel">
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    <h1 class="h2">Dashboard</h1>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <div class="btn-group mr-2">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-                        </div>
-                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                            <span data-feather="calendar"></span>
-                            This week
-                        </button>
-                    </div>
-                }
-
-            </div>
-            @RenderBody()
-        </main>
-    </div>
-
-            <footer class="border-top footer text-muted">
-                <div class="container">
-                    &copy; 2020 - eDoc - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                    @RenderBody()
                 </div>
-            </footer>
+            </div>
+        </div>
+    </div>
+    <partial name="_Footer" />
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 
 </body>
