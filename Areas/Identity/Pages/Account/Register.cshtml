@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Register";
 }
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-3 register-left ">
@@ -14,43 +16,44 @@
             </p>
             <a asp-area="Identity" asp-page="/Account/Login"><input type="submit" value="Вход" /></a>
         </div>
-        <div class="col-md-9 register-right">
+
+        <form class="col-md-9 register-right" asp-route-returnUrl="@Model.ReturnUrl" method="post" onsubmit="disableEmptyInputs(this)">
             <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Пациент</a>
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#patient" role="tab" aria-controls="patient" aria-selected="true">Пациент</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Доктор</a>
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#doctor" role="tab" aria-controls="doctor" aria-selected="false">Доктор</a>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="tab-pane fade show active" id="patient" role="tabpanel" aria-labelledby="home-tab">
                     <h3 class="register-heading">Регистрация на пациент</h3>
                     <div class="row register-form">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Име *" value="" />
+                                <input asp-for="Input.FirstName" type="text" class="form-control" placeholder="Име *" value="" />
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Презиме *" value="" />
+                                <input type="text" asp-for="Input.FathersName" class="form-control" placeholder="Презиме *" value="" />
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Фамилия *" value="" />
+                                <input type="text" asp-for="Input.FamilyName" class="form-control" placeholder="Фамилия *" value="" />
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Парола *" value="" />
+                                <input type="password" asp-for="Input.Password"  class="form-control" placeholder="Парола *" value="" />
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Повтори паролата *" value="" />
+                                <input type="password" asp-for="Input.ConfirmPassword"  class="form-control" placeholder="Повтори паролата *" value="" />
                             </div>
                             <div class="form-group">
                                 <div class="maxl">
                                     <label class="radio inline">
-                                        <input type="radio" name="gender" value="male" checked>
+                                        <input type="radio" name="gender" value="Male" asp-for="Input.Sex" checked>
                                         <span> Мъж </span>
                                     </label>
                                     <label class="radio inline">
-                                        <input type="radio" name="gender" value="female">
+                                        <input type="radio" name="gender" value="Female" asp-for="Input.Sex">
                                         <span> Жена </span>
                                     </label>
                                 </div>
@@ -58,49 +61,50 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Е-поща *" value="" />
+                                <input type="email" asp-for="Input.Email"  class="form-control" placeholder="Е-поща *" value="" />
                             </div>
                             <div class="form-group">
-                                <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="ЕГН *" value="" />
+                                <input type="text" asp-for="Input.PIN"  minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="ЕГН *" value="" />
                             </div>
                             <div class="form-group">
                                 <label name="dateOfBirth" class="form-label-group">Дата на раждане</label>
-                                <input type="date" name="dateOfBirth" class="form-control" placeholder="Дата на раждане *" value="" />
+                                <input type="date" asp-for="Input.BirthDate"  name="BirthDate" class="form-control" placeholder="Дата на раждане *" value="" />
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Професия *" value="" />
+                                <input type="text" asp-for="Input.Occupation" class="form-control" placeholder="Професия *" value="" />
                             </div>
                             <input type="submit" class="btnRegister" value="Регистрация" />
                         </div>
+                        <div asp-validation-summary="All" class="text-danger"></div>
                     </div>
                 </div>
-                <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="tab-pane fade show" id="doctor" role="tabpanel" aria-labelledby="profile-tab">
                     <h3 class="register-heading">Регистрация на Доктор</h3>
                     <div class="row register-form">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Име *" value="" />
+                                <input type="text" asp-for="Input.FirstName" class="form-control" placeholder="Име *" value="" />
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Презиме *" value="" />
+                                <input type="text" asp-for="Input.FathersName" class="form-control" placeholder="Презиме *" value="" />
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Фамилия *" value="" />
+                                <input type="text" asp-for="Input.FamilyName" class="form-control" placeholder="Фамилия *" value="" />
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Парола *" value="" />
+                                <input type="password" asp-for="Input.Password"  class="form-control" placeholder="Парола *" value="" />
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Повтори паролата *" value="" />
+                                <input type="password" asp-for="Input.ConfirmPassword"  class="form-control" placeholder="Повтори паролата *" value="" />
                             </div>
                             <div class="form-group">
                                 <div class="maxl">
                                     <label class="radio inline">
-                                        <input type="radio" name="gender" value="male" checked>
+                                        <input type="radio" name="gender" value="Male" asp-for="Input.Sex"  checked>
                                         <span> Мъж </span>
                                     </label>
                                     <label class="radio inline">
-                                        <input type="radio" name="gender" value="female">
+                                        <input type="radio" name="gender" value="Female" asp-for="Input.Sex">
                                         <span> Жена </span>
                                     </label>
                                 </div>
@@ -108,29 +112,30 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Е-поща *" value="" />
+                                <input type="email" asp-for="Input.Email" class="form-control" placeholder="Е-поща *" value="" />
                             </div>
                             <div class="form-group">
-                                <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="ЕГН *" value="" />
+                                <input type="text" asp-for="Input.PIN" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="ЕГН *" value="" />
                             </div>
                             <div class="form-group">
-                                <label name="dateOfBirth" class="form-label-group">Дата на раждане</label>
-                                <input type="date" name="dateOfBirth" class="form-control" placeholder="Дата на раждане *" value="" />
+                                <label name="BirthDate" class="form-label-group">Дата на раждане</label>
+                                <input type="date" asp-for="Input.BirthDate" name="BirthDate" class="form-control" placeholder="Дата на раждане *" value="" />
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Медицински център *" value="" />
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="УИН *" value="" />
+                                <input type="text" asp-for="Input.UIN" class="form-control" placeholder="УИН *" value="" />
                             </div>
                             <input type="submit" class="btnRegister" value="Регистрация" />
                         </div>
+                        <div asp-validation-summary="All" class="text-danger"></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </form>
 
+    </div>
 </div>
 
 

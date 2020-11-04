@@ -16,7 +16,7 @@ namespace eDoc.Data.Models
         public string FirstName { get; set; }
         public string FathersName { get; set; }
         public string FamilyName { get; set; }
-        public int PIN { get; set; }
+        public string PIN { get; set; }
         public DateTime BirthDate { get; set; }
         public Sex Sex { get; set; }
         public Address Address { get; set; }
@@ -27,7 +27,7 @@ namespace eDoc.Data.Models
         public Workplace Workplace { get; set; }
         public string Occupation { get; set; }
         //Променливи, които притежават лекарите(УИН, Код специалност)
-        public int UIN { get; set; }
+        public string UIN { get; set; }
         public string Specialtycode { get; set; }
         public MedicalCenter MedicalCenter { get; set; }
     }
