@@ -29,7 +29,6 @@ namespace eDoc.Controllers
         [HttpPost]
         public IActionResult CreateRecipe(CreateRecipeInputModel input)
         {
-
             service.CreateRecipe(input);
 
             return Redirect("/");

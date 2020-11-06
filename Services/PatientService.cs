@@ -51,6 +51,15 @@ namespace eDoc.Services
             return recipesList;
         }
 
+        public ApplicationUser GetMyDoctor(string userId)
+        {
+            var myDoctorId = db.Users.Find(userId).MyDoctorId;
+
+            var doctor = db.Users.Where(x => x.Id == myDoctorId).FirstOrDefault();
+
+            return doctor;
+        }
+
         public int GetMyRecipesCount(string userId)
         {
             var userLists = db.Recipes.Where(x => x.Patient.Id == userId).ToList();

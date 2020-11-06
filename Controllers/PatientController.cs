@@ -5,32 +5,45 @@ using System.Security.Claims;
 
 namespace eDoc.Controllers
 {
+    [Authorize]
     public class PatientController : Controller
     {
-        private readonly IPatientService patient;
+        private readonly IPatientService service;
 
-        public PatientController(IPatientService patient)
+        public PatientController(IPatientService service)
         {
-            this.patient = patient;
+            this.service = service;
         }
-        [Authorize]
+
         public IActionResult MyRecipes()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var myRecipesList = patient.GetMyRecipes(userId);
+            var myRecipesList = service.GetMyRecipes(userId);
 
             return View(myRecipesList);
         }
 
-        [Authorize]
         public IActionResult MyAmbulatoryLists()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var myAmbulatoryLists = patient.GetMyAmbulatoryLists(userId);
+            var myAmbulatoryLists = service.GetMyAmbulatoryLists(userId);
 
             return View(myAmbulatoryLists);
+        }
+
+        public IActionResult MyDoctor()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var myDoctor = service.GetMyDoctor(userId);
+
+            if (myDoctor == null)
+            {
+                return View("MissingDoctor");
+            }
+            return this.View(myDoctor);
         }
     }
 }
