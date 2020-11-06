@@ -1,4 +1,4 @@
-﻿@model List<eDoc.Data.Models.Recipe>
+﻿@model List<eDoc.Models.RecipeListViewModel>
 <body>
     <h1>Рецепти</h1>
     <table class="table table-sm">
@@ -8,6 +8,7 @@
                 <th scope="col">Пациент</th>
                 <th scope="col">Доктор</th>
                 <th scope="col">Издадена на</th>
+                <th scope="col">Изпълнена</th>
                 <th scope="col">За многократно изпълнение</th>
             </tr>
         </thead>
@@ -15,10 +16,12 @@
             @foreach (var recipe in Model)
             {
             <tr>
-                <th scope="row">@recipe.Id</th>
-                <td>ДА СЕ ДОБАВИ</td>
-                <td>ДА СЕ ДОБАВИ</td>
-                <td>@recipe.CreatedOn</td>
+                <td>@recipe.Number</td>
+                <td>@recipe.PatientFullName</td>
+                <td>@recipe.DoctorFullName</td>
+                <td>@recipe.IssueDate</td>
+                <td>@recipe.Completed</td>
+                <td>@recipe.AllowMultiCompletion</td>
             </tr>
             }
             

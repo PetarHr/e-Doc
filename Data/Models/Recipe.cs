@@ -10,7 +10,7 @@ namespace eDoc.Data.Models
             this.Id = Guid.NewGuid().ToString();
         }
         public string Id { get; set; }
-        public DateTime CreatedOn => DateTime.UtcNow;
+        public DateTime CreatedOn { get; set; }
 
         public string Description { get; set; }
 
@@ -21,6 +21,10 @@ namespace eDoc.Data.Models
         [ForeignKey(nameof(Doctor))]
         public string DoctorId { get; set; }
         public ApplicationUser Doctor { get; set; }
+
+        public bool Completed { get; set; }
+
+        public bool AllowMultiCompletion { get; set; }
 
     }
 }

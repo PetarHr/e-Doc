@@ -1,10 +1,12 @@
 ﻿using eDoc.Data;
 using eDoc.Data.Models;
+using eDoc.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace eDoc.Services
@@ -32,11 +34,21 @@ namespace eDoc.Services
             return userLists.Count();
         }
 
-        public ICollection<Recipe> GetMyRecipes(string userId)
+        public ICollection<RecipeListViewModel> GetMyRecipes(string userId)
         {
-            var userLists = db.Recipes.Where(x => x.Patient.Id == userId).ToList();
+            var recipesList = db.Recipes.Select(x => new RecipeListViewModel
+            {
+                PatientId = x.Patient.Id,
+                DoctorFullName = x.Doctor.FullName,
+                PatientFullName = x.Patient.FullName,
+                IssueDate = x.CreatedOn,
+                RecipeDescription = x.Description,
+                Completed = x.Completed ? "Да" : "Не",
+                AllowMultiCompletion = x.AllowMultiCompletion ? "Да" : "Не"
+            })
+                .Where(y => y.PatientId == userId).ToList();
 
-            return userLists;
+            return recipesList;
         }
 
         public int GetMyRecipesCount(string userId)
