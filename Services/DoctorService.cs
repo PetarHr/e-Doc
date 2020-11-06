@@ -37,5 +37,12 @@ namespace eDoc.Services
             this.db.Recipes.Add(recipe);
             this.db.SaveChanges();
         }
+
+        public List<ApplicationUser> GetAllPatients()
+        {
+            List<ApplicationUser> patientList = db.Users.ToList();
+
+            return patientList;
+        }
     }
 }

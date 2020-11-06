@@ -49,6 +49,7 @@ namespace eDoc.Areas.Identity.Pages.Account
             public string FirstName { get; set; }
             public string FathersName { get; set; }
             public string FamilyName { get; set; }
+            public string FullName => this.FirstName + " " + this.FamilyName;
             public string PIN { get; set; }
             public DateTime BirthDate { get; set; }
             public Sex Sex { get; set; }
@@ -93,6 +94,7 @@ namespace eDoc.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName, 
                     FathersName = Input.FathersName, 
                     FamilyName = Input.FamilyName, 
+                    FullName = Input.FullName,
                     PIN = Input.PIN, 
                     BirthDate = Input.BirthDate, 
                     Sex = Input.Sex, 

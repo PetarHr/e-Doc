@@ -1,27 +1,26 @@
-﻿
-<body>
-    <h1>Създаване на рецепта</h1>
+﻿@model List<eDoc.Data.Models.ApplicationUser>
 
-    <form method="post" id="CreateRecipeForm">
-        <div class="form-group">
-            <label for="doctorId">Доктор</label>
-            <input type="text" class="form-control" id="doctorId" name="doctorId" placeholder="УИН">
-            <small id="textHelp" class="form-text text-muted">Въведете валиден doctorId</small>
-        </div>
-        <select class="form-control" placeholder="Изберете пациент..." name="patientId">
-            <option value="Test 123">Петър Петров (1234567890)</option>
-            <option>Петър Петров (1234567890)</option>
-            <option>Петър Петров (1234567890)</option>
-            <option>Петър Петров (1234567890)</option>
-            <option>Петър Петров (1234567890)</option>
-            <option>Петър Петров (1234567890)</option>
-        </select>
-        <div class="form-group">
-            <label for="decription">Предписание</label>
-            <textarea class="form-control" name="description" rows="3" placeholder="Въведете предписание..."></textarea>
-        </div>
+    <body>
+        <h1>Създаване на рецепта</h1>
 
-        <button type="submit" class="btn btn-primary">Създай</button>
-    </form>
+        <form method="post" id="CreateRecipeForm">
+            <div class="form-group">
+                <label for="doctorId">Доктор</label>
+                <input type="text" class="form-control" id="doctorId" name="doctorId" placeholder="УИН">
+                <small id="textHelp" class="form-text text-muted">Въведете валиден doctorId</small>
+            </div>
+            <select class="form-control" placeholder="Изберете пациент..." name="patientFullName">
+                @foreach (var patient in Model)
+                {
+                <option value="@patient.FullName"> @patient.FullName (@patient.PIN)</option>
+                }
+            </select>
+            <div class="form-group">
+                <label for="decription">Предписание</label>
+                <textarea class="form-control" name="recipeDescription" rows="3" placeholder="Въведете предписание..."></textarea>
+            </div>
 
-</body>
+            <button type="submit" class="btn btn-primary">Създай</button>
+        </form>
+
+    </body>

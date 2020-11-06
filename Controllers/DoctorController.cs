@@ -20,9 +20,9 @@ namespace eDoc.Controllers
   
         public IActionResult CreateRecipe ()
         {
-            //var patientsList = service.GetAllPatients();
+            var patientsList = service.GetAllPatients();
 
-            return this.View();
+            return this.View(patientsList);
         }
 
         [HttpPost]
