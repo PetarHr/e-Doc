@@ -1,3 +1,11 @@
-﻿@{
-    Layout = "/Views/Shared/_Index.cshtml";
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<eDoc.Data.Models.ApplicationUser> SignInManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    Layout = "_Layout";
+}
+else
+{
+    Layout = "_Index";
 }

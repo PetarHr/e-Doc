@@ -12,10 +12,12 @@ namespace eDoc.Data.Models
             this.Recipes = new HashSet<Recipe>();
             this.AmbulatoryLists = new HashSet<AmbulatoryList>();
             this.SickLeaveLists = new HashSet<SickLeaveList>();
+            this.FullName = FirstName + " " + FamilyName;
         }
         public string FirstName { get; set; }
         public string FathersName { get; set; }
         public string FamilyName { get; set; }
+        public string FullName { get; set; }
         public string PIN { get; set; }
         public DateTime BirthDate { get; set; }
         public Sex Sex { get; set; }

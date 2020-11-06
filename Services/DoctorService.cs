@@ -21,18 +21,17 @@ namespace eDoc.Services
             this.user = user;
         }
 
-        public void CreateRecipe(string doctorId, string patientId, string description)
+        public void CreateRecipe(string doctorId, string patientFullName, string recipeDescription)
         {
-            var patient = db.Users.Where(x => x.Id == patientId).FirstOrDefault();
+            var patient = db.Users.Where(x => x.FullName == patientFullName).FirstOrDefault();
             var doctor = db.Users.Where(x => x.Id == doctorId).FirstOrDefault();
 
             var recipe = new Recipe
             {
                 Patient = patient,
                 Doctor = doctor,
-                PatientId = patientId, 
                 DoctorId = doctorId, 
-                Description = description
+                Description = recipeDescription
             };
 
             this.db.Recipes.Add(recipe);

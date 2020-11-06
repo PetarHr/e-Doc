@@ -20,15 +20,17 @@ namespace eDoc.Controllers
   
         public IActionResult CreateRecipe ()
         {
+            //var patientsList = service.GetAllPatients();
+
             return this.View();
         }
 
         [HttpPost]
-        public IActionResult CreateRecipe(string patientId, string description)
+        public IActionResult CreateRecipe(string patientFullName, string recipeDescription)
         {
-            var mdId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var doctorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            service.CreateRecipe(mdId, patientId,description);
+            service.CreateRecipe(doctorId, patientFullName, recipeDescription);
 
             return Redirect("/");
         }

@@ -1,24 +1,27 @@
-﻿@model List<eDoc.Data.Models.Recipe>
+﻿
 <body>
     <h1>Създаване на рецепта</h1>
 
-    <form method="post">
+    <form method="post" id="CreateRecipeForm">
         <div class="form-group">
-            <label for="doctorId">DoctorId</label>
-            <input type="text" class="form-control" id="doctorId" name="doctorId" placeholder="Enter doctorId">
-            <small id="textHelp" class="form-text text-muted">Please enter a valid doctor Id</small>
+            <label for="doctorId">Доктор</label>
+            <input type="text" class="form-control" id="doctorId" name="doctorId" placeholder="УИН">
+            <small id="textHelp" class="form-text text-muted">Въведете валиден doctorId</small>
         </div>
+        <select class="form-control" placeholder="Изберете пациент..." name="patientId">
+            <option value="Test 123">Петър Петров (1234567890)</option>
+            <option>Петър Петров (1234567890)</option>
+            <option>Петър Петров (1234567890)</option>
+            <option>Петър Петров (1234567890)</option>
+            <option>Петър Петров (1234567890)</option>
+            <option>Петър Петров (1234567890)</option>
+        </select>
         <div class="form-group">
-            <label for="patientId">PatientId</label>
-            <input type="text" class="form-control" id="patientId" name="patientId" placeholder="patientId">
-            <small id="textHelp" class="form-text text-muted">Please enter a valid patient Id</small>
+            <label for="decription">Предписание</label>
+            <textarea class="form-control" name="description" rows="3" placeholder="Въведете предписание..."></textarea>
         </div>
-        <div class="form-group">
-            <label for="decription">Description</label>
-            <input type="text" class="form-control" id="decription" name="description" placeholder="Description goes here...">
-        </div>
-      
-        <button type="submit" class="btn btn-primary">Submit</button>
+
+        <button type="submit" class="btn btn-primary">Създай</button>
     </form>
 
 </body>
