@@ -1,4 +1,5 @@
 ﻿using eDoc.Data.Models;
+using eDoc.Models;
 using eDoc.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -26,11 +27,10 @@ namespace eDoc.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateRecipe(string patientFullName, string recipeDescription)
+        public IActionResult CreateRecipe(CreateRecipeInputModel input)
         {
-            var doctorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            service.CreateRecipe(doctorId, patientFullName, recipeDescription);
+            service.CreateRecipe(input);
 
             return Redirect("/");
         }

@@ -1,26 +1,49 @@
 ﻿@model List<eDoc.Data.Models.ApplicationUser>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<eDoc.Data.Models.ApplicationUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
 
-    <body>
-        <h1>Създаване на рецепта</h1>
+<body>
+    <h1>Създаване на рецепта</h1>
 
-        <form method="post" id="CreateRecipeForm">
-            <div class="form-group">
-                <label for="doctorId">Доктор</label>
-                <input type="text" class="form-control" id="doctorId" name="doctorId" placeholder="УИН">
-                <small id="textHelp" class="form-text text-muted">Въведете валиден doctorId</small>
-            </div>
-            <select class="form-control" placeholder="Изберете пациент..." name="patientFullName">
+    <form method="post" id="CreateRecipeForm" class="col-5">
+        <div class="form-group">
+            <label for="doctorFullName">Издадена от:</label>
+            <input type="text" class="form-control" id="doctorFullName" name="doctorFullName" value="@user.FullName" disabled>
+            <input type="text" class="form-control" name="doctorId" value="@user.Id" hidden>
+        </div>
+        <select class="form-control" name="patientId" required>
+            <option value="" disabled selected>Изберете пациент</option>
+            <optgroup label="Моите пациенти">
                 @foreach (var patient in Model)
                 {
-                <option value="@patient.FullName"> @patient.FullName (@patient.PIN)</option>
+                    if (patient.MyDoctorId == user.Id)
+                    {
+                        <option value="@patient.Id"> @patient.FullName (@patient.PIN)</option>
+                    }
                 }
-            </select>
-            <div class="form-group">
-                <label for="decription">Предписание</label>
-                <textarea class="form-control" name="recipeDescription" rows="3" placeholder="Въведете предписание..."></textarea>
-            </div>
+            </optgroup>
+            <optgroup label="Други пациенти">
+                @foreach (var patient in Model)
+                {
+                    if (patient.MyDoctorId != user.Id)
+                    {
+                        <option value="@patient.Id"> @patient.FullName (@patient.PIN)</option>
+                    }
+                }
+            </optgroup>
+        </select>
+        <div class="form-group">
+            <textarea class="form-control" name="recipeDescription" rows="10" placeholder="Въведете предписание..." required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="AllowMultipleCompletion">За многократно предписване?</label>
+            <input type="checkbox" name="AllowMultiCompletion" value="true" />
+        </div>
 
-            <button type="submit" class="btn btn-primary">Създай</button>
-        </form>
+        <button type="submit" class="btn btn-primary">Създай</button>
+    </form>
 
-    </body>
+</body>

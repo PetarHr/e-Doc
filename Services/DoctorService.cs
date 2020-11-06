@@ -1,5 +1,6 @@
 ﻿using eDoc.Data;
 using eDoc.Data.Models;
+using eDoc.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -21,17 +22,18 @@ namespace eDoc.Services
             this.user = user;
         }
 
-        public void CreateRecipe(string doctorId, string patientFullName, string recipeDescription)
+        public void CreateRecipe(CreateRecipeInputModel input)
         {
-            var patient = db.Users.Where(x => x.FullName == patientFullName).FirstOrDefault();
-            var doctor = db.Users.Where(x => x.Id == doctorId).FirstOrDefault();
+            var patient = db.Users.Where(x => x.Id == input.PatientId).FirstOrDefault();
+            var doctor = db.Users.Where(x => x.Id == input.DoctorId).FirstOrDefault();
 
             var recipe = new Recipe
             {
                 Patient = patient,
                 Doctor = doctor,
-                DoctorId = doctorId, 
-                Description = recipeDescription
+                AllowMultiCompletion = input.AllowMultiCompletion,
+                CreatedOn = DateTime.UtcNow, 
+                Description = input.RecipeDescription       
             };
 
             this.db.Recipes.Add(recipe);

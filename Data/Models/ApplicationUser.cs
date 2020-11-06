@@ -31,5 +31,6 @@ namespace eDoc.Data.Models
         public string UIN { get; set; }
         public string Specialtycode { get; set; }
         public MedicalCenter MedicalCenter { get; set; }
+        public string MyDoctorId { get; set; }
     }
 }

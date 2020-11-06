@@ -1,24 +1,23 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<eDoc.Data.Models.ApplicationUser> SignInManager
 @inject UserManager<eDoc.Data.Models.ApplicationUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
 
-<div class="sidebar" data-image="../assets/img/sidebar-5.jpg">
-    <!--
-        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
-
-        Tip 2: you can also add an image using data-image tag
-    -->
+<div class="sidebar" data-color="blue">
     <div class="sidebar-wrapper">
         <div class="logo">
-            <a class="simple-text">
-                Добре дошъл, ИМЕ !
-            </a>
+                <a class="simple-text">
+                    Здравейте, <br />
+                    @user.FullName!
+                </a>
         </div>
         <ul class="nav">
             <li class="nav-item active">
                 <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index">
                     <i class="nc-icon nc-chart-pie-35"></i>
-                    <p></p>
+                    <p>Моят профил</p>
                 </a>
             </li>
             <li>

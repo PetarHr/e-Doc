@@ -1,12 +1,17 @@
-﻿.register {
-    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+﻿html {
+    height: 100%;
+    background: -webkit-linear-gradient( #00bfd1, #0057d1);
+    background-repeat: no-repeat;
+}
+.register {
+    background: unset;
     margin-top: 3%;
     padding: 3%;
 }
 
 .register-left {
     text-align: center;
-    color: #fff;
+    color: #ffffff;
     margin-top: 4%;
 }
 

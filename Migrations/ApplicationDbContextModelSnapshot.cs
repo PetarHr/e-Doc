@@ -295,6 +295,9 @@ namespace eDoc.Migrations
                     b.Property<string>("MedicalCenterId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("MyDoctorId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
