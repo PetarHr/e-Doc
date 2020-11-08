@@ -10,16 +10,17 @@
 <body>
     <partial name="_Navbar" />
     <div class="wrapper">
-            <partial name="_Sidebar" />
-        <div class="main-panel overflow-hidden">
+        <partial name="_Sidebar" />
+        <div class="main-panel ">
             <div class="content">
                 <div class="container-fluid">
                     @RenderBody()
                 </div>
             </div>
         </div>
+
+        <partial name="_Footer" />
     </div>
-    <partial name="_Footer" />
 
     @RenderSection("Scripts", required: false)
 

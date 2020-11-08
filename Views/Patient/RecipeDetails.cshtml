@@ -1,0 +1,32 @@
+﻿@model RecipeDetailsViewModel
+
+<div class="card-deck">
+    <div class="card">
+        <img class="rounded-circle" width="150" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Doctor's image">
+        <div class="card-body">
+            <h5 class="card-title">Доктор:</h5>
+            <h6>Име: @Model.DoctorFirstName</h6>
+            <h6>Фамилия: @Model.DoctorFamilyName</h6>
+            <h6>УИН: @Model.DoctorUIN</h6>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Информация за медицинския център...</small>
+        </div>
+    </div>
+    <div class="card">
+        <img class="rounded-circle" width="150" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Doctor's image">
+        <div class="card-body">
+            <h5 class="card-title">Пациент:</h5>
+            <h6>Име: @Model.PatientFirstName</h6>
+            <h6>Фамилия: @Model.PatientFamilyName</h6>
+            <h6>ЕГН: @Model.PatientPIN</h6>
+        </div>
+    </div>
+</div>
+<div class="card">
+
+    <h5 class="card-title">Предписание:</h5>
+    <p>
+        @Model.RecipeDescription
+    </p>
+</div>

@@ -23,6 +23,16 @@ namespace eDoc.Controllers
 
             return View(myRecipesList);
         }
+        public IActionResult RecipeDetails(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+
+            }
+            var recipeDetails = service.GetRecipeDetails(id);
+
+            return View(recipeDetails);
+        }
 
         public IActionResult MyAmbulatoryLists()
         {

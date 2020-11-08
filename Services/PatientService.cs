@@ -3,6 +3,7 @@ using eDoc.Data.Models;
 using eDoc.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Operations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,7 @@ namespace eDoc.Services
         {
             var recipesList = db.Recipes.Select(x => new RecipeListViewModel
             {
+                Number = x.Id,
                 PatientId = x.Patient.Id,
                 DoctorFullName = x.Doctor.FullName,
                 PatientFullName = x.Patient.FullName,
@@ -49,6 +51,35 @@ namespace eDoc.Services
                 .Where(y => y.PatientId == userId).ToList();
 
             return recipesList;
+        }
+
+        public RecipeDetailsViewModel GetRecipeDetails(string id)
+        {
+            var recipe = db.Recipes.Where(x => x.Id == id).FirstOrDefault();
+
+            var doctor = db.Users.Where(d => d.Id == recipe.DoctorId).First();
+
+            var patient = db.Users.Where(p => p.Id == recipe.PatientId).First();
+
+            var recipeViewDetails = new RecipeDetailsViewModel
+            {
+                Id = recipe.Id,
+
+                DoctorFirstName = doctor.FirstName,
+                DoctorFamilyName = doctor.FamilyName,
+                DoctorUIN = doctor.UIN, 
+
+                PatientFirstName = patient.FirstName, 
+                PatientFamilyName = patient.FamilyName, 
+                PatientPIN = patient.PIN, 
+
+                RecipeDescription = recipe.Description, 
+                RecipeCreationDate = recipe.CreatedOn, 
+                RecipeCompleted = recipe.Completed ? "Да" : "Не", 
+                AllowMultiCompletion = recipe.AllowMultiCompletion ? "Да" : "Не"
+            };
+
+            return recipeViewDetails;
         }
 
         public ApplicationUser GetMyDoctor(string userId)
