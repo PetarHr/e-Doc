@@ -1,7 +1,11 @@
-﻿using eDoc.Services;
+﻿using eDoc.Data.Models;
+using eDoc.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace eDoc.Controllers
 {
@@ -9,15 +13,17 @@ namespace eDoc.Controllers
     public class PatientController : Controller
     {
         private readonly IPatientService service;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public PatientController(IPatientService service)
+        public PatientController(IPatientService service, UserManager<ApplicationUser> userManager)
         {
             this.service = service;
+            this.userManager = userManager;
         }
 
         public IActionResult MyRecipes()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = userManager.GetUserId(this.User);
 
             var myRecipesList = service.GetMyRecipes(userId);
 
@@ -25,18 +31,14 @@ namespace eDoc.Controllers
         }
         public IActionResult RecipeDetails(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-
-            }
-            var recipeDetails = service.GetRecipeDetails(id);
+             var recipeDetails = service.GetRecipeDetails(id);
 
             return View(recipeDetails);
         }
 
         public IActionResult MyAmbulatoryLists()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = userManager.GetUserId(this.User);
 
             var myAmbulatoryLists = service.GetMyAmbulatoryLists(userId);
 
@@ -45,7 +47,7 @@ namespace eDoc.Controllers
 
         public IActionResult MyDoctor()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = userManager.GetUserId(this.User);
 
             var myDoctor = service.GetMyDoctor(userId);
 
