@@ -90,12 +90,12 @@
                     </div>
 
                     <div class="input_field select_option">
-                        <select>
+                        <select asp-for="Input.Role">
                             <option>Аз съм:</option>
-                            <option>Пациент</option>
-                            <option>Доктор</option>
-                            <option>Фармацевт</option>
-                            <option>Работодател</option>
+                            <option value="ePatient">Пациент</option>
+                            <option value="eDoctor">Доктор</option>
+                            <option value="ePharmacist"> Фармацевт</option>
+                            <option value="eEmployer">Работодател</option>
                         </select>
                         <div class="select_arrow"></div>
                     </div>

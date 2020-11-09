@@ -24,7 +24,6 @@ namespace eDoc.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -58,6 +57,7 @@ namespace eDoc.Areas.Identity.Pages.Account
             public string UIN { get; set; }
             public string SpecialtyCode { get; set; }
             public MedicalCenter MedicalCenter { get; set; }
+            public string Role { get; set; }
 
             [Required]
             [EmailAddress]
@@ -106,6 +106,7 @@ namespace eDoc.Areas.Identity.Pages.Account
                     MedicalCenter = Input.MedicalCenter
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                await _userManager.AddToRoleAsync(user, Input.Role);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
