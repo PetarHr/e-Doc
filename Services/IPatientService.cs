@@ -1,6 +1,7 @@
 ﻿using eDoc.Data.Models;
 using eDoc.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace eDoc.Services
 {
@@ -12,5 +13,6 @@ namespace eDoc.Services
         public RecipeDetailsViewModel GetRecipeDetails(string id);
         public ICollection<AmbulatoryList> GetMyAmbulatoryLists(string userId);
         public ApplicationUser GetMyDoctor(string userId);
+        public List<DoctorsListViewModel> GetDoctorsListsAsync();
     }
 }

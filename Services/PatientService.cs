@@ -15,10 +15,12 @@ namespace eDoc.Services
     public class PatientService : IPatientService
     {
         private readonly ApplicationDbContext db;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public PatientService(ApplicationDbContext db)
+        public PatientService(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
             this.db = db;
+            this.userManager = userManager;
         }
         public ICollection<AmbulatoryList> GetMyAmbulatoryLists(string userId)
         {
@@ -67,15 +69,15 @@ namespace eDoc.Services
 
                 DoctorFirstName = doctor.FirstName,
                 DoctorFamilyName = doctor.FamilyName,
-                DoctorUIN = doctor.UIN, 
+                DoctorUIN = doctor.UIN,
 
-                PatientFirstName = patient.FirstName, 
-                PatientFamilyName = patient.FamilyName, 
-                PatientPIN = patient.PIN, 
+                PatientFirstName = patient.FirstName,
+                PatientFamilyName = patient.FamilyName,
+                PatientPIN = patient.PIN,
 
-                RecipeDescription = recipe.Description, 
-                RecipeCreationDate = recipe.CreatedOn, 
-                RecipeCompleted = recipe.Completed ? "Да" : "Не", 
+                RecipeDescription = recipe.Description,
+                RecipeCreationDate = recipe.CreatedOn,
+                RecipeCompleted = recipe.Completed ? "Да" : "Не",
                 AllowMultiCompletion = recipe.AllowMultiCompletion ? "Да" : "Не"
             };
 
@@ -96,6 +98,28 @@ namespace eDoc.Services
             var userLists = db.Recipes.Where(x => x.Patient.Id == userId).ToList();
 
             return userLists.Count();
+        }
+
+        public List<DoctorsListViewModel> GetDoctorsListsAsync()
+        {
+            var doctorsList = userManager.GetUsersInRoleAsync("eDoctor").GetAwaiter().GetResult();
+
+            List<DoctorsListViewModel> doctorsListViewModel = new List<DoctorsListViewModel>();
+
+            foreach (var doctor in doctorsList)
+            {
+
+                var doctorModel = new DoctorsListViewModel()
+                {
+                    Id = doctor.Id,
+                    FullName = doctor.FullName,
+                    ContactEmail = doctor.Email,
+                    Specialty = doctor.SpecialtyCode,
+                };
+
+                doctorsListViewModel.Add(doctorModel);
+            }
+            return doctorsListViewModel;
         }
     }
 }

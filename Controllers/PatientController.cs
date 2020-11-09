@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -56,6 +57,14 @@ namespace eDoc.Controllers
                 return View("MissingDoctor");
             }
             return this.View(myDoctor);
+        }
+
+        public IActionResult AssignDoctor()
+        {
+
+            var doctorsList = service.GetDoctorsListsAsync();
+
+            return this.View(doctorsList);
         }
     }
 }

@@ -1,0 +1,27 @@
+﻿@model List<DoctorsListViewModel>
+
+
+    <div class="card-columns">
+        @foreach (var doctor in Model)
+        {
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Профилна снимка">
+                <div class="card-body">
+                    <h5 class="card-title">Име: @doctor.FullName</h5>
+                    <p class="card-text">Специалност: @doctor.Specialty</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Пълен адрес</li>
+                    <li class="list-group-item">Медицинско задевениде</li>
+                </ul>
+                <div class="card-body">
+                    <a class="card-link">Пълен профил</a>
+                    <a class="card-link" asp-controller="Patient" asp-action="AssignDoctor">Запиши ме!</a>
+                </div>
+            </div>
+        }
+    </div>
+
+
+
+
