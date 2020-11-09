@@ -7,11 +7,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using eDoc.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using eDoc.Data.Models;
 
 namespace eDoc.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public HomeController(UserManager<ApplicationUser> userManager)
+        {
+            this.userManager = userManager;
+        }
 
         [Authorize]
         public IActionResult Index()

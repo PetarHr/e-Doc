@@ -3,26 +3,24 @@
 @inject UserManager<eDoc.Data.Models.ApplicationUser> UserManager
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
     <partial name="_HeaderScripts" />
 </head>
 <body>
-    <partial name="_Navbar" />
-    <div class="wrapper">
-        <partial name="_Sidebar" />
-        <div class="main-panel ">
-            <div class="content">
-                <div class="container-fluid">
-                    @RenderBody()
-                </div>
-            </div>
-        </div>
+    <div class="page-wrapper chiller-theme toggled">
+        <a id="show-sidebar" class="btn btn-sm btn-light" href="#">
+            <i class="fas fa-bars"></i>
+        </a>
+        <partial name="_Navbar" />
+        <main class="page-content">
 
-        <partial name="_Footer" />
+            @RenderBody()
+
+            <partial name="_Footer" />
+        </main>
     </div>
-
     @RenderSection("Scripts", required: false)
-
 </body>
+
 </html>
