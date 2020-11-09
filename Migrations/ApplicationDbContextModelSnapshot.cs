@@ -327,7 +327,7 @@ namespace eDoc.Migrations
                     b.Property<int>("Sex")
                         .HasColumnType("int");
 
-                    b.Property<string>("Specialtycode")
+                    b.Property<string>("SpecialtyCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")

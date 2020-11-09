@@ -49,14 +49,15 @@ namespace eDoc.Areas.Identity.Pages.Account
             public string FirstName { get; set; }
             public string FathersName { get; set; }
             public string FamilyName { get; set; }
-            public string FullName => this.FirstName + " " + this.FamilyName;
+            public string FullName => this.FirstName + " " + this.FathersName + " " + this.FamilyName;
             public string PIN { get; set; }
             public DateTime BirthDate { get; set; }
             public Sex Sex { get; set; }
             public Workplace Workplace { get; set; }
             public string Occupation { get; set; }
             public string UIN { get; set; }
-            public string Specialtycode { get; set; }
+            public string SpecialtyCode { get; set; }
+            public MedicalCenter MedicalCenter { get; set; }
 
             [Required]
             [EmailAddress]
@@ -87,21 +88,22 @@ namespace eDoc.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser 
-                { 
+                var user = new ApplicationUser
+                {
                     UserName = Input.Email,
                     Email = Input.Email,
-                    FirstName = Input.FirstName, 
-                    FathersName = Input.FathersName, 
-                    FamilyName = Input.FamilyName, 
+                    FirstName = Input.FirstName,
+                    FathersName = Input.FathersName,
+                    FamilyName = Input.FamilyName,
                     FullName = Input.FullName,
-                    PIN = Input.PIN, 
-                    BirthDate = Input.BirthDate, 
-                    Sex = Input.Sex, 
-                    Workplace = Input.Workplace, 
-                    Occupation = Input.Occupation, 
-                    UIN = Input.UIN, 
-                    Specialtycode = Input.Specialtycode
+                    PIN = Input.PIN,
+                    BirthDate = Input.BirthDate,
+                    Sex = Input.Sex,
+                    Workplace = Input.Workplace,
+                    Occupation = Input.Occupation,
+                    UIN = Input.UIN,
+                    SpecialtyCode = Input.SpecialtyCode, 
+                    MedicalCenter = Input.MedicalCenter
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
