@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using eDoc.Data.Models
 @inject UserManager<ApplicationUser> userManager
-@inject SignInManager<ApplicationUser> signInManager
 
 <nav id="sidebar" class="sidebar-wrapper">
     <div class="sidebar-content">
@@ -56,16 +55,16 @@
                     <div class="sidebar-submenu">
                         <ul>
                             <li>
-                                <a href="#">
+                                <a asp-controller="MyHealth" asp-action="Add">
                                     Добави запис
                                     <span class="badge badge-pill badge-success">Версия +</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">Преглед</a>
+                                <a asp-controller="MyHealth" asp-action="Dashboard">Преглед</a>
                             </li>
                             <li>
-                                <a href="#">История на записите</a>
+                                <a asp-controller="MyHealth" asp-action="History">История на записите</a>
                             </li>
                             <li>
                                 <a asp-controller="Patient" asp-action="MyDoctor">Личен лекар</a>
@@ -73,6 +72,44 @@
                         </ul>
                     </div>
                 </li>
+                @if (User.IsInRole("eDoctor"))
+                {
+    <li class="sidebar-dropdown">
+        <a href="#">
+            <i class="fa fa-shopping-cart"></i>
+            <span>Моите пациенти</span>
+            <span class="badge badge-pill badge-danger">3</span>
+        </a>
+        <div class="sidebar-submenu">
+            <ul>
+                <li>
+                    <a asp-controller="Doctor" asp-action="MyPatients">Списък пациенти</a>
+                </li>
+                <li>
+                    <a asp-controller="Doctor" asp-action="CreateRecipe">Нова рецепта</a>
+                </li>
+                <li>
+                    <a asp-controller="Doctor" asp-action="CreateAmbulatoryList">Нов амбулаторен лист</a>
+                </li>
+                <li>
+                    <a asp-controller="Doctor" asp-action="CreateSickLeaveList">Нов болничен лист</a>
+                </li>
+                <li class="bg-info text-light"><i class="fas fa-archive" aria-hidden="true"></i> Архиви</li>
+                <li>
+                    <a asp-controller="Doctor" asp-action="IssuedRecipes">Издадени рецепти</a>
+                </li>
+                <li>
+                    <a asp-controller="Doctor" asp-action="IssuedAmbulatoryLists">Издадени амбулаторни листове</a>
+                </li>
+                <li>
+                    <a asp-controller="Doctor" asp-action="IssuedSickLeaveLists">Издадени болнични</a>
+                </li>
+                <li>
+                    <a asp-controller="Doctor" asp-action="IssuedRecipes">Издадени рецепти</a>
+                </li>
+            </ul>
+        </div>
+    </li>}
                 <li class="sidebar-dropdown">
                     <a href="#">
                         <i class="fa fa-shopping-cart"></i>
@@ -146,7 +183,7 @@
             <i class="fa fa-cog"></i>
             <span class="badge-sonar"></span>
         </a>
-        <a href="#">
+        <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
             <i class="fa fa-power-off"></i>
         </a>
     </div>
