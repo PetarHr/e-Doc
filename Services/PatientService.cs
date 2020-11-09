@@ -22,12 +22,44 @@ namespace eDoc.Services
             this.db = db;
             this.userManager = userManager;
         }
-        public ICollection<AmbulatoryList> GetMyAmbulatoryLists(string userId)
+        public ICollection<AmbulatoryListViewModel> GetMyAmbulatoryLists(string userId)
         {
 
-            var userLists = db.AmbulatoryLists.Where(x => x.Patient.Id == userId).ToList();
+            var userLists = db.AmbulatoryLists.Where(x => x.Patient.Id == userId)
+                .Select(x => new AmbulatoryListViewModel
+                {
+                    Id = x.Id,
+                    PatientFullName = x.Patient.FullName, 
+                    DoctorFullName = x.Doctor.FullName, 
+                    IssueDate = x.IssuedOn, 
+                    CheckUpType = x.CheckUpType, 
+                    Diagnosis = x.Diagnosis,
+                    Diseases = x.Diseases, 
+                    Therapy = x.Therapy
+
+                })
+                .ToList();
 
             return userLists;
+        }
+
+        public ICollection<SickLeaveListViewModel> GetMySickLeaveLists(string userId)
+        {
+
+            var sickLeaves = db.SickLeaveLists.Where(x => x.Patient.Id == userId)
+                .Select(x => new SickLeaveListViewModel
+                { 
+                    Id = x.Id, 
+                    DoctorFullName = x.Doctor.FullName, 
+                    PatientFullName = x.Patient.FullName, 
+                    IssueDate = x.DateOfIssue, 
+                    StartDate = x.StartDate, 
+                    EndDate = x.EndDate, 
+                    Employer = x.Patient.Workplace.Name
+                })
+                .ToList();
+
+            return sickLeaves;
         }
 
         public int GetMyAmbulatoryListsCount(string userId)

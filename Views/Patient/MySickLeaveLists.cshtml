@@ -1,0 +1,34 @@
+﻿@model List<eDoc.Models.SickLeaveListViewModel>
+
+<h1>Болнични</h1>
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th scope="col">№</th>
+            <th scope="col">Пациент</th>
+            <th scope="col">Доктор</th>
+            <th scope="col">Издаден</th>
+            <th scope="col">Начална дата</th>
+            <th scope="col">Крайна дата</th>
+            <th scope="col">Работодател</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var list in Model)
+        {
+            <tr>
+                <td>@list.Number</td>
+                <td>@list.PatientFullName</td>
+                <td>@list.DoctorFullName</td>
+                <td>@list.IssueDate</td>
+                <td>@list.StartDate</td>
+                <td>@list.EndDate</td>
+                <td>@list.Employer</td>
+                <td>
+                    <a class="btn btn-primary" type="button" asp-controller="Patient" asp-action="SickLeaveDetails" asp-route-id="@list.Id">Детайли</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

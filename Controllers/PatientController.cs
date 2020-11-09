@@ -45,6 +45,14 @@ namespace eDoc.Controllers
 
             return View(myAmbulatoryLists);
         }
+        public IActionResult MySickLeaveLists()
+        {
+            var userId = userManager.GetUserId(this.User);
+
+            var mySickLeaveLists = service.GetMySickLeaveLists(userId);
+
+            return View(mySickLeaveLists);
+        }
 
         public IActionResult MyDoctor()
         {

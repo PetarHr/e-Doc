@@ -1,4 +1,4 @@
-﻿@model List<eDoc.Data.Models.AmbulatoryList>
+﻿@model List<eDoc.Models.AmbulatoryListViewModel>
 
     <h1>Амбулаторни листове</h1>
     <table class="table table-sm">
@@ -7,18 +7,26 @@
                 <th scope="col">№</th>
                 <th scope="col">Пациент</th>
                 <th scope="col">Доктор</th>
-                <th scope="col">Издадена на</th>
-                <th scope="col">За многократно изпълнение</th>
+                <th scope="col">Издаден на</th>
+                <th scope="col">Вид преглед</th>
+                <th scope="col">Диагноза</th>
+                <th scope="col">Заболяване</th>
+                <th scope="col">Терапия</th>
+                <th scope="col">Детайли</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var list in Model)
             {
             <tr>
-                <th scope="row">@list.Id</th>
-                <td>@list.Patient.Email</td>
-                <td>ДА СЕ ДОБАВИ</td>
-                <td>@list.IssuedOn</td>
+                <td>@list.Id</td>
+                <td>@list.PatientFullName</td>
+                <td>@list.DoctorFullName</td>
+                <td>@list.IssueDate</td>
+                <td>@list.CheckUpType</td>
+                <td>@list.Diagnosis</td>
+                <td>@list.Diseases</td>
+                <td>@list.Therapy</td>
             </tr>
             }
             
