@@ -1,0 +1,29 @@
+﻿@model List<eDoc.Data.Models.ApplicationUser>
+
+
+    <div class="card-columns">
+        @foreach (var user in Model)
+        {
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Профилна снимка">
+                <div class="card-body">
+                    <h5 class="card-title">Име: @user.FullName</h5>
+                    <p class="card-text">Град: @user.Address?.City</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Пациент от: ДАТА</li>
+                    <li class="list-group-item">Град</li>
+                </ul>
+                <div class="card-body">
+                    <a class="card-link">Пълен профил</a>
+                    <a class="card-link">Е-мейл</a>
+                    <a class="card-link">Обаждане</a>
+                    <a class="card-link text-danger">Премахни</a>
+                </div>
+            </div>
+        }
+    </div>
+
+
+
+

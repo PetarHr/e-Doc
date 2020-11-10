@@ -13,5 +13,6 @@ namespace eDoc.Services
         public void CreateAmbulatoryList(AmbulatoryListInputModel input);
         public void CreateSickLeaveList(SickLeaveListInputModel input);
         public List<ApplicationUser> GetAllPatients();
+        public List<ApplicationUser> GetDoctorPatients(string doctorId);
     }
 }

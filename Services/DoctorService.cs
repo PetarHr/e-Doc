@@ -93,6 +93,11 @@ namespace eDoc.Services
             return user.GetUsersInRoleAsync("ePatient").GetAwaiter().GetResult().ToList(); ;
         }
 
+        public List<ApplicationUser> GetDoctorPatients(string doctorId)
+        {
+            return this.db.Users.Where(u => u.MyDoctorId == doctorId).ToList();
+        }
+
 
     }
 }

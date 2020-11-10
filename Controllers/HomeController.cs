@@ -12,6 +12,7 @@ using eDoc.Data.Models;
 
 namespace eDoc.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -21,7 +22,7 @@ namespace eDoc.Controllers
             this.userManager = userManager;
         }
 
-        [Authorize]
+
         public IActionResult Index()
         {
             return View();

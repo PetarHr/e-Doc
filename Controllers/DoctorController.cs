@@ -1,11 +1,13 @@
 ﻿using eDoc.Data.Models;
 using eDoc.Models.Input;
 using eDoc.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eDoc.Controllers
 {
+    [Authorize]
     public class DoctorController : Controller
     {
         private readonly IDoctorService _service;
@@ -76,6 +78,15 @@ namespace eDoc.Controllers
             _service.CreateSickLeaveList(input);
 
             return this.Redirect("/");
+        }
+
+        public IActionResult MyPatients()
+        {
+            var doctorId = _userManager.GetUserAsync(User).GetAwaiter().GetResult().Id;
+
+            var myPatients = _service.GetDoctorPatients(doctorId);
+
+            return this.View(myPatients);
         }
     }
 }

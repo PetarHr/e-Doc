@@ -110,6 +110,11 @@ namespace eDoc.Services
 
             var doctor = db.Users.Where(x => x.Id == myDoctorsId).FirstOrDefault();
 
+            if (doctor == null)
+            {
+                return null;
+            }
+
             var myDoctorView = new MyDoctorViewModel
             {
                 DoctorId = doctor.Id, 
