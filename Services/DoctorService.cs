@@ -61,6 +61,33 @@ namespace eDoc.Services
 
         }
 
+        public void CreateSickLeaveList(SickLeaveListInputModel input)
+        {
+            var patient = db.Users.Where(p => p.Id == input.PatientId).FirstOrDefault();
+            var doctor = db.Users.Where(d => d.Id == input.DoctorId).FirstOrDefault();
+            var mkbdiagnose = db.MKBDiagnoses.Where(m => m.Id == input.MKBDiagnoseId).FirstOrDefault();
+
+            var sickLeave = new SickLeaveList
+            {
+                Doctor = doctor,
+                Patient = patient,
+                LAKNumber = input.LAKNumber,
+                Continuation = input.Continuation,
+                DateOfIssue = input.DateOfIssue,
+                Diagnosis = input.Diagnosis,
+                DisabilityReason = input.DisabilityReason,
+                EndDate = input.EndDate,
+                MKBDiagnose = mkbdiagnose,
+                OutpatientJournalNumber = input.OutpatientJournalNumber,
+                RegistryNumber = input.RegistryNumber,
+                StartDate = input.StartDate,
+                TreatmentRegimen = input.TreatmentRegimen
+            };
+
+            this.db.SickLeaveLists.Add(sickLeave);
+            this.db.SaveChanges();
+        }
+
         public List<ApplicationUser> GetAllPatients()
         {
             return user.GetUsersInRoleAsync("ePatient").GetAwaiter().GetResult().ToList(); ;

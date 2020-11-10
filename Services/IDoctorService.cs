@@ -11,6 +11,7 @@ namespace eDoc.Services
     {
         public void CreateRecipe(CreateRecipeInputModel input);
         public void CreateAmbulatoryList(AmbulatoryListInputModel input);
+        public void CreateSickLeaveList(SickLeaveListInputModel input);
         public List<ApplicationUser> GetAllPatients();
     }
 }

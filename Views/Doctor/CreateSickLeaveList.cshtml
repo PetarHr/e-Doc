@@ -1,0 +1,50 @@
+﻿@model eDoc.Models.Input.SickLeaveListInputModel
+
+<form method="post">
+    <div class="form-group">
+        <label for="doctorFullName">Издадена от:</label>
+        <input type="text" class="form-control" id="doctorFullName" name="doctorFullName" value="@Model.DoctorFullName" disabled>
+        <input type="text" class="form-control" name="doctorId" value="@Model.DoctorId" hidden>
+
+        <select class="form-control" name="patientId" required>
+            <option value="" disabled selected>Изберете пациент</option>
+            <optgroup label="Моите пациенти">
+                @foreach (var patient in Model.PatientsList)
+                {
+                    if (patient.MyDoctorId == User.Identity.Name)
+                    {
+                        <option value="@patient.Id"> @patient.FullName (@patient.PIN)</option>
+                    }
+                }
+            </optgroup>
+            <optgroup label="Други пациенти">
+                @foreach (var patient in Model.PatientsList)
+                {
+                    if (patient.MyDoctorId != User.Identity.Name)
+                    {
+                        <option value="@patient.Id"> @patient.FullName (@patient.PIN)</option>
+                    }
+                }
+            </optgroup>
+        </select>
+        <select class="form-control" asp-for="MKBDiagnoseId" required>
+            <option value="" disabled selected>Диагноза по МКБ</option>
+            @foreach (var diagnose in Model.MKBDiagnoseList)
+            {
+                <option value="@diagnose.Id">@diagnose.Code / @diagnose.Description</option>
+            }
+        </select>
+        <input class="form-control" asp-for="LAKNumber" type="text" placeholder="ЛАК №" required />
+        <input class="form-control" asp-for="Continuation" type="text" placeholder="Продължение" required />
+        <input class="form-control" asp-for="DateOfIssue" type="text" placeholder="Дата на издаване" required />
+        <input class="form-control" asp-for="Diagnosis" type="text" placeholder="Диагноза" required />
+        <input class="form-control" asp-for="DisabilityReason" type="text" placeholder="Причина за нетрудоспособност" required />
+        <input class="form-control" asp-for="StartDate" type="text" placeholder="Начална дата" required />
+        <input class="form-control" asp-for="EndDate" type="text" placeholder="Крайна дата" required />
+        <input class="form-control" asp-for="OutpatientJournalNumber" type="text" placeholder="Номер в болничен журнал" required />
+        <input class="form-control" asp-for="RegistryNumber" type="text" placeholder="Номер в регистър" required />
+        <input class="form-control" asp-for="TotalDaysOff" type="text" placeholder="Общо дни" required />
+        <input class="form-control" asp-for="TreatmentRegimen" type="text" placeholder="Режим на лечение" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Създай</button>
+</form>

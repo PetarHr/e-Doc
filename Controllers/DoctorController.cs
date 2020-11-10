@@ -54,6 +54,29 @@ namespace eDoc.Controllers
 
             return this.Redirect("/");
         }
+
+        public IActionResult CreateSickLeaveList()
+        {
+            var allPatients = _service.GetAllPatients();
+            var doctor = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+
+            var createSickLeaveModel = new SickLeaveListInputModel
+            {
+                PatientsList = allPatients,
+                DoctorId = doctor.Id,
+                DoctorFullName = doctor.FullName
+            };
+
+            return this.View(createSickLeaveModel);
+        }
+
+        [HttpPost]
+        public IActionResult CreateSickLeaveList(SickLeaveListInputModel input)
+        {
+            _service.CreateSickLeaveList(input);
+
+            return this.Redirect("/");
+        }
     }
 }
 
