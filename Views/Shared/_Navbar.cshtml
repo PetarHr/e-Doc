@@ -1,0 +1,175 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using eDoc.Data.Models
+@inject UserManager<ApplicationUser> userManager
+
+<nav id="sidebar" class="sidebar-wrapper">
+    <div class="sidebar-content">
+        <div class="sidebar-brand">
+            <a href="#">еДок</a>
+            <div id="close-sidebar">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <vc:user-profile user="@userManager.GetUserId(this.User)" />
+        <!-- sidebar-header  -->
+        <div class="sidebar-search">
+            <div>
+                <div class="input-group">
+                    <input type="text" class="form-control search-menu" placeholder="Търся...">
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- sidebar-search  -->
+        <div class="sidebar-menu">
+            <ul>
+                <li class="header-menu">
+                    <span>Моето меню</span>
+                </li>
+                <li class="sidebar-dropdown">
+                    <a>
+                        <i class="fa fa-tachometer-alt"></i>
+                        <span>Моето здраве</span>
+                        <span class="badge badge-pill badge-warning">НОВО</span>
+                    </a>
+                    <div class="sidebar-submenu">
+                        <ul>
+                            <li>
+                                <a asp-controller="MyHealth" asp-action="Add">
+                                    Добави запис
+                                    <span class="badge badge-pill badge-success">Версия +</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-controller="MyHealth" asp-action="Dashboard">Преглед</a>
+                            </li>
+                            <li>
+                                <a asp-controller="MyHealth" asp-action="History">История на записите</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Patient" asp-action="MyDoctor">Личен лекар</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                @if (User.IsInRole("eDoctor"))
+                {
+                    <li class="sidebar-dropdown">
+                        <a href="#">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>Моите пациенти</span>
+                            <span class="badge badge-pill badge-danger">3</span>
+                        </a>
+                        <div class="sidebar-submenu">
+                            <ul>
+                                <li>
+                                    <a asp-controller="Doctor" asp-action="MyPatients">Списък пациенти</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="Doctor" asp-action="CreateRecipe">Нова рецепта</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="Doctor" asp-action="CreateAmbulatoryList">Нов амбулаторен лист</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="Doctor" asp-action="CreateSickLeaveList">Нов болничен лист</a>
+                                </li>
+                                <li class="bg-info text-light"><i class="fas fa-archive" aria-hidden="true"></i> Архиви</li>
+                                <li>
+                                    <a asp-controller="Doctor" asp-action="IssuedRecipes">Издадени рецепти</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="Doctor" asp-action="IssuedAmbulatoryLists">Издадени амбулаторни листове</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="Doctor" asp-action="IssuedSickLeaveLists">Издадени болнични</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="Doctor" asp-action="IssuedRecipes">Издадени рецепти</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+}
+                <li class="sidebar-dropdown">
+                    <a href="#">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span>Моите документи</span>
+                        <span class="badge badge-pill badge-danger">3</span>
+                    </a>
+                    <div class="sidebar-submenu">
+                        <ul>
+                            <li>
+                                <a asp-controller="Patient" asp-action="MyRecipes">Рецепти</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Patient" asp-action="MyAmbulatoryLists">Амбулаторни листове</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Patient" asp-action="MySickLeaveLists">Болнични листове</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="sidebar-dropdown">
+                    <a href="#">
+                        <i class="fa fa-globe"></i>
+                        <span>Карти</span>
+                    </a>
+                    <div class="sidebar-submenu">
+                        <ul>
+                            <li>
+                                <a href="#">Болници близо до мен</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="header-menu">
+                    <span>Бързи връзки</span>
+                </li>
+                <li>
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <i class="fa fa-book"></i>
+                        <span>Моят профил</span>
+                        <span class="badge badge-pill badge-primary">Beta</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Patient" asp-action="MyDoctor">
+                        <i class="fa fa-calendar"></i>
+                        <span>Моят личен лекар</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Patient" asp-action="MyRecipes">
+                        <i class="fa fa-folder"></i>
+                        <span>Моите рецепти</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- sidebar-menu  -->
+    </div>
+    <!-- sidebar-content  -->
+    <div class="sidebar-footer">
+        <a href="#">
+            <i class="fa fa-bell"></i>
+            <span class="badge badge-pill badge-warning notification">3</span>
+        </a>
+        <a href="#">
+            <i class="fa fa-envelope"></i>
+            <span class="badge badge-pill badge-success notification">7</span>
+        </a>
+        <a href="#">
+            <i class="fa fa-cog"></i>
+            <span class="badge-sonar"></span>
+        </a>
+        <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <i class="fa fa-power-off"></i>
+        </a>
+    </div>
+</nav>
