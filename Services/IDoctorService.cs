@@ -1,5 +1,5 @@
 ﻿using eDoc.Data.Models;
-using eDoc.Models;
+using eDoc.Models.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace eDoc.Services
     public interface IDoctorService
     {
         public void CreateRecipe(CreateRecipeInputModel input);
-
+        public void CreateAmbulatoryList(AmbulatoryListInputModel input);
         public List<ApplicationUser> GetAllPatients();
     }
 }

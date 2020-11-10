@@ -9,6 +9,7 @@ namespace eDoc.Data.Models
     {
         public AmbulatoryList()
         {
+            this.Id = Guid.NewGuid().ToString();
             this.IssuedDocs = new HashSet<IssuedDoc>();
             this.Tests = new HashSet<Test>();
         }

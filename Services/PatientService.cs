@@ -1,14 +1,9 @@
 ﻿using eDoc.Data;
 using eDoc.Data.Models;
-using eDoc.Models;
+using eDoc.Models.View;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Operations;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
 namespace eDoc.Services
 {

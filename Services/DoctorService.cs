@@ -1,6 +1,6 @@
 ﻿using eDoc.Data;
 using eDoc.Data.Models;
-using eDoc.Models;
+using eDoc.Models.Input;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -32,12 +32,36 @@ namespace eDoc.Services
                 Patient = patient,
                 Doctor = doctor,
                 AllowMultiCompletion = input.AllowMultiCompletion,
-                CreatedOn = DateTime.UtcNow, 
-                Description = input.RecipeDescription       
+                CreatedOn = DateTime.UtcNow,
+                Description = input.RecipeDescription
             };
 
             this.db.Recipes.Add(recipe);
-            this.db.SaveChanges();
+            this.db.SaveChangesAsync();
+        }
+
+        public void CreateAmbulatoryList(AmbulatoryListInputModel input)
+        {
+            var patient = db.Users.Where(x => x.Id == input.PatientId).FirstOrDefault();
+            var doctor = db.Users.Where(x => x.Id == input.DoctorId).FirstOrDefault();
+
+            var ambulatoryList = new AmbulatoryList
+            {
+                CheckUpType = input.CheckUpType,
+                Diagnosis = input.Diagnosis, 
+                Diseases = input.Diseases,
+                Doctor = doctor,
+                Patient = patient,
+                IssuedOn = DateTime.UtcNow, 
+                MedicalHistory = input.MedicalHistory, 
+                ObjectiveCondition = input.ObjectiveCondition, 
+                Therapy = input.Therapy, 
+                VisitReason = input.VisitReason
+            };
+
+            this.db.AmbulatoryLists.Add(ambulatoryList);
+            var saveTask = this.db.SaveChangesAsync();
+
         }
 
         public List<ApplicationUser> GetAllPatients()
@@ -46,5 +70,7 @@ namespace eDoc.Services
 
             return patientList;
         }
+
+
     }
 }

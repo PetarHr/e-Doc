@@ -1,27 +1,25 @@
 ﻿using eDoc.Data.Models;
-using eDoc.Models;
+using eDoc.Models.Input;
 using eDoc.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace eDoc.Controllers
 {
     public class DoctorController : Controller
     {
-        private readonly IDoctorService service;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IDoctorService _service;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public DoctorController(IDoctorService service, UserManager<ApplicationUser> userManager)
         {
-            this.service = service;
-            this.userManager = userManager;
+            this._service = service;
+            this._userManager = userManager;
         }
-  
-        public IActionResult CreateRecipe ()
+
+        public IActionResult CreateRecipe()
         {
-            var patientsList = service.GetAllPatients();
+            var patientsList = _service.GetAllPatients();
 
             return this.View(patientsList);
         }
@@ -29,9 +27,33 @@ namespace eDoc.Controllers
         [HttpPost]
         public IActionResult CreateRecipe(CreateRecipeInputModel input)
         {
-            service.CreateRecipe(input);
+            _service.CreateRecipe(input);
 
             return Redirect("/");
         }
+
+        public ActionResult CreateAmbulatoryList()
+        {
+            var allPatients = _service.GetAllPatients();
+            var doctor = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+
+            var createAmbulatoryListModel = new AmbulatoryListInputModel
+            {
+                PatientsList = allPatients,
+                DoctorId = doctor.Id,
+                DoctorFullName = doctor.FullName
+            };
+
+            return this.View(createAmbulatoryListModel);
+        }
+
+        [HttpPost]
+        public IActionResult CreateAmbulatoryList(AmbulatoryListInputModel input)
+        {
+            _service.CreateAmbulatoryList(input);
+
+            return this.Redirect("/");
+        }
     }
 }
+

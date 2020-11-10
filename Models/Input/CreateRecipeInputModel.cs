@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace eDoc.Models
+namespace eDoc.Models.Input
 {
     public class CreateRecipeInputModel
     {

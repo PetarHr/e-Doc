@@ -1,7 +1,6 @@
 ﻿using eDoc.Data.Models;
-using eDoc.Models;
+using eDoc.Models.View;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace eDoc.Services
 {

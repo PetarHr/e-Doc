@@ -36,7 +36,7 @@ namespace eDoc.Areas.Identity.Pages.Account
                 return RedirectToPage();
             }
         }
-        [HttpPost]
+
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
             await _signInManager.SignOutAsync();

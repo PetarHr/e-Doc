@@ -1,0 +1,39 @@
+﻿@model eDoc.Models.Input.AmbulatoryListInputModel
+
+<form method="post">
+    <div class="form-group">
+        <label for="doctorFullName">Издадена от:</label>
+        <input type="text" class="form-control" id="doctorFullName" name="doctorFullName" value="@Model.DoctorFullName" disabled>
+        <input type="text" class="form-control" name="doctorId" value="@Model.DoctorId" hidden>
+
+        <select class="form-control" name="patientId" required>
+            <option value="" disabled selected>Изберете пациент</option>
+            <optgroup label="Моите пациенти">
+                @foreach (var patient in Model.PatientsList)
+                {
+                    if (patient.MyDoctorId == User.Identity.Name)
+                    {
+                        <option value="@patient.Id"> @patient.FullName (@patient.PIN)</option>
+                    }
+                }
+            </optgroup>
+            <optgroup label="Други пациенти">
+                @foreach (var patient in Model.PatientsList)
+                {
+                    if (patient.MyDoctorId != User.Identity.Name)
+                    {
+                        <option value="@patient.Id"> @patient.FullName (@patient.PIN)</option>
+                    }
+                }
+            </optgroup>
+        </select>
+        <input class="form-control" asp-for="CheckUpType" type="text" placeholder="Тип преглед" required />
+        <input class="form-control" asp-for="VisitReason" type="text" placeholder="Причина за посещение" required />
+        <input class="form-control" asp-for="Diagnosis" type="text" placeholder="Диагноза" required />
+        <input class="form-control" asp-for="Diseases" type="text" placeholder="Заболяване" required />
+        <input class="form-control" asp-for="MedicalHistory" type="text" placeholder="Предшестващи заболявания" required />
+        <input class="form-control" asp-for="ObjectiveCondition" type="text" placeholder="Обективно състояние" required />
+        <input class="form-control" asp-for="Therapy" type="text" placeholder="Терапия" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Създай</button>
+</form>

@@ -66,7 +66,9 @@ namespace eDoc
             app.UseRouting();
             
             app.UseAuthentication();
+#pragma warning disable CS4014 // Seeder method should not be awaited.
             RoleSeederService.InitializeRoles(roleManager);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
