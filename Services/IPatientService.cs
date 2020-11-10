@@ -12,7 +12,8 @@ namespace eDoc.Services
         public RecipeDetailsViewModel GetRecipeDetails(string id);
         public ICollection<AmbulatoryListViewModel> GetMyAmbulatoryLists(string userId);
         public ICollection<SickLeaveListViewModel> GetMySickLeaveLists(string userId);
-        public ApplicationUser GetMyDoctor(string userId);
-        public List<DoctorsListViewModel> GetDoctorsListsAsync();
+        public MyDoctorViewModel GetMyDoctor(string userId);
+        public List<DoctorsListViewModel> GetDoctorsLists();
+        public void AssignDoctor(string patientId, string doctorId);
     }
 }

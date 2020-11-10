@@ -32,7 +32,7 @@ namespace eDoc.Controllers
             return Redirect("/");
         }
 
-        public ActionResult CreateAmbulatoryList()
+        public IActionResult CreateAmbulatoryList()
         {
             var allPatients = _service.GetAllPatients();
             var doctor = _userManager.GetUserAsync(User).GetAwaiter().GetResult();

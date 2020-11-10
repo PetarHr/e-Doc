@@ -63,12 +63,21 @@ namespace eDoc.Controllers
             return this.View(myDoctor);
         }
 
-        public IActionResult AssignDoctor()
+        public IActionResult ListAllDoctors()
         {
 
-            var doctorsList = service.GetDoctorsListsAsync();
+            var doctorsList = service.GetDoctorsLists();
 
             return this.View(doctorsList);
+        }
+
+        public IActionResult AssignDoctor(string doctorId)
+        {
+            var patientId = userManager.GetUserId(this.User);
+
+            service.AssignDoctor(patientId, doctorId);
+
+            return this.View("MyDoctor");
         }
     }
 }

@@ -1,15 +1,16 @@
-﻿@model eDoc.Data.Models.ApplicationUser
+﻿@model eDoc.Models.View.MyDoctorViewModel
 
     <div class="card">
         <div class="card-body">
             <div class="d-flex flex-column align-items-center text-center">
-                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                <img src="@Model.DoctorProfilePicture" alt="ProfilePicture" class="rounded-circle" width="150">
                 <div class="mt-3">
-                    <h4>@Model.FullName</h4>
-                    <p class="text-secondary mb-1">Full Stack Developer</p>
-                    <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-                    <button class="btn btn-primary">Follow</button>
-                    <button class="btn btn-outline-primary">Message</button>
+                    <h4>@Model.DoctorFullName</h4>
+                    <p class="text-secondary mb-1">@Model.DoctorMedicalCenterName</p>
+                    <p class="text-muted font-size-sm">@Model.DoctorMedicalCenterAddress</p>
+                    <button class="btn btn-primary">Обаждане</button>
+                    <button class="btn btn-outline-primary">Съобщение</button>
+                    <button class="btn btn-outline-danger">Премахни</button>
                 </div>
             </div>
         </div>

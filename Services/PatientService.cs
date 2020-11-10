@@ -111,13 +111,26 @@ namespace eDoc.Services
             return recipeViewDetails;
         }
 
-        public ApplicationUser GetMyDoctor(string userId)
+        public MyDoctorViewModel GetMyDoctor(string userId)
         {
-            var myDoctorId = db.Users.Find(userId).MyDoctorId;
+            var myDoctorsId = db.Users.Find(userId).MyDoctorId;
 
-            var doctor = db.Users.Where(x => x.Id == myDoctorId).FirstOrDefault();
+            var doctor = db.Users.Where(x => x.Id == myDoctorsId).FirstOrDefault();
 
-            return doctor;
+            var myDoctorView = new MyDoctorViewModel
+            {
+                DoctorId = doctor.Id, 
+                DoctorFullName = doctor.FullName, 
+                DoctorSpecialty = doctor.Occupation, 
+                DoctorProfilePicture = "https://bootdey.com/img/Content/avatar/avatar7.png", 
+                DoctorMedicalCenterName = doctor.MedicalCenter?.Name, 
+                DoctorMedicalCenterAddress = doctor.MedicalCenter?.Address.Street + " № "
+                                                + doctor.MedicalCenter?.Address.StreetNumber + ", "
+                                                + doctor.MedicalCenter?.Address.City + ", "
+                                                + doctor.MedicalCenter?.Address.Country
+            };
+
+            return myDoctorView;
         }
 
         public int GetMyRecipesCount(string userId)
@@ -127,7 +140,7 @@ namespace eDoc.Services
             return userLists.Count();
         }
 
-        public List<DoctorsListViewModel> GetDoctorsListsAsync()
+        public List<DoctorsListViewModel> GetDoctorsLists()
         {
             var doctorsList = userManager.GetUsersInRoleAsync("eDoctor").GetAwaiter().GetResult();
 
@@ -147,6 +160,16 @@ namespace eDoc.Services
                 doctorsListViewModel.Add(doctorModel);
             }
             return doctorsListViewModel;
+        }
+
+        public void AssignDoctor(string patientId, string doctorId)
+        {
+            var patientDetails = db.Users.Where(p => p.Id == patientId).FirstOrDefault();
+
+            patientDetails.MyDoctorId = doctorId;
+
+            this.db.Update(patientDetails);
+            this.db.SaveChanges();
         }
     }
 }

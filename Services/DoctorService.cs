@@ -37,7 +37,7 @@ namespace eDoc.Services
             };
 
             this.db.Recipes.Add(recipe);
-            this.db.SaveChangesAsync();
+            this.db.SaveChanges();
         }
 
         public void CreateAmbulatoryList(AmbulatoryListInputModel input)
@@ -60,7 +60,7 @@ namespace eDoc.Services
             };
 
             this.db.AmbulatoryLists.Add(ambulatoryList);
-            var saveTask = this.db.SaveChangesAsync();
+            this.db.SaveChanges();
 
         }
 

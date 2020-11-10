@@ -16,7 +16,7 @@
                 </ul>
                 <div class="card-body">
                     <a class="card-link">Пълен профил</a>
-                    <a class="card-link" asp-controller="Patient" asp-action="AssignDoctor">Запиши ме!</a>
+                    <a class="card-link" asp-controller="Patient" asp-action="AssignDoctor" asp-route-doctorId="@doctor.Id">Запиши ме!</a>
                 </div>
             </div>
         }
