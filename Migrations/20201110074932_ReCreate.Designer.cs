@@ -10,8 +10,8 @@ using eDoc.Data;
 namespace eDoc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201106150223_MyDoctorProp")]
-    partial class MyDoctorProp
+    [Migration("20201110074932_ReCreate")]
+    partial class ReCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -329,7 +329,7 @@ namespace eDoc.Migrations
                     b.Property<int>("Sex")
                         .HasColumnType("int");
 
-                    b.Property<string>("Specialtycode")
+                    b.Property<string>("SpecialtyCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
