@@ -57,13 +57,6 @@ namespace eDoc.Services
             return sickLeaves;
         }
 
-        public int GetMyAmbulatoryListsCount(string userId)
-        {
-            var userLists = db.AmbulatoryLists.Where(x => x.Patient.Id == userId).ToList();
-
-            return userLists.Count();
-        }
-
         public ICollection<RecipeListViewModel> GetMyRecipes(string userId)
         {
             var recipesList = db.Recipes.Select(x => new RecipeListViewModel
@@ -131,13 +124,6 @@ namespace eDoc.Services
             };
 
             return myDoctorView;
-        }
-
-        public int GetMyRecipesCount(string userId)
-        {
-            var userLists = db.Recipes.Where(x => x.Patient.Id == userId).ToList();
-
-            return userLists.Count();
         }
 
         public List<DoctorsListViewModel> GetDoctorsLists()

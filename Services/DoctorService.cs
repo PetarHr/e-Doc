@@ -5,9 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace eDoc.Services
 {
@@ -66,9 +63,7 @@ namespace eDoc.Services
 
         public List<ApplicationUser> GetAllPatients()
         {
-            List<ApplicationUser> patientList = db.Users.ToList();
-
-            return patientList;
+            return user.GetUsersInRoleAsync("ePatient").GetAwaiter().GetResult().ToList(); ;
         }
 
 
