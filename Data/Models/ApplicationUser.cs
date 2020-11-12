@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using eDoc.Models.View.MyHealth;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 
@@ -32,5 +33,8 @@ namespace eDoc.Data.Models
         public string SpecialtyCode { get; set; }
         public MedicalCenter MedicalCenter { get; set; }
         public string MyDoctorId { get; set; }
+        public MyWeight MyWeight { get; set; }
+        public MyBloodPressure MyBloodPressure { get; set; }
+        public ICollection<Allergy>  MyAllergies { get; set; }
     }
 }

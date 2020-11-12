@@ -200,6 +200,30 @@ namespace eDoc.Migrations
                     b.ToTable("Addresses");
                 });
 
+            modelBuilder.Entity("eDoc.Data.Models.Allergy", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DiscoveredOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Allergy");
+                });
+
             modelBuilder.Entity("eDoc.Data.Models.AmbulatoryList", b =>
                 {
                     b.Property<string>("Id")
@@ -472,6 +496,29 @@ namespace eDoc.Migrations
                     b.ToTable("Municipalities");
                 });
 
+            modelBuilder.Entity("eDoc.Data.Models.MyWeight", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("RecordDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("MyWeight");
+                });
+
             modelBuilder.Entity("eDoc.Data.Models.Recipe", b =>
                 {
                     b.Property<string>("Id")
@@ -621,6 +668,32 @@ namespace eDoc.Migrations
                     b.ToTable("Workplaces");
                 });
 
+            modelBuilder.Entity("eDoc.Models.View.MyHealth.MyBloodPressure", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("Diastolic")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("RecordDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Systolic")
+                        .HasColumnType("float");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("MyBloodPressure");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -687,6 +760,13 @@ namespace eDoc.Migrations
                         .HasForeignKey("RegionId");
                 });
 
+            modelBuilder.Entity("eDoc.Data.Models.Allergy", b =>
+                {
+                    b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
+                        .WithMany("MyAllergies")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("eDoc.Data.Models.AmbulatoryList", b =>
                 {
                     b.HasOne("eDoc.Data.Models.ApplicationUser", null)
@@ -738,6 +818,13 @@ namespace eDoc.Migrations
                         .HasForeignKey("AddressId");
                 });
 
+            modelBuilder.Entity("eDoc.Data.Models.MyWeight", b =>
+                {
+                    b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
+                        .WithOne("MyWeight")
+                        .HasForeignKey("eDoc.Data.Models.MyWeight", "UserId");
+                });
+
             modelBuilder.Entity("eDoc.Data.Models.Recipe", b =>
                 {
                     b.HasOne("eDoc.Data.Models.ApplicationUser", null)
@@ -784,6 +871,13 @@ namespace eDoc.Migrations
                     b.HasOne("eDoc.Data.Models.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
+                });
+
+            modelBuilder.Entity("eDoc.Models.View.MyHealth.MyBloodPressure", b =>
+                {
+                    b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
+                        .WithOne("MyBloodPressure")
+                        .HasForeignKey("eDoc.Models.View.MyHealth.MyBloodPressure", "UserId");
                 });
 #pragma warning restore 612, 618
         }
