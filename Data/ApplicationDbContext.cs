@@ -19,6 +19,7 @@ namespace eDoc.Data
         public DbSet<SickLeaveList> SickLeaveLists { get; set; }
         public DbSet<Test> Tests { get; set; }
         public DbSet<Workplace> Workplaces { get; set; }
+        public DbSet<MyHealthStorage> MyHealthRecords { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

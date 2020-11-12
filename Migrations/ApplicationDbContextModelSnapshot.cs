@@ -472,6 +472,36 @@ namespace eDoc.Migrations
                     b.ToTable("Municipalities");
                 });
 
+            modelBuilder.Entity("eDoc.Data.Models.MyHealthStorage", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Allergies")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("BloodPressure")
+                        .HasColumnType("float");
+
+                    b.Property<string>("BloodType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RecordDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("Weight")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("MyHealthRecords");
+                });
+
             modelBuilder.Entity("eDoc.Data.Models.Recipe", b =>
                 {
                     b.Property<string>("Id")
@@ -736,6 +766,13 @@ namespace eDoc.Migrations
                     b.HasOne("eDoc.Data.Models.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
+                });
+
+            modelBuilder.Entity("eDoc.Data.Models.MyHealthStorage", b =>
+                {
+                    b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
+                        .WithMany("MyHealthRecords")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.Recipe", b =>
