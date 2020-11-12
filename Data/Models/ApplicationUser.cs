@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eDoc.Data.Models
 {
@@ -33,7 +32,5 @@ namespace eDoc.Data.Models
         public string SpecialtyCode { get; set; }
         public MedicalCenter MedicalCenter { get; set; }
         public string MyDoctorId { get; set; }
-
-        public ICollection<MyHealthStorage> MyHealthRecords { get; set; }
     }
 }
