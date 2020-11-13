@@ -1,0 +1,23 @@
+﻿@model eDoc.Models.View.MyHealth.MyHealthDetailsViewModel
+
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">@Model.UserFullName</h5>
+        <p class="card-text">Възраст: @Model.Age г.</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Тегло: @Model.MyWeight?.Value</li>
+        <li class="list-group-item">Кръвно: @Model.MyBloodPressure?.Systolic / @Model.MyBloodPressure?.Diastolic </li>
+        <li class="list-group-item">
+            Алергии:
+        </li>
+        @foreach (var allergy in Model.AllergiesList)
+        {
+        <li>@allergy.Description</li>
+        }
+    </ul>
+    <div class="card-body">
+        <a asp-controller="MyHealth" asp-action="Update" class="btn btn-outline-info">Промени</a>
+    </div>
+</div>

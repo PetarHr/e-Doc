@@ -10,8 +10,8 @@ using eDoc.Data;
 namespace eDoc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201112210732_MyHealth")]
-    partial class MyHealth
+    [Migration("20201113154305_ReverseNavProps")]
+    partial class ReverseNavProps
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -223,7 +223,7 @@ namespace eDoc.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Allergy");
+                    b.ToTable("MyAllergies");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.AmbulatoryList", b =>
@@ -498,6 +498,32 @@ namespace eDoc.Migrations
                     b.ToTable("Municipalities");
                 });
 
+            modelBuilder.Entity("eDoc.Data.Models.MyBloodPressure", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("Diastolic")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("RecordDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Systolic")
+                        .HasColumnType("float");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("MyBloodPressure");
+                });
+
             modelBuilder.Entity("eDoc.Data.Models.MyWeight", b =>
                 {
                     b.Property<string>("Id")
@@ -670,32 +696,6 @@ namespace eDoc.Migrations
                     b.ToTable("Workplaces");
                 });
 
-            modelBuilder.Entity("eDoc.Models.View.MyHealth.MyBloodPressure", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<double>("Diastolic")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("RecordDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("Systolic")
-                        .HasColumnType("float");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
-                    b.ToTable("MyBloodPressure");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -820,6 +820,13 @@ namespace eDoc.Migrations
                         .HasForeignKey("AddressId");
                 });
 
+            modelBuilder.Entity("eDoc.Data.Models.MyBloodPressure", b =>
+                {
+                    b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
+                        .WithOne("MyBloodPressure")
+                        .HasForeignKey("eDoc.Data.Models.MyBloodPressure", "UserId");
+                });
+
             modelBuilder.Entity("eDoc.Data.Models.MyWeight", b =>
                 {
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
@@ -873,13 +880,6 @@ namespace eDoc.Migrations
                     b.HasOne("eDoc.Data.Models.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
-                });
-
-            modelBuilder.Entity("eDoc.Models.View.MyHealth.MyBloodPressure", b =>
-                {
-                    b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
-                        .WithOne("MyBloodPressure")
-                        .HasForeignKey("eDoc.Models.View.MyHealth.MyBloodPressure", "UserId");
                 });
 #pragma warning restore 612, 618
         }

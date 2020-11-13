@@ -10,8 +10,8 @@ using eDoc.Data;
 namespace eDoc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201112204515_MyWeight")]
-    partial class MyWeight
+    [Migration("20201113155238_ListNavProps")]
+    partial class ListNavProps
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -200,6 +200,30 @@ namespace eDoc.Migrations
                     b.HasIndex("RegionId");
 
                     b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("eDoc.Data.Models.Allergy", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DiscoveredOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("MyAllergies");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.AmbulatoryList", b =>
@@ -474,6 +498,30 @@ namespace eDoc.Migrations
                     b.ToTable("Municipalities");
                 });
 
+            modelBuilder.Entity("eDoc.Data.Models.MyBloodPressure", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("Diastolic")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("RecordDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Systolic")
+                        .HasColumnType("float");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("MyBloodPressure");
+                });
+
             modelBuilder.Entity("eDoc.Data.Models.MyWeight", b =>
                 {
                     b.Property<string>("Id")
@@ -490,9 +538,7 @@ namespace eDoc.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                    b.HasIndex("UserId");
 
                     b.ToTable("MyWeight");
                 });
@@ -712,6 +758,13 @@ namespace eDoc.Migrations
                         .HasForeignKey("RegionId");
                 });
 
+            modelBuilder.Entity("eDoc.Data.Models.Allergy", b =>
+                {
+                    b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
+                        .WithMany("MyAllergies")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("eDoc.Data.Models.AmbulatoryList", b =>
                 {
                     b.HasOne("eDoc.Data.Models.ApplicationUser", null)
@@ -763,11 +816,18 @@ namespace eDoc.Migrations
                         .HasForeignKey("AddressId");
                 });
 
+            modelBuilder.Entity("eDoc.Data.Models.MyBloodPressure", b =>
+                {
+                    b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
+                        .WithMany("MyBloodPressure")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("eDoc.Data.Models.MyWeight", b =>
                 {
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
-                        .WithOne("MyWeight")
-                        .HasForeignKey("eDoc.Data.Models.MyWeight", "UserId");
+                        .WithMany("MyWeight")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.Recipe", b =>

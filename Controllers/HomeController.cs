@@ -15,13 +15,6 @@ namespace eDoc.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
-
-        public HomeController(UserManager<ApplicationUser> userManager)
-        {
-            this.userManager = userManager;
-        }
-
 
         public IActionResult Index()
         {
@@ -37,6 +30,11 @@ namespace eDoc.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Success()
+        {
+            return this.View();
         }
     }
 }

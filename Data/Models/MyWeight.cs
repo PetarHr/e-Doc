@@ -12,9 +12,9 @@ namespace eDoc.Data.Models
         public string Id { get; set; }
         public double Value { get; set; }
         public DateTime RecordDate { get; set; }
-
+        
         [ForeignKey(nameof(User))]
-        public string UserId { get; set; }
+        public string UserId  { get; set; }
         public ApplicationUser User { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eDoc.Data.Models
 {
@@ -13,6 +14,9 @@ namespace eDoc.Data.Models
             this.Recipes = new HashSet<Recipe>();
             this.AmbulatoryLists = new HashSet<AmbulatoryList>();
             this.SickLeaveLists = new HashSet<SickLeaveList>();
+            this.MyAllergies = new HashSet<Allergy>();
+            this.MyWeight = new HashSet<MyWeight>();
+            this.MyBloodPressure = new HashSet<MyBloodPressure>();
         }
         public string FirstName { get; set; }
         public string FathersName { get; set; }
@@ -33,8 +37,9 @@ namespace eDoc.Data.Models
         public string SpecialtyCode { get; set; }
         public MedicalCenter MedicalCenter { get; set; }
         public string MyDoctorId { get; set; }
-        public MyWeight MyWeight { get; set; }
-        public MyBloodPressure MyBloodPressure { get; set; }
+
+        public ICollection<MyWeight> MyWeight { get; set; }
+        public ICollection<MyBloodPressure> MyBloodPressure { get; set; }
         public ICollection<Allergy>  MyAllergies { get; set; }
     }
 }

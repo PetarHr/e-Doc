@@ -8,7 +8,7 @@ namespace eDoc.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Allergy",
+                name: "MyAllergies",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -19,9 +19,9 @@ namespace eDoc.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Allergy", x => x.Id);
+                    table.PrimaryKey("PK_MyAllergies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Allergy_AspNetUsers_UserId",
+                        name: "FK_MyAllergies_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -49,9 +49,29 @@ namespace eDoc.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MyWeight",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Value = table.Column<double>(nullable: false),
+                    RecordDate = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MyWeight", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MyWeight_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Allergy_UserId",
-                table: "Allergy",
+                name: "IX_MyAllergies_UserId",
+                table: "MyAllergies",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -60,15 +80,25 @@ namespace eDoc.Migrations
                 column: "UserId",
                 unique: true,
                 filter: "[UserId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MyWeight_UserId",
+                table: "MyWeight",
+                column: "UserId",
+                unique: true,
+                filter: "[UserId] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Allergy");
+                name: "MyAllergies");
 
             migrationBuilder.DropTable(
                 name: "MyBloodPressure");
+
+            migrationBuilder.DropTable(
+                name: "MyWeight");
         }
     }
 }

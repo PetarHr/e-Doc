@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace eDoc.Models.View.MyHealth
+namespace eDoc.Data.Models
 {
     public class MyBloodPressure
     {

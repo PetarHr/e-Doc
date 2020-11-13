@@ -1,4 +1,5 @@
 ﻿using eDoc.Data.Models;
+using eDoc.Models.View.MyHealth;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,9 @@ namespace eDoc.Data
         public DbSet<SickLeaveList> SickLeaveLists { get; set; }
         public DbSet<Test> Tests { get; set; }
         public DbSet<Workplace> Workplaces { get; set; }
+        public DbSet<MyWeight> MyWeight { get; set; }
+        public DbSet<MyBloodPressure> MyBloodPressure { get; set; }
+        public DbSet<Allergy> MyAllergies { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

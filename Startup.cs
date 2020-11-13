@@ -38,6 +38,7 @@ namespace eDoc
             services.AddRazorPages();
             services.AddTransient<IPatientService, PatientService>();
             services.AddTransient<IDoctorService, DoctorService>();
+            services.AddTransient<IMyHealthService, MyHealthService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
