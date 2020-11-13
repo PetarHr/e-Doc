@@ -11,5 +11,6 @@ namespace eDoc.Services
         public Task UpdateBloodPressure(MyBloodPressure input);
         public Task AddAllergy(Allergy input);
         public MyHealthDetailsViewModel GetMyHealthStats();
+        public MyHealthHistoryViewModel GetMyHistory();
     }
 }

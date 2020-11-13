@@ -1,0 +1,79 @@
+﻿@using eDoc.Models.View.MyHealth
+@model MyHealthHistoryViewModel
+@{ int a = 0; int b = 0; int c = 0;}
+<h1>История на записите: @Model.UserFullName</h1>
+
+<h2>Моето тегло</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">№</th>
+            <th scope="col">КГ.</th>
+            <th scope="col">Дата</th>
+            <th scope="col">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var record in Model.MyWeightList)
+        {
+            <tr>
+                <th scope="row">@{a++;} @a</th>
+                <td>@record.Value кг.</td>
+                <td>@record.RecordDate г.</td>
+                <td>ДЕЙСТВИЯ</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h2>Моето кръвно налягане</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">№</th>
+            <th scope="col">Стойност (систолично/диастолично)</th>
+            <th scope="col">Дата</th>
+            <th scope="col">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var record in Model.MyBloodPressureList)
+        {
+            <tr>
+                <th scope="row">@{b++;} @b</th>
+                <td>@record.Systolic / @record.Diastolic</td>
+                <td>@record.RecordDate г.</td>
+                <td>ДЕЙСТВИЯ</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+<h2>Моите алергии</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">№</th>
+            <th scope="col">Описание</th>
+            <th scope="col">Дата на откриване</th>
+            <th scope="col">Добавено в MyHealth</th>
+            <th scope="col">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var record in Model.MyAllergiesList)
+        {
+        <tr>
+            <th scope="row">@{c++;} @c</th>
+            <td>@record.Description </td>
+            <td>@record.DiscoveredOn г.</td>
+            <td>@record.CreatedOn г.</td>
+            <td>ДЕЙСТВИЯ</td>
+        </tr>
+        }
+    </tbody>
+</table>

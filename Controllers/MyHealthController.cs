@@ -44,5 +44,12 @@ namespace eDoc.Controllers
 
             return this.Redirect("/Home/Success");
         }
+
+        public IActionResult History()
+        {
+            var userHistory = _healthService.GetMyHistory();
+
+            return this.View(userHistory);
+        }
     }
 }

@@ -36,6 +36,31 @@ namespace eDoc.Services
             await this._db.SaveChangesAsync();
         }
 
+        public MyHealthHistoryViewModel GetMyHistory()
+        {
+            var userName = this._signInManager.Context.User.Identity.Name;
+            var user = this._signInManager
+                            .UserManager
+                            .FindByNameAsync(userName)
+                            .GetAwaiter()
+                            .GetResult();
+
+            var userWeightList = this._db.MyWeight.Where(w => w.UserId == user.Id).OrderByDescending(wd => wd.RecordDate).ToList<MyWeight>();
+            var userBloodPressureList = this._db.MyBloodPressure.Where(b => b.UserId == user.Id).OrderByDescending(bd => bd.RecordDate).ToList<MyBloodPressure>();
+            var userAllergiesList = this._db.MyAllergies.Where(a => a.UserId == user.Id).OrderByDescending(ad => ad.CreatedOn).ToList<Allergy>();
+
+            var myHistory = new MyHealthHistoryViewModel
+            {
+                UserFullName = user.FullName,
+                MyWeightList = userWeightList,
+                MyBloodPressureList = userBloodPressureList,
+                MyAllergiesList = userAllergiesList
+            };
+
+            return myHistory;
+        }
+
+
         public MyHealthDetailsViewModel GetMyHealthStats()
          {
             var userName = this._signInManager.Context.User.Identity.Name;
