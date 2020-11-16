@@ -37,7 +37,7 @@ namespace eDoc.Data.Models
         public string SpecialtyCode { get; set; }
         public MedicalCenter MedicalCenter { get; set; }
         public string MyDoctorId { get; set; }
-
+        public string ProfilePicture { get; set; }
         public ICollection<MyWeight> MyWeight { get; set; }
         public ICollection<MyBloodPressure> MyBloodPressure { get; set; }
         public ICollection<Allergy>  MyAllergies { get; set; }

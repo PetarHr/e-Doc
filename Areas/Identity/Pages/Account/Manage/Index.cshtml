@@ -1,0 +1,46 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Моят профил";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<hr />
+<img src="@Model.ProfilePicture" class="rounded-circle" width="150">
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form id="profile-form" method="post" enctype="multipart/form-data">
+            
+            <div class="input-group">
+                <div class="custom-file">
+                    <input asp-for="Input.ProfilePicture" class="custom-file-input" id="profileUpload">
+                    <label class="custom-file-label" for="profileUpload">Избери файл</label>
+                </div>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary">Обнови</button>
+                </div>
+                <span asp-validation-for="Input.ProfilePicture" class="text-danger"></span>
+            </div>
+            
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="form-control" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.PhoneNumber"></label>
+                <input asp-for="Input.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
