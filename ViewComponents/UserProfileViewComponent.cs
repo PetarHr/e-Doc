@@ -29,25 +29,34 @@ namespace eDoc.ViewComponents
         {
             var userProfile = await userManager.FindByIdAsync(user);
             var userRole = userManager.GetRolesAsync(userProfile).GetAwaiter().GetResult().FirstOrDefault();
-            string picturePath;
+            var profilePicture = GetUsersProfilePicture(userProfile);
 
-            if (!string.IsNullOrEmpty(userProfile.ProfilePicture) && userProfile.ProfilePicture != defaultProfileImage)
-            {
-                picturePath = this._dropBoxClient.Files.GetTemporaryLinkAsync(userProfile.ProfilePicture).Result.Link;
-            } else
-            {
-                picturePath = "https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg";
-            }
 
             var viewModel = new UserProfileViewModel
             {
                 FirstName = userProfile.FirstName,
                 FamilyName = userProfile.FamilyName,
-                Role = userRole, 
-                ProfilePicture = picturePath
+                Role = userRole,
+                ProfilePicture = profilePicture
             };
 
             return View(viewModel);
+        }
+
+        private string GetUsersProfilePicture(ApplicationUser user)
+        {
+            string picturePath;
+
+            if (string.IsNullOrEmpty(user.ProfilePicture))
+            {
+                picturePath = "https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg";
+            }
+            else
+            {
+                picturePath = this._dropBoxClient.Files.GetTemporaryLinkAsync(user.ProfilePicture).Result.Link;
+            }
+
+            return picturePath;
         }
     }
 }

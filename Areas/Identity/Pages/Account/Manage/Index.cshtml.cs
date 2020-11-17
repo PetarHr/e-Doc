@@ -69,15 +69,6 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
 
             Username = userName;
 
-            if (!string.IsNullOrEmpty(user.ProfilePicture) && user.ProfilePicture != defaultProfileImage)
-            {
-                user.ProfilePicture = this._dropBoxClient.Files.GetTemporaryLinkAsync(user.ProfilePicture).Result.Link;
-            }
-            else
-            {
-                user.ProfilePicture = defaultProfileImage;
-            }
-
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber
