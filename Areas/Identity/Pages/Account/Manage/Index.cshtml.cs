@@ -20,8 +20,6 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private const string defaultProfileImage = "https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg";
-
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _db;
@@ -55,7 +53,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Телефонен номер")]
             public string PhoneNumber { get; set; }
 
             public IFormFile ProfilePicture { get; set; }
@@ -80,7 +78,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Не може да се намери профил с име '{_userManager.GetUserId(User)}'.");
             }
 
             await LoadAsync(user);
@@ -92,7 +90,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Не може да се намери профил с име '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -107,7 +105,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    StatusMessage = "Възникна неочаквана грешка при промяната на телефонния номер.";
                     return RedirectToPage();
                 }
             }
