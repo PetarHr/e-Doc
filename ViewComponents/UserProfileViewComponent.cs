@@ -12,8 +12,6 @@ namespace eDoc.ViewComponents
 {
     public class UserProfileViewComponent : ViewComponent
     {
-        private const string defaultProfileImage = "https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg";
-
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IConfiguration _config;
         private readonly DropboxClient _dropBoxClient;

@@ -25,6 +25,8 @@ namespace eDoc.Data.Models
         public string PIN { get; set; }
         public DateTime BirthDate { get; set; }
         public Sex Sex { get; set; }
+        [ForeignKey(nameof(Address))]
+        public string AddressId { get; set; }
         public Address Address { get; set; }
         public ICollection<Recipe> Recipes { get; set; }
         public ICollection<AmbulatoryList> AmbulatoryLists { get; set; }

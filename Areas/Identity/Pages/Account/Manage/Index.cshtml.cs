@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Dropbox.Api;
 using Dropbox.Api.Files;
 using eDoc.Data;
 using eDoc.Data.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -28,8 +25,8 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, 
-            ApplicationDbContext db, 
+            SignInManager<ApplicationUser> signInManager,
+            ApplicationDbContext db,
             IConfiguration config)
         {
             this._userManager = userManager;
@@ -45,7 +42,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
         [TempData]
         public string StatusMessage { get; set; }
 
-        public string ProfilePicture{ get; set; }
+        public string ProfilePicture { get; set; }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -55,21 +52,25 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Телефонен номер")]
             public string PhoneNumber { get; set; }
-
             public IFormFile ProfilePicture { get; set; }
 
+            [Display(Name = "Адрес")]
+            public Address UserAddress { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
+            var userProfile = await _userManager.GetUserAsync(this.User);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            Username = userName;
+            Username = userProfile.UserName;
+
+            var userAddress = this._db.Addresses.Where(x => x.Id == userProfile.AddressId).FirstOrDefault();
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                UserAddress = userAddress
             };
         }
 
@@ -110,13 +111,19 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            if (Input.ProfilePicture == null)
+            if (Input.ProfilePicture != null)
             {
-                StatusMessage = "Моля, прикачете профилна снимка.";
-                return RedirectToPage();
+                user.ProfilePicture = await UploadProfilePictureAsync(user);
             }
 
-            user.ProfilePicture = await UploadProfilePictureAsync(user);
+            if (Input.UserAddress != null)
+            {
+                user.Address = Input.UserAddress;
+                user.Address.Country = new Country { Name = Input.UserAddress.Country.Name };
+                user.Address.Region = new Region { Name = Input.UserAddress.Region.Name };
+                user.Address.Municipality = new Municipality { Name = Input.UserAddress.Municipality.Name };
+            }
+            
 
             this._db.Users.Update(user);
             await this._db.SaveChangesAsync();
@@ -143,12 +150,12 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             {
                 var folderList = await _dropBoxClient.Files.ListFolderAsync(string.Empty, true, true, false, false, false, null, null, null, true);
 
-                if (folderList.Entries.Where(f => f.Name == userName.ToLower()).Count() == 0) 
+                if (folderList.Entries.Where(f => f.Name == userName.ToLower()).Count() == 0)
                 {
                     var folder = await _dropBoxClient.Files.CreateFolderV2Async("/" + userName.ToLower(), true);
                 }
 
-                response = await _dropBoxClient.Files.UploadAsync(@$"/{userName.ToLower()}/{Input.ProfilePicture.FileName}", 
+                response = await _dropBoxClient.Files.UploadAsync(@$"/{userName.ToLower()}/{Input.ProfilePicture.FileName}",
                     WriteMode.Overwrite.Instance,
                     body: memoryStream);
             }
