@@ -42,7 +42,10 @@ namespace eDoc
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RoleManager<IdentityRole> roleManager)
+        public void Configure(IApplicationBuilder app,
+                              IWebHostEnvironment env,
+                              RoleManager<IdentityRole> roleManager, 
+                              UserManager<ApplicationUser> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -62,7 +65,7 @@ namespace eDoc
             
             app.UseAuthentication();
 #pragma warning disable CS4014 // Seeder method should not be awaited.
-            RoleSeederService.InitializeRoles(roleManager);
+            SeederService.Initialize(roleManager, userManager);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             app.UseAuthorization();
 

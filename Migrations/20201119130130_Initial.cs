@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace eDoc.Migrations
 {
-    public partial class ReCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -107,7 +107,8 @@ namespace eDoc.Migrations
                     Floor = table.Column<int>(nullable: false),
                     Apartment = table.Column<string>(nullable: true),
                     Entrance = table.Column<string>(nullable: true),
-                    Comment = table.Column<string>(nullable: true)
+                    Comment = table.Column<string>(nullable: true),
+                    CountryId1 = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -115,6 +116,12 @@ namespace eDoc.Migrations
                     table.ForeignKey(
                         name: "FK_Addresses_Countries_CountryId",
                         column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Addresses_Countries_CountryId1",
+                        column: x => x.CountryId1,
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -202,7 +209,8 @@ namespace eDoc.Migrations
                     UIN = table.Column<string>(nullable: true),
                     SpecialtyCode = table.Column<string>(nullable: true),
                     MedicalCenterId = table.Column<string>(nullable: true),
-                    MyDoctorId = table.Column<string>(nullable: true)
+                    MyDoctorId = table.Column<string>(nullable: true),
+                    ProfilePicture = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -356,8 +364,7 @@ namespace eDoc.Migrations
                 name: "Contacts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(nullable: false),
                     Type = table.Column<string>(nullable: true),
                     Value = table.Column<string>(nullable: true),
                     ApplicationUserId = table.Column<string>(nullable: true)
@@ -368,6 +375,68 @@ namespace eDoc.Migrations
                     table.ForeignKey(
                         name: "FK_Contacts_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MyAllergies",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    DiscoveredOn = table.Column<DateTime>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MyAllergies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MyAllergies_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MyBloodPressure",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Systolic = table.Column<double>(nullable: false),
+                    Diastolic = table.Column<double>(nullable: false),
+                    RecordDate = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MyBloodPressure", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MyBloodPressure_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MyWeight",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Value = table.Column<double>(nullable: false),
+                    RecordDate = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MyWeight", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MyWeight_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -504,6 +573,11 @@ namespace eDoc.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Addresses_CountryId1",
+                table: "Addresses",
+                column: "CountryId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Addresses_MunicipalityId",
                 table: "Addresses",
                 column: "MunicipalityId");
@@ -598,6 +672,21 @@ namespace eDoc.Migrations
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MyAllergies_UserId",
+                table: "MyAllergies",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MyBloodPressure_UserId",
+                table: "MyBloodPressure",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MyWeight_UserId",
+                table: "MyWeight",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Recipes_ApplicationUserId",
                 table: "Recipes",
                 column: "ApplicationUserId");
@@ -665,6 +754,15 @@ namespace eDoc.Migrations
 
             migrationBuilder.DropTable(
                 name: "IssuedDocuments");
+
+            migrationBuilder.DropTable(
+                name: "MyAllergies");
+
+            migrationBuilder.DropTable(
+                name: "MyBloodPressure");
+
+            migrationBuilder.DropTable(
+                name: "MyWeight");
 
             migrationBuilder.DropTable(
                 name: "Recipes");

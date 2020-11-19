@@ -6,16 +6,15 @@
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h4>@ViewData["Title"]</h4>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
-
-<hr />
-<div class="d-flex flex-column align-items-center text-center">
-    <vc:user-profile user="@userManager.GetUserId(this.User)" />
-</div>
-<hr />
 <div class="row">
     <div class="col-md-6">
+        <div class="d-flex flex-column align-items-center text-center">
+            <vc:user-profile user="@userManager.GetUserId(this.User)" />
+        </div>
+        <hr />
+
+
         <form id="profile-form" method="post" enctype="multipart/form-data">
             <div class="input-group">
                 <div class="custom-file">
@@ -42,11 +41,19 @@
     <div class="col-md-6">
         <form id="address-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.UserAddress.Country.Name"></label>
-                <input asp-for="Input.UserAddress.Country.Name" class="form-control" />
-                <span asp-validation-for="Input.UserAddress.Country.Name" class="text-danger"></span>
-            </div>
+            <select class="form-control" asp-for="Input.UserAddress.Country.Name" required>
+                <option value="" disabled selected>--- Изберете страна ---</option>
+                <optgroup label="Бърз избор">
+                    <option value="България">България</option>
+                </optgroup>
+                <optgroup label="Всички страни">
+                    @foreach (var country in Model.Input.CountryList)
+                    {
+                        <option value="@country"> @country</option>
+                    }
+                </optgroup>
+            </select>
+            <span asp-validation-for="Input.UserAddress.Country.Name" class="text-danger"></span>
             <div class="form-group">
                 <label asp-for="Input.UserAddress.Region.Name"></label>
                 <input asp-for="Input.UserAddress.Region.Name" class="form-control" />
@@ -92,7 +99,7 @@
                 <input asp-for="Input.UserAddress.Comment" class="form-control" />
                 <span asp-validation-for="Input.UserAddress.Comment" class="text-danger"></span>
             </div>
-            <button id="update-profile-button" type="submit" class="btn btn-primary">Обнови адрес</button>
+            <button id="update-address-button" type="submit" class="btn btn-outline-success">Обнови адрес</button>
         </form>
     </div>
 

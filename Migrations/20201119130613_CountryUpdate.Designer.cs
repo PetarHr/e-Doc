@@ -10,8 +10,8 @@ using eDoc.Data;
 namespace eDoc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201113155238_ListNavProps")]
-    partial class ListNavProps
+    [Migration("20201119130613_CountryUpdate")]
+    partial class CountryUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -347,6 +347,9 @@ namespace eDoc.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -390,10 +393,8 @@ namespace eDoc.Migrations
 
             modelBuilder.Entity("eDoc.Data.Models.Contact", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");

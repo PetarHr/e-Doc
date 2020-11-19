@@ -1,4 +1,4 @@
-﻿
+﻿using System.Globalization;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace eDoc.Areas.Identity.Pages.Account.Manage
 {
@@ -56,6 +57,8 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
 
             [Display(Name = "Адрес")]
             public Address UserAddress { get; set; }
+
+            public List<string> CountryList { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -67,13 +70,20 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
 
             var userAddress = this._db.Addresses.Where(x => x.Id == userProfile.AddressId).FirstOrDefault();
 
+            if (userAddress != null)
+            {
+                userAddress.Country = this._db.Countries.Where(x => x.Id == userProfile.Address.CountryId).FirstOrDefault();
+                userAddress.Region = this._db.Regions.Where(x => x.Id == userProfile.Address.RegionId).FirstOrDefault();
+                userAddress.Municipality = this._db.Municipalities.Where(x => x.Id == userProfile.Address.MunicipalityId).FirstOrDefault();
+            }
+
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
-                UserAddress = userAddress
+                UserAddress = userAddress,
+                CountryList = GetCountryList()
             };
         }
-
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -118,12 +128,8 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
 
             if (Input.UserAddress != null)
             {
-                user.Address = Input.UserAddress;
-                user.Address.Country = new Country { Name = Input.UserAddress.Country.Name };
-                user.Address.Region = new Region { Name = Input.UserAddress.Region.Name };
-                user.Address.Municipality = new Municipality { Name = Input.UserAddress.Municipality.Name };
+                UpdateUserAddress(user);
             }
-            
 
             this._db.Users.Update(user);
             await this._db.SaveChangesAsync();
@@ -132,6 +138,48 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
 
             StatusMessage = $"Профилът е обновен успешно.";
             return RedirectToPage();
+        }
+
+        private void UpdateUserAddress(ApplicationUser user)
+        {
+            var dbCountryList = this._db.Countries.Select(x => x.Name).ToList();
+            var dbRegionList = this._db.Regions.Select(x => x.Name).ToList();
+            var dbMunicipalityList = this._db.Municipalities.Select(x => x.Name).ToList();
+            var dbUserAddress = this._db.Addresses.Where(x => x.Id == user.AddressId).FirstOrDefault();
+
+            if (dbUserAddress == null)
+            {
+                user.Address = Input.UserAddress;
+            }
+            else
+            {
+                user.Address = dbUserAddress;
+                user.Address.Apartment = Input.UserAddress.Apartment;
+                user.Address.City = Input.UserAddress.City;
+                user.Address.Comment = Input.UserAddress.Comment;
+                user.Address.Entrance = Input.UserAddress.Entrance;
+                user.Address.Floor = Input.UserAddress.Floor;
+                user.Address.Street = Input.UserAddress.Street;
+                user.Address.StreetNumber = Input.UserAddress.StreetNumber;
+                user.Address.Country = Input.UserAddress.Country;
+                user.Address.Region = Input.UserAddress.Region;
+                user.Address.Municipality = Input.UserAddress.Municipality;
+            }
+
+            if (dbCountryList.Contains(Input.UserAddress.Country.Name))
+            {
+                user.Address.Country = this._db.Countries.Where(x => x.Name == Input.UserAddress.Country.Name).FirstOrDefault();
+            }
+
+            if (dbRegionList.Contains(Input.UserAddress.Region.Name))
+            {
+                user.Address.Region = this._db.Regions.Where(x => x.Name == Input.UserAddress.Region.Name).FirstOrDefault();
+            }
+
+            if (dbMunicipalityList.Contains(Input.UserAddress.Municipality.Name))
+            {
+                user.Address.Municipality = this._db.Municipalities.Where(x => x.Name == Input.UserAddress.Municipality.Name).FirstOrDefault();
+            }
         }
 
         private async Task<string> UploadProfilePictureAsync(ApplicationUser user)
@@ -163,6 +211,32 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             var picturePath = response.PathDisplay;
 
             return picturePath;
+        }
+
+        private List<string> GetCountryList()
+        {
+            this.Input = new InputModel
+            {
+                CountryList = new List<string>()
+            };
+
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo("bg-BG");
+
+            CultureInfo[] cultureInfos = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
+
+            foreach (var culture in cultureInfos)
+            {
+                RegionInfo region = new RegionInfo(culture.LCID);
+
+                if (!(Input.CountryList.Contains(string.Concat((region.DisplayName), $" ({region.ThreeLetterISORegionName})"))))
+                {
+                    Input.CountryList.Add(string.Concat((region.DisplayName), $" ({region.ThreeLetterISORegionName})"));
+                }
+            }
+
+            Input.CountryList.Sort();
+
+            return Input.CountryList;
         }
 
     }

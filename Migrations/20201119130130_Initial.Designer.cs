@@ -10,8 +10,8 @@ using eDoc.Data;
 namespace eDoc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201113154305_ReverseNavProps")]
-    partial class ReverseNavProps
+    [Migration("20201119130130_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -173,6 +173,9 @@ namespace eDoc.Migrations
                     b.Property<string>("CountryId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CountryId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Entrance")
                         .HasColumnType("nvarchar(max)");
 
@@ -194,6 +197,8 @@ namespace eDoc.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("CountryId1");
 
                     b.HasIndex("MunicipalityId");
 
@@ -347,6 +352,9 @@ namespace eDoc.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -390,10 +398,8 @@ namespace eDoc.Migrations
 
             modelBuilder.Entity("eDoc.Data.Models.Contact", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
@@ -517,9 +523,7 @@ namespace eDoc.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                    b.HasIndex("UserId");
 
                     b.ToTable("MyBloodPressure");
                 });
@@ -540,9 +544,7 @@ namespace eDoc.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                    b.HasIndex("UserId");
 
                     b.ToTable("MyWeight");
                 });
@@ -753,6 +755,10 @@ namespace eDoc.Migrations
                         .WithMany()
                         .HasForeignKey("CountryId");
 
+                    b.HasOne("eDoc.Data.Models.Country", null)
+                        .WithMany()
+                        .HasForeignKey("CountryId1");
+
                     b.HasOne("eDoc.Data.Models.Municipality", "Municipality")
                         .WithMany()
                         .HasForeignKey("MunicipalityId");
@@ -823,15 +829,15 @@ namespace eDoc.Migrations
             modelBuilder.Entity("eDoc.Data.Models.MyBloodPressure", b =>
                 {
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
-                        .WithOne("MyBloodPressure")
-                        .HasForeignKey("eDoc.Data.Models.MyBloodPressure", "UserId");
+                        .WithMany("MyBloodPressure")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.MyWeight", b =>
                 {
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
-                        .WithOne("MyWeight")
-                        .HasForeignKey("eDoc.Data.Models.MyWeight", "UserId");
+                        .WithMany("MyWeight")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.Recipe", b =>

@@ -53,7 +53,6 @@ namespace eDoc.Data
             builder.Entity<SickLeaveList>()
                     .HasOne(y => y.Doctor);
 
-
             base.OnModelCreating(builder);
         }
     }
