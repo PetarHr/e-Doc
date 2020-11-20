@@ -1,7 +1,10 @@
-﻿@model eDoc.Models.View.MyHealth.MyHealthDetailsViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@using eDoc.Data.Models
+@inject UserManager<ApplicationUser> userManager
+@model eDoc.Models.View.MyHealth.MyHealthDetailsViewModel
 
 <div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="Card image cap">
+    <vc:profile-picture user="@userManager.GetUserId(this.User)" />
     <div class="card-body">
         <h5 class="card-title">@Model.UserFullName</h5>
         <p class="card-text">Възраст: @Model.Age г.</p>
@@ -14,7 +17,7 @@
         </li>
         @foreach (var allergy in Model.AllergiesList)
         {
-        <li>@allergy.Description</li>
+            <li>@allergy.Description</li>
         }
     </ul>
     <div class="card-body">
