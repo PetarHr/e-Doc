@@ -42,7 +42,7 @@ namespace eDoc.Controllers
             await _healthService.UpdateWeight(myWeight);
             await _healthService.UpdateBloodPressure(myBloodPressure);
 
-            return this.Redirect("/Home/Success");
+            return this.RedirectToAction("Details");
         }
 
         public IActionResult History()
