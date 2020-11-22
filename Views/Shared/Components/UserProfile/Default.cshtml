@@ -1,19 +1,23 @@
 ﻿@model eDoc.Models.View_Components.UserProfileViewModel
 
 <div class="sidebar-header">
-    <div class="user-pic">
-        <img class="img-responsive img-rounded" src="@Model.ProfilePicture"
-             alt="User picture" width="250">
-    </div>
-    <div class="user-info">
-        <span class="user-name">
-            @Model.FirstName
-            <strong>@Model.FamilyName</strong>
-        </span>
-        <span class="user-role">@Model.Role</span>
-        <span class="user-status">
-            <i class="fa fa-circle"></i>
-            <span>На линия</span>
-        </span>
-    </div>
+    <a asp-area="Identity" asp-page="/Account/Manage/Index">
+        <div class="user-pic">
+            <img class="img-responsive img-rounded" src="@Model.ProfilePicture"
+                 alt="User picture" width="250">
+        </div>
+        </a>
+        <div class="user-info">
+            <a asp-area="Identity" asp-page="/Account/Manage/Index">
+                <span class="user-name">
+                    @Model.FirstName
+                    <strong>@Model.FamilyName</strong>
+                </span>
+            </a>
+            <span class="user-role">@Model.Role</span>
+            <span class="user-status">
+                <i class="fa fa-circle"></i>
+                <span>На линия</span>
+            </span>
+        </div>
 </div>

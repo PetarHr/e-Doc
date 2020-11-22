@@ -52,6 +52,7 @@ namespace eDoc.Services
                     FirstName = "Пациент",
                     FathersName = "Хипохондриков",
                     FamilyName = "Болнавов",
+                    FullName = "Пациент Хипохондриков Болнавов",
                     PIN = "123456789",
                     BirthDate = DateTime.UtcNow,
                     Sex = 0,

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System;
 
 namespace eDoc.Areas.Identity.Pages.Account.Manage
 {
@@ -37,12 +38,12 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             this._dropBoxClient = new DropboxClient
                 (_config.GetConnectionString("DropBoxAccessToken"));
         }
-
+        [Display(Name = "Потребителско име")]
         public string Username { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
-
+        [Display(Name = "Профилна снимка")]
         public string ProfilePicture { get; set; }
 
         [BindProperty]
@@ -50,13 +51,22 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            public string FirstName { get; set; }
+            public string FathersName { get; set; }
+            public string FamilyName { get; set; }
+
             [Phone]
             [Display(Name = "Телефонен номер")]
             public string PhoneNumber { get; set; }
+
             public IFormFile ProfilePicture { get; set; }
 
             [Display(Name = "Адрес")]
             public Address UserAddress { get; set; }
+
+            [Display(Name = "Дата на раждане")]
+            [DataType(DataType.Date)]
+            public DateTime DateOfBirth { get; set; }
 
             public List<string> CountryList { get; set; }
         }
@@ -79,8 +89,12 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                FirstName = userProfile.FirstName,
+                FathersName = userProfile.FathersName,
+                FamilyName = userProfile.FamilyName,
                 PhoneNumber = phoneNumber,
                 UserAddress = userAddress,
+                DateOfBirth = userProfile.BirthDate,
                 CountryList = GetCountryList()
             };
         }
@@ -130,6 +144,26 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             {
                 UpdateUserAddress(user);
             }
+
+            if (Input.DateOfBirth >= DateTime.Today)
+            {
+                StatusMessage = "Датата на раждане не може да е в бъдеще.";
+                return RedirectToPage();
+            }
+
+            if (string.IsNullOrWhiteSpace(Input.FirstName) ||
+                string.IsNullOrWhiteSpace(Input.FathersName) ||
+                string.IsNullOrWhiteSpace(Input.FamilyName))
+            {
+                StatusMessage = "Моля, попълнете валидни Име, Презиме и Фамилия.";
+                return RedirectToPage();
+            }
+
+            user.BirthDate = Input.DateOfBirth;
+            user.FirstName = Input.FirstName;
+            user.FathersName = Input.FathersName;
+            user.FamilyName = Input.FamilyName;
+
 
             this._db.Users.Update(user);
             await this._db.SaveChangesAsync();
@@ -198,7 +232,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             {
                 var folderList = await _dropBoxClient.Files.ListFolderAsync(string.Empty, true, true, false, false, false, null, null, null, true);
 
-                if (folderList.Entries.Where(f => f.Name == userName.ToLower()).Count() == 0)
+                if (folderList.Entries.Where(f => f.Name == userName.ToLower()).Any())
                 {
                     var folder = await _dropBoxClient.Files.CreateFolderV2Async("/" + userName.ToLower(), true);
                 }

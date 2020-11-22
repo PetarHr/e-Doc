@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace eDoc.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -107,8 +107,7 @@ namespace eDoc.Migrations
                     Floor = table.Column<int>(nullable: false),
                     Apartment = table.Column<string>(nullable: true),
                     Entrance = table.Column<string>(nullable: true),
-                    Comment = table.Column<string>(nullable: true),
-                    CountryId1 = table.Column<string>(nullable: true)
+                    Comment = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -116,12 +115,6 @@ namespace eDoc.Migrations
                     table.ForeignKey(
                         name: "FK_Addresses_Countries_CountryId",
                         column: x => x.CountryId,
-                        principalTable: "Countries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Addresses_Countries_CountryId1",
-                        column: x => x.CountryId1,
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -571,11 +564,6 @@ namespace eDoc.Migrations
                 name: "IX_Addresses_CountryId",
                 table: "Addresses",
                 column: "CountryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Addresses_CountryId1",
-                table: "Addresses",
-                column: "CountryId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_MunicipalityId",
