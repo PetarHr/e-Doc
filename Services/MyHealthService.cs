@@ -86,7 +86,7 @@ namespace eDoc.Services
             return userHealthDetails;
         }
 
-        private int CalculateAge(DateTime userBirthDate)
+        private static int CalculateAge(DateTime userBirthDate)
         {
             //Get the user's age.
             var userAge = (DateTime.Today.Year - userBirthDate.Year);

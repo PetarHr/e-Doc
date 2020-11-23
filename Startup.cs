@@ -40,6 +40,7 @@ namespace eDoc
             services.AddTransient<IPatientService, PatientService>();
             services.AddTransient<IDoctorService, DoctorService>();
             services.AddTransient<IMyHealthService, MyHealthService>();
+            services.AddTransient<IPharmacistService, PharmacistService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

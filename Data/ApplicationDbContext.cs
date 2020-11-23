@@ -34,8 +34,6 @@ namespace eDoc.Data
                      .HasMany(d => d.AmbulatoryLists);
 
             builder.Entity<ApplicationUser>()
-                    .HasMany(d => d.Recipes);
-            builder.Entity<ApplicationUser>()
                     .HasMany(d => d.SickLeaveLists);
 
             builder.Entity<AmbulatoryList>()

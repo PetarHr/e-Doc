@@ -1,0 +1,33 @@
+﻿@using eDoc.Models.View.Pharmacist
+@model MyWorkListViewModel 
+
+    <h1>Фармацевт @Model.PharmacistName (@Model.WorkplaceName)</h1>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Пациент</th>
+                <th scope="col">Доктор</th>
+                <th scope="col">Издадена на</th>
+                <th scope="col">Изпълнена</th>
+                <th scope="col">За многократно изпълнение</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var recipe in Model.RecipesList)
+            {
+            <tr>
+                <td>@recipe.Id</td>
+                <td>@recipe.Patient.FullName</td>
+                <td>@recipe.Doctor.FullName</td>
+                <td>@recipe.CreatedOn</td>
+                <td>@recipe.Completed</td>
+                <td>@recipe.AllowMultiCompletion</td>
+                <td>
+                    <a class="btn btn-primary" type="button" asp-controller="Patient" asp-action="RecipeDetails" asp-route-id="@recipe.Id">Детайли</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>

@@ -11,7 +11,8 @@ namespace eDoc.Data.Models
         public ApplicationUser()
         {
             this.Contacts = new HashSet<Contact>();
-            this.Recipes = new HashSet<Recipe>();
+            this.MyRecipes = new HashSet<Recipe>();
+            this.RecipesIssuedByMe = new HashSet<Recipe>();
             this.AmbulatoryLists = new HashSet<AmbulatoryList>();
             this.SickLeaveLists = new HashSet<SickLeaveList>();
             this.MyAllergies = new HashSet<Allergy>();
@@ -28,7 +29,10 @@ namespace eDoc.Data.Models
         [ForeignKey(nameof(Address))]
         public string AddressId { get; set; }
         public Address Address { get; set; }
-        public ICollection<Recipe> Recipes { get; set; }
+        [InverseProperty("Patient")]
+        public ICollection<Recipe> MyRecipes { get; set; }
+        [InverseProperty("Doctor")]
+        public ICollection<Recipe> RecipesIssuedByMe { get; set; }
         public ICollection<AmbulatoryList> AmbulatoryLists { get; set; }
         public ICollection<SickLeaveList> SickLeaveLists { get; set; }
         public ICollection<Contact> Contacts { get; set; }
