@@ -8,16 +8,17 @@
 
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-6 col-md-6 align-content-center align-self-center">
         <div class="d-flex flex-column align-items-center text-center">
             <vc:profile-picture user="@userManager.GetUserId(this.User)" />
+            <hr />
         </div>
         <hr />
         <form id="profile-form" method="post" enctype="multipart/form-data">
             <div class="input-group">
                 <div class="custom-file">
-                    <input asp-for="Input.ProfilePicture" class="custom-file-input" id="profileUpload">
-                    <label class="custom-file-label" for="profileUpload">Избери файл</label>
+                    <input asp-for="Input.ProfilePicture" class="custom-file-input" id="profilePictureUpload">
+                    <label class="custom-file-label" for="profilePictureUpload">Избери файл</label>
                 </div>
                 <span asp-validation-for="Input.ProfilePicture" class="text-danger"></span>
             </div>
@@ -29,7 +30,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Input.FirstName"></label>
-                <input asp-for="Input.FirstName" class="form-control"  />
+                <input asp-for="Input.FirstName" class="form-control" />
             </div>
             <div class="form-group">
                 <label asp-for="Input.FathersName"></label>
@@ -37,7 +38,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Input.FamilyName"></label>
-                <input asp-for="Input.FamilyName" class="form-control"  />
+                <input asp-for="Input.FamilyName" class="form-control" />
             </div>
             <div class="form-group">
                 <label asp-for="Input.DateOfBirth"></label>
@@ -52,74 +53,9 @@
             <button id="update-profile-button" type="submit" class="btn btn-primary">Обнови профил</button>
         </form>
     </div>
-
-    <div class="col-md-6">
-        <form id="address-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <select class="form-control" asp-for="Input.UserAddress.Country.Name" required>
-                <option value="" disabled selected>--- Изберете страна ---</option>
-                <optgroup label="Бърз избор">
-                    <option value="България">България</option>
-                </optgroup>
-                <optgroup label="Всички страни">
-                    @foreach (var country in Model.Input.CountryList)
-                    {
-                        <option value="@country"> @country</option>
-                    }
-                </optgroup>
-            </select>
-            <span asp-validation-for="Input.UserAddress.Country.Name" class="text-danger"></span>
-            <div class="form-group">
-                <label asp-for="Input.UserAddress.Region.Name"></label>
-                <input asp-for="Input.UserAddress.Region.Name" class="form-control" />
-                <span asp-validation-for="Input.UserAddress.Region.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.UserAddress.Municipality.Name"></label>
-                <input asp-for="Input.UserAddress.Municipality.Name" class="form-control" />
-                <span asp-validation-for="Input.UserAddress.Municipality.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.UserAddress.City"></label>
-                <input asp-for="Input.UserAddress.City" class="form-control" />
-                <span asp-validation-for="Input.UserAddress.City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.UserAddress.Street"></label>
-                <input asp-for="Input.UserAddress.Street" class="form-control" />
-                <span asp-validation-for="Input.UserAddress.Street" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.UserAddress.StreetNumber"></label>
-                <input asp-for="Input.UserAddress.StreetNumber" class="form-control" />
-                <span asp-validation-for="Input.UserAddress.StreetNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.UserAddress.Floor"></label>
-                <input asp-for="Input.UserAddress.Floor" class="form-control" />
-                <span asp-validation-for="Input.UserAddress.Floor" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.UserAddress.Apartment"></label>
-                <input asp-for="Input.UserAddress.Apartment" class="form-control" />
-                <span asp-validation-for="Input.UserAddress.Apartment" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.UserAddress.Entrance"></label>
-                <input asp-for="Input.UserAddress.Entrance" class="form-control" />
-                <span asp-validation-for="Input.UserAddress.Entrance" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.UserAddress.Comment"></label>
-                <input asp-for="Input.UserAddress.Comment" class="form-control" />
-                <span asp-validation-for="Input.UserAddress.Comment" class="text-danger"></span>
-            </div>
-            <button id="update-address-button" type="submit" class="btn btn-primary">Обнови адрес</button>
-        </form>
-    </div>
-
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/accountIndex.js"></script>
 }

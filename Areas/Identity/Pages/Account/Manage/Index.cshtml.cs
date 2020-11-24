@@ -61,14 +61,9 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
 
             public IFormFile ProfilePicture { get; set; }
 
-            [Display(Name = "Адрес")]
-            public Address UserAddress { get; set; }
-
             [Display(Name = "Дата на раждане")]
             [DataType(DataType.Date)]
             public DateTime DateOfBirth { get; set; }
-
-            public List<string> CountryList { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -78,24 +73,13 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
 
             Username = userProfile.UserName;
 
-            var userAddress = this._db.Addresses.Where(x => x.Id == userProfile.AddressId).FirstOrDefault();
-
-            if (userAddress != null)
-            {
-                userAddress.Country = this._db.Countries.Where(x => x.Id == userProfile.Address.CountryId).FirstOrDefault();
-                userAddress.Region = this._db.Regions.Where(x => x.Id == userProfile.Address.RegionId).FirstOrDefault();
-                userAddress.Municipality = this._db.Municipalities.Where(x => x.Id == userProfile.Address.MunicipalityId).FirstOrDefault();
-            }
-
             Input = new InputModel
             {
                 FirstName = userProfile.FirstName,
                 FathersName = userProfile.FathersName,
                 FamilyName = userProfile.FamilyName,
                 PhoneNumber = phoneNumber,
-                UserAddress = userAddress,
-                DateOfBirth = userProfile.BirthDate,
-                CountryList = GetCountryList()
+                DateOfBirth = userProfile.BirthDate
             };
         }
         public async Task<IActionResult> OnGetAsync()
@@ -103,7 +87,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Не може да се намери профил с име '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Грешка: Не може да се намери профил с име '{_userManager.GetUserId(User)}'.");
             }
 
             await LoadAsync(user);
@@ -115,7 +99,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Не може да се намери профил с име '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Грешка: Не може да се намери профил с име '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -130,7 +114,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    StatusMessage = "Възникна неочаквана грешка при промяната на телефонния номер.";
+                    StatusMessage = "Грешка: Възникна неочаквана грешка при промяната на телефонния номер.";
                     return RedirectToPage();
                 }
             }
@@ -140,14 +124,9 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
                 user.ProfilePicture = await UploadProfilePictureAsync(user);
             }
 
-            if (Input.UserAddress != null)
-            {
-                UpdateUserAddress(user);
-            }
-
             if (Input.DateOfBirth >= DateTime.Today)
             {
-                StatusMessage = "Датата на раждане не може да е в бъдеще.";
+                StatusMessage = "Грешка: Датата на раждане не може да е в бъдеще.";
                 return RedirectToPage();
             }
 
@@ -155,7 +134,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
                 string.IsNullOrWhiteSpace(Input.FathersName) ||
                 string.IsNullOrWhiteSpace(Input.FamilyName))
             {
-                StatusMessage = "Моля, попълнете валидни Име, Презиме и Фамилия.";
+                StatusMessage = "Грешка: Моля, попълнете валидни Име, Презиме и Фамилия.";
                 return RedirectToPage();
             }
 
@@ -163,7 +142,6 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             user.FirstName = Input.FirstName;
             user.FathersName = Input.FathersName;
             user.FamilyName = Input.FamilyName;
-
 
             this._db.Users.Update(user);
             await this._db.SaveChangesAsync();
@@ -173,49 +151,6 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             StatusMessage = $"Профилът е обновен успешно.";
             return RedirectToPage();
         }
-
-        private void UpdateUserAddress(ApplicationUser user)
-        {
-            var dbCountryList = this._db.Countries.Select(x => x.Name).ToList();
-            var dbRegionList = this._db.Regions.Select(x => x.Name).ToList();
-            var dbMunicipalityList = this._db.Municipalities.Select(x => x.Name).ToList();
-            var dbUserAddress = this._db.Addresses.Where(x => x.Id == user.AddressId).FirstOrDefault();
-
-            if (dbUserAddress == null)
-            {
-                user.Address = Input.UserAddress;
-            }
-            else
-            {
-                user.Address = dbUserAddress;
-                user.Address.Apartment = Input.UserAddress.Apartment;
-                user.Address.City = Input.UserAddress.City;
-                user.Address.Comment = Input.UserAddress.Comment;
-                user.Address.Entrance = Input.UserAddress.Entrance;
-                user.Address.Floor = Input.UserAddress.Floor;
-                user.Address.Street = Input.UserAddress.Street;
-                user.Address.StreetNumber = Input.UserAddress.StreetNumber;
-                user.Address.Country = Input.UserAddress.Country;
-                user.Address.Region = Input.UserAddress.Region;
-                user.Address.Municipality = Input.UserAddress.Municipality;
-            }
-
-            if (dbCountryList.Contains(Input.UserAddress.Country.Name))
-            {
-                user.Address.Country = this._db.Countries.Where(x => x.Name == Input.UserAddress.Country.Name).FirstOrDefault();
-            }
-
-            if (dbRegionList.Contains(Input.UserAddress.Region.Name))
-            {
-                user.Address.Region = this._db.Regions.Where(x => x.Name == Input.UserAddress.Region.Name).FirstOrDefault();
-            }
-
-            if (dbMunicipalityList.Contains(Input.UserAddress.Municipality.Name))
-            {
-                user.Address.Municipality = this._db.Municipalities.Where(x => x.Name == Input.UserAddress.Municipality.Name).FirstOrDefault();
-            }
-        }
-
         private async Task<string> UploadProfilePictureAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
@@ -245,32 +180,6 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             var picturePath = response.PathDisplay;
 
             return picturePath;
-        }
-
-        private List<string> GetCountryList()
-        {
-            this.Input = new InputModel
-            {
-                CountryList = new List<string>()
-            };
-
-            System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo("bg-BG");
-
-            CultureInfo[] cultureInfos = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-
-            foreach (var culture in cultureInfos)
-            {
-                RegionInfo region = new RegionInfo(culture.LCID);
-
-                if (!(Input.CountryList.Contains(string.Concat((region.DisplayName), $" ({region.ThreeLetterISORegionName})"))))
-                {
-                    Input.CountryList.Add(string.Concat((region.DisplayName), $" ({region.ThreeLetterISORegionName})"));
-                }
-            }
-
-            Input.CountryList.Sort();
-
-            return Input.CountryList;
         }
 
     }

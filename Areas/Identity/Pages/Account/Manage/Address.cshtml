@@ -1,0 +1,77 @@
+﻿@page
+@inject UserManager<ApplicationUser> userManager
+@model AddressModel
+@{
+    ViewData["Title"] = "Моят адрес";
+    ViewData["ActivePage"] = ManageNavPages.Address;
+}
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="row">
+    <form id="address-form" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <select class="form-control" asp-for="Input.UserAddress.Country.Name" required>
+            <option value="" disabled selected>--- Изберете страна ---</option>
+            <optgroup label="Бърз избор">
+                <option value="България">България</option>
+            </optgroup>
+            <optgroup label="Всички страни">
+                @foreach (var country in Model.Input.CountryList)
+                {
+                    <option value="@country"> @country</option>
+                }
+            </optgroup>
+        </select>
+        <span asp-validation-for="Input.UserAddress.Country.Name" class="text-danger"></span>
+        <div class="form-group">
+            <label asp-for="Input.UserAddress.Region.Name"></label>
+            <input asp-for="Input.UserAddress.Region.Name" class="form-control" />
+            <span asp-validation-for="Input.UserAddress.Region.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.UserAddress.Municipality.Name"></label>
+            <input asp-for="Input.UserAddress.Municipality.Name" class="form-control" />
+            <span asp-validation-for="Input.UserAddress.Municipality.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.UserAddress.City"></label>
+            <input asp-for="Input.UserAddress.City" class="form-control" />
+            <span asp-validation-for="Input.UserAddress.City" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.UserAddress.Street"></label>
+            <input asp-for="Input.UserAddress.Street" class="form-control" />
+            <span asp-validation-for="Input.UserAddress.Street" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.UserAddress.StreetNumber"></label>
+            <input asp-for="Input.UserAddress.StreetNumber" class="form-control" />
+            <span asp-validation-for="Input.UserAddress.StreetNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.UserAddress.Floor"></label>
+            <input asp-for="Input.UserAddress.Floor" class="form-control" />
+            <span asp-validation-for="Input.UserAddress.Floor" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.UserAddress.Apartment"></label>
+            <input asp-for="Input.UserAddress.Apartment" class="form-control" />
+            <span asp-validation-for="Input.UserAddress.Apartment" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.UserAddress.Entrance"></label>
+            <input asp-for="Input.UserAddress.Entrance" class="form-control" />
+            <span asp-validation-for="Input.UserAddress.Entrance" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.UserAddress.Comment"></label>
+            <input asp-for="Input.UserAddress.Comment" class="form-control" />
+            <span asp-validation-for="Input.UserAddress.Comment" class="text-danger"></span>
+        </div>
+        <button id="update-address-button" type="submit" class="btn btn-primary">Обнови адрес</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
