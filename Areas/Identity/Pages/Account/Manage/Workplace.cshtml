@@ -1,0 +1,77 @@
+﻿@page
+@inject UserManager<ApplicationUser> userManager
+@model WorkplaceModel
+@{
+    ViewData["Title"] = "Моят работодател";
+    ViewData["ActivePage"] = ManageNavPages.Workplace;
+}
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="row">
+    <form id="address-form" method="post">
+        <div class="form-group">
+            <label asp-for="Input.MyWorkplace.Name"></label>
+            <input asp-for="Input.MyWorkplace.Name" class="form-control" />
+            <span asp-validation-for="Input.MyWorkplace.Name" class="text-danger"></span>
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <select class="form-control" asp-for="Input.MyWorkplace.Address.Country.Name" required>
+            <option value="" disabled selected>--- Изберете страна ---</option>
+            <optgroup label="Бърз избор">
+                <option value="България">България</option>
+            </optgroup>
+            <optgroup label="Всички страни">
+                @foreach (var country in Model.Input.CountryList)
+                {
+                    <option value="@country"> @country</option>
+                }
+            </optgroup>
+        </select>
+        <span asp-validation-for="Input.MyWorkplace.Address.Country.Name" class="text-danger"></span>
+        <div class="form-group">
+            <label asp-for="Input.MyWorkplace.Address.Region.Name"></label>
+            <input asp-for="Input.MyWorkplace.Address.Region.Name" class="form-control" />
+            <span asp-validation-for="Input.MyWorkplace.Address.Region.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.MyWorkplace.Address.Municipality.Name"></label>
+            <input asp-for="Input.MyWorkplace.Address.Municipality.Name" class="form-control" />
+            <span asp-validation-for="Input.MyWorkplace.Address.Municipality.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.MyWorkplace.Address.City"></label>
+            <input asp-for="Input.MyWorkplace.Address.City" class="form-control" />
+            <span asp-validation-for="Input.MyWorkplace.Address.City" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.MyWorkplace.Address.Street"></label>
+            <input asp-for="Input.MyWorkplace.Address.Street" class="form-control" />
+            <span asp-validation-for="Input.MyWorkplace.Address.Street" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.MyWorkplace.Address.StreetNumber"></label>
+            <input asp-for="Input.MyWorkplace.Address.StreetNumber" class="form-control" />
+            <span asp-validation-for="Input.MyWorkplace.Address.StreetNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.MyWorkplace.Address.Floor"></label>
+            <input asp-for="Input.MyWorkplace.Address.Floor" class="form-control" />
+            <span asp-validation-for="Input.MyWorkplace.Address.Floor" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.MyWorkplace.Address.Entrance"></label>
+            <input asp-for="Input.MyWorkplace.Address.Entrance" class="form-control" />
+            <span asp-validation-for="Input.MyWorkplace.Address.Entrance" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.MyWorkplace.Address.Comment"></label>
+            <input asp-for="Input.MyWorkplace.Address.Comment" class="form-control" />
+            <span asp-validation-for="Input.MyWorkplace.Address.Comment" class="text-danger"></span>
+        </div>
+        <button id="update-address-button" type="submit" class="btn btn-primary">Обнови адрес</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

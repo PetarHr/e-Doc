@@ -18,7 +18,7 @@
             <div class="input-group">
                 <div class="custom-file">
                     <input asp-for="Input.ProfilePicture" class="custom-file-input" id="profilePictureUpload">
-                    <label class="custom-file-label" for="profilePictureUpload">Избери файл</label>
+                    <label class="custom-file-label" for="profilePictureUpload">Смяна на профилна снимка</label>
                 </div>
                 <span asp-validation-for="Input.ProfilePicture" class="text-danger"></span>
             </div>
@@ -45,10 +45,32 @@
                 <input asp-for="Input.DateOfBirth" class="form-control" />
                 <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
             </div>
+            <span asp-validation-for="Input.Sex" class="text-danger"></span>
+            <div class="input_field radio_option">
+                <input type="radio" asp-for="Input.Sex" value="Male" id="rd1">
+                <label for="rd1">Мъж</label>
+                <input type="radio" asp-for="Input.Sex" value="Female" id="rd2">
+                <label for="rd2">Жена</label>
+            </div>
             <div class="form-group">
-                <label asp-for="Input.PhoneNumber"></label>
-                <input asp-for="Input.PhoneNumber" class="form-control" />
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                <label asp-for="Input.PIN"></label>
+                <input asp-for="Input.PIN" class="form-control" />
+                <span asp-validation-for="Input.PIN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Occupation"></label>
+                <input asp-for="Input.Occupation" class="form-control" />
+                <span asp-validation-for="Input.Occupation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.SpecialtyCode"></label>
+                <input asp-for="Input.SpecialtyCode" class="form-control" />
+                <span asp-validation-for="Input.SpecialtyCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.UIN"></label>
+                <input asp-for="Input.UIN" class="form-control" />
+                <span asp-validation-for="Input.UIN" class="text-danger"></span>
             </div>
             <button id="update-profile-button" type="submit" class="btn btn-primary">Обнови профил</button>
         </form>

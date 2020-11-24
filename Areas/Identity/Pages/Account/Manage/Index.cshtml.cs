@@ -51,8 +51,17 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Required]
+            [Display(Name ="Лично име")]
+            [StringLength(100, ErrorMessage = "Полето трябва да е между {2} и {1} символа.", MinimumLength = 2)]
             public string FirstName { get; set; }
+            [Required]
+            [Display(Name = "Бащино име")]
+            [StringLength(100, ErrorMessage = "Полето трябва да е между {2} и {1} символа.", MinimumLength = 2)]
             public string FathersName { get; set; }
+            [Required]
+            [Display(Name = "Фамилно име")]
+            [StringLength(100, ErrorMessage = "Полето трябва да е между {2} и {1} символа.", MinimumLength = 2)]
             public string FamilyName { get; set; }
 
             [Phone]
@@ -64,6 +73,13 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Дата на раждане")]
             [DataType(DataType.Date)]
             public DateTime DateOfBirth { get; set; }
+            [Required]
+            public string PIN { get; set; }
+            [Required]
+            public Sex Sex { get; set; }
+            public string Occupation { get; set; }
+            public string UIN { get; set; }
+            public string SpecialtyCode { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -79,7 +95,12 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
                 FathersName = userProfile.FathersName,
                 FamilyName = userProfile.FamilyName,
                 PhoneNumber = phoneNumber,
-                DateOfBirth = userProfile.BirthDate
+                DateOfBirth = userProfile.BirthDate, 
+                PIN = userProfile.PIN, 
+                Sex = userProfile.Sex, 
+                Occupation = userProfile.Occupation, 
+                UIN = userProfile.UIN, 
+                SpecialtyCode = userProfile.SpecialtyCode
             };
         }
         public async Task<IActionResult> OnGetAsync()
@@ -130,18 +151,15 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
                 return RedirectToPage();
             }
 
-            if (string.IsNullOrWhiteSpace(Input.FirstName) ||
-                string.IsNullOrWhiteSpace(Input.FathersName) ||
-                string.IsNullOrWhiteSpace(Input.FamilyName))
-            {
-                StatusMessage = "Грешка: Моля, попълнете валидни Име, Презиме и Фамилия.";
-                return RedirectToPage();
-            }
-
             user.BirthDate = Input.DateOfBirth;
             user.FirstName = Input.FirstName;
             user.FathersName = Input.FathersName;
             user.FamilyName = Input.FamilyName;
+            user.FullName = user.FirstName + " " + user.FathersName + " " + user.FamilyName;
+            user.Occupation = Input.Occupation;
+            user.Sex = Input.Sex;
+            user.PIN = Input.PIN;
+            user.UIN = Input.UIN;
 
             this._db.Users.Update(user);
             await this._db.SaveChangesAsync();

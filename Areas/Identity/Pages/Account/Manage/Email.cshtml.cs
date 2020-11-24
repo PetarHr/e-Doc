@@ -46,16 +46,23 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             [EmailAddress]
             [Display(Name = "Промяна на е-поща")]
             public string NewEmail { get; set; }
+
+            [Phone]
+            [Display(Name = "Телефонен номер")]
+            public string PhoneNumber { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
+            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+
             var email = await _userManager.GetEmailAsync(user);
             Email = email;
 
             Input = new InputModel
             {
                 NewEmail = email,
+                PhoneNumber = phoneNumber
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -107,7 +114,18 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
                 return RedirectToPage();
             }
 
-            StatusMessage = "Електронната поща не е променена.";
+            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            if (Input.PhoneNumber != phoneNumber)
+            {
+                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+                if (!setPhoneResult.Succeeded)
+                {
+                    StatusMessage = "Грешка: Възникна неочаквана грешка при промяната на телефонния номер.";
+                    return RedirectToPage();
+                }
+            }
+
+            StatusMessage = "Промените са запазени успешно.";
             return RedirectToPage();
         }
 
