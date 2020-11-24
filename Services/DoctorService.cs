@@ -10,19 +10,20 @@ namespace eDoc.Services
 {
     public class DoctorService : IDoctorService
     {
-        private readonly ApplicationDbContext db;
-        private readonly UserManager<ApplicationUser> user;
+        private readonly ApplicationDbContext _db;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public DoctorService(ApplicationDbContext db, UserManager<ApplicationUser> user)
+        public DoctorService(ApplicationDbContext db, 
+                             SignInManager<ApplicationUser> signInManager)
         {
-            this.db = db;
-            this.user = user;
+            this._db = db;
+            this._signInManager = signInManager;
         }
 
         public void CreateRecipe(CreateRecipeInputModel input)
         {
-            var patient = db.Users.Where(x => x.Id == input.PatientId).FirstOrDefault();
-            var doctor = db.Users.Where(x => x.Id == input.DoctorId).FirstOrDefault();
+            var patient = _db.Users.Where(x => x.Id == input.PatientId).FirstOrDefault();
+            var doctor = _db.Users.Where(x => x.Id == input.DoctorId).FirstOrDefault();
 
             var recipe = new Recipe
             {
@@ -33,14 +34,14 @@ namespace eDoc.Services
                 Description = input.RecipeDescription
             };
 
-            this.db.Recipes.Add(recipe);
-            this.db.SaveChanges();
+            this._db.Recipes.Add(recipe);
+            this._db.SaveChanges();
         }
 
         public void CreateAmbulatoryList(AmbulatoryListInputModel input)
         {
-            var patient = db.Users.Where(x => x.Id == input.PatientId).FirstOrDefault();
-            var doctor = db.Users.Where(x => x.Id == input.DoctorId).FirstOrDefault();
+            var patient = _db.Users.Where(x => x.Id == input.PatientId).FirstOrDefault();
+            var doctor = _db.Users.Where(x => x.Id == input.DoctorId).FirstOrDefault();
 
             var ambulatoryList = new AmbulatoryList
             {
@@ -56,16 +57,16 @@ namespace eDoc.Services
                 VisitReason = input.VisitReason
             };
 
-            this.db.AmbulatoryLists.Add(ambulatoryList);
-            this.db.SaveChanges();
+            this._db.AmbulatoryLists.Add(ambulatoryList);
+            this._db.SaveChanges();
 
         }
 
         public void CreateSickLeaveList(SickLeaveListInputModel input)
         {
-            var patient = db.Users.Where(p => p.Id == input.PatientId).FirstOrDefault();
-            var doctor = db.Users.Where(d => d.Id == input.DoctorId).FirstOrDefault();
-            var mkbdiagnose = db.MKBDiagnoses.Where(m => m.Id == input.MKBDiagnoseId).FirstOrDefault();
+            var patient = _db.Users.Where(p => p.Id == input.PatientId).FirstOrDefault();
+            var doctor = _db.Users.Where(d => d.Id == input.DoctorId).FirstOrDefault();
+            var mkbdiagnose = _db.MKBDiagnoses.Where(m => m.Id == input.MKBDiagnoseId).FirstOrDefault();
 
             var sickLeave = new SickLeaveList
             {
@@ -84,20 +85,48 @@ namespace eDoc.Services
                 TreatmentRegimen = input.TreatmentRegimen
             };
 
-            this.db.SickLeaveLists.Add(sickLeave);
-            this.db.SaveChanges();
+            this._db.SickLeaveLists.Add(sickLeave);
+            this._db.SaveChanges();
         }
 
-        public List<ApplicationUser> GetAllPatients()
+        public ICollection<ApplicationUser> GetAllPatients()
         {
-            return user.GetUsersInRoleAsync("ePatient").GetAwaiter().GetResult().ToList(); ;
+            return _signInManager.UserManager.GetUsersInRoleAsync("ePatient").GetAwaiter().GetResult().ToList(); ;
         }
 
-        public List<ApplicationUser> GetDoctorPatients(string doctorId)
+        public ICollection<ApplicationUser> GetDoctorPatients(string doctorId)
         {
-            return this.db.Users.Where(u => u.MyDoctorId == doctorId).ToList();
+            return this._db.Users.Where(u => u.MyDoctorId == doctorId).ToList();
         }
 
+        public ICollection<Recipe> GetRecipesIssueByMe()
+        {
+            var userName = _signInManager.Context.User.Identity.Name;
+            var user = this._db.Users.Where(x => x.UserName == userName).FirstOrDefault();
 
+            var recipesIssuedByUser = user.RecipesIssuedByMe;
+
+            return recipesIssuedByUser;
+        }
+
+        public ICollection<AmbulatoryList> GetAmbulatoryListsIssueByMe()
+        {
+            var userName = _signInManager.Context.User.Identity.Name;
+            var user = this._db.Users.Where(x => x.UserName == userName).FirstOrDefault();
+
+            var listsIssueByUser = user.AmbulatoryListsIssuedByMe;
+
+            return listsIssueByUser;
+        }
+
+        public ICollection<SickLeaveList> GetSickLeavesIssueByMe()
+        {
+            var userName = _signInManager.Context.User.Identity.Name;
+            var user = this._db.Users.Where(x => x.UserName == userName).FirstOrDefault();
+
+            var listsIssueByUser = user.SickLeaveListsIssuedByMe;
+
+            return listsIssueByUser;
+        }
     }
 }

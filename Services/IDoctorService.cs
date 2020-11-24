@@ -12,7 +12,10 @@ namespace eDoc.Services
         public void CreateRecipe(CreateRecipeInputModel input);
         public void CreateAmbulatoryList(AmbulatoryListInputModel input);
         public void CreateSickLeaveList(SickLeaveListInputModel input);
-        public List<ApplicationUser> GetAllPatients();
-        public List<ApplicationUser> GetDoctorPatients(string doctorId);
+        public ICollection<ApplicationUser> GetAllPatients();
+        public ICollection<ApplicationUser> GetDoctorPatients(string doctorId);
+        public ICollection<Recipe> GetRecipesIssueByMe();
+        public ICollection<AmbulatoryList> GetAmbulatoryListsIssueByMe();
+        public ICollection<SickLeaveList> GetSickLeavesIssueByMe();
     }
 }

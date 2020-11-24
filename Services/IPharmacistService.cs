@@ -10,6 +10,6 @@ namespace eDoc.Services
 
         public RecipeDetailsViewModel Find(string recipeId);
 
-        public Task<IActionResult> CompleteAsync(string recipeId);
+        public Task CompleteAsync(string recipeId);
     }
 }

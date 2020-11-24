@@ -1,0 +1,38 @@
+﻿@using eDoc.Models.View.Pharmacist
+@model RecipeDetailsViewModel
+
+<div class="card-deck">
+    <div class="card">
+        <img class="rounded-circle" 
+             width="150" 
+             src="https://bootdey.com/img/Content/avatar/avatar7.png" 
+             alt="Doctor's image">
+
+        <div class="card-body">
+            <h5 class="card-title">Доктор:</h5>
+            <h6>Пациент: @Model.PatientName</h6>
+            <h6>EGN: @Model.PatientPIN</h6>
+        </div>
+    </div>
+</div>
+<div class="card">
+
+    <h5 class="card-title">Предписание:</h5>
+    <p>
+        ID: @Model.Id
+    </p>
+    <p>
+        Created on: @Model.CreatedOn
+    </p>
+    <p>
+        Completed: @Model.Completed
+    </p>
+    <p>
+        Allow multi completion: @Model.AllowMultiCompletion
+    </p>
+    <p>
+        Perscription: @Model.Perscription
+    </p>
+    <a class="btn btn-primary" type="button" asp-controller="Pharmacist" asp-action="Complete" asp-route-id="@Model.Id">Изпълни</a>
+
+</div>

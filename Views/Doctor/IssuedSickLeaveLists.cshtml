@@ -1,0 +1,41 @@
+﻿@using eDoc.Data.Models
+@model ICollection<SickLeaveList>
+
+    <h1>Издадени болнични листове</h1>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Пациент</th>
+                <th scope="col">Доктор</th>
+                <th scope="col">Диагноза</th>
+                <th scope="col">Дата на издаване</th>
+                <th scope="col">Продължение</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var list in Model)
+            {
+            <tr>
+                <td>@list.Id</td>
+                <td>@list.Patient.FullName</td>
+                <td>@list.Doctor.FullName</td>
+                <td>@list.Diagnosis</td>
+                <td>@list.DateOfIssue</td>
+                <td>@list.Continuation</td>
+                <td>
+                    <a class="btn btn-primary" type="button" asp-controller="Patient" asp-action="SickLeaveDetails" asp-route-id="@list.Id">Детайли</a>
+                </td>
+            </tr>
+            }
+            @if (Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="6" class="text-center">
+                        <span class="text-danger">Не са открити издадени болнични листове.</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

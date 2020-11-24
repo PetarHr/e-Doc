@@ -10,5 +10,6 @@ namespace eDoc.Models.View.Pharmacist
         public DateTime CreatedOn  { get; set; }
         public bool Completed { get; set; }
         public bool AllowMultiCompletion { get; set; }
+        public string Perscription { get; set; }
     }
 }

@@ -2,7 +2,6 @@
 using eDoc.Data.Models;
 using eDoc.Models.View.Pharmacist;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,14 +18,32 @@ namespace eDoc.Services
             this._db = db;
             this._signInManager = signInManager;
         }
-        public Task<IActionResult> CompleteAsync(string recipeId)
+        public async Task CompleteAsync(string recipeId)
         {
-            throw new System.NotImplementedException();
+            var recipe = this._db.Recipes.Find(recipeId);
+
+            recipe.Completed = true;
+
+            this._db.Update(recipe);
+            await this._db.SaveChangesAsync();
         }
 
         public RecipeDetailsViewModel Find(string recipeId)
         {
-            throw new System.NotImplementedException();
+            var recipe = this._db.Recipes.Find(recipeId);
+
+            var recipeViewModel = new RecipeDetailsViewModel
+            {
+                AllowMultiCompletion = recipe.AllowMultiCompletion,
+                Completed = recipe.Completed,
+                CreatedOn = recipe.CreatedOn,
+                Id = recipe.Id,
+                PatientName = recipe.Patient.FullName,
+                PatientPIN = recipe.Patient.PIN,
+                Perscription = recipe.Description
+            };
+            
+            return recipeViewModel;
         }
 
         public MyWorkListViewModel GetMyWorkList()
@@ -39,7 +56,7 @@ namespace eDoc.Services
 
             var myWorklist = new MyWorkListViewModel
             {
-                PharmacistName = user.FirstName + " " + user.FamilyName, 
+                PharmacistName = user.FullName,
                 WorkplaceName = user.Workplace?.Name, 
                 RecipesList = recipesList
             };

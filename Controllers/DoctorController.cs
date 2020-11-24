@@ -88,6 +88,28 @@ namespace eDoc.Controllers
 
             return this.View(myPatients);
         }
+
+        public IActionResult IssuedRecipes()
+        {
+            var issuedRecipes = _service.GetRecipesIssueByMe();
+            return this.View(issuedRecipes);
+        }
+
+
+        public IActionResult IssuedAmbulatoryLists()
+        {
+            var issuedLists = _service.GetAmbulatoryListsIssueByMe();
+            return this.View(issuedLists);
+        }
+
+        public IActionResult IssuedSickLeaveLists()
+        {
+            var issuedSickLeaves = _service.GetSickLeavesIssueByMe();
+            return this.View(issuedSickLeaves);
+        }
+
+        
+
     }
 }
 

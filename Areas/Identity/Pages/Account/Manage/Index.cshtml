@@ -13,8 +13,6 @@
             <vc:profile-picture user="@userManager.GetUserId(this.User)" />
         </div>
         <hr />
-
-
         <form id="profile-form" method="post" enctype="multipart/form-data">
             <div class="input-group">
                 <div class="custom-file">
@@ -116,7 +114,7 @@
                 <input asp-for="Input.UserAddress.Comment" class="form-control" />
                 <span asp-validation-for="Input.UserAddress.Comment" class="text-danger"></span>
             </div>
-            <button id="update-address-button" type="submit" class="btn btn-outline-success">Обнови адрес</button>
+            <button id="update-address-button" type="submit" class="btn btn-primary">Обнови адрес</button>
         </form>
     </div>
 

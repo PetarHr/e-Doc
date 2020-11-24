@@ -1,7 +1,7 @@
-﻿@using eDoc.Models.View.Pharmacist
-@model MyWorkListViewModel 
+﻿@using eDoc.Data.Models
+@model ICollection<Recipe>
 
-    <h1>Фармацевт @Model.PharmacistName (@Model.WorkplaceName)</h1>
+    <h1>Издадени рецепти</h1>
     <table class="table table-sm">
         <thead>
             <tr>
@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var recipe in Model.RecipesList)
+            @foreach (var recipe in Model)
             {
             <tr>
                 <td>@recipe.Id</td>
@@ -25,7 +25,7 @@
                 <td>@recipe.Completed</td>
                 <td>@recipe.AllowMultiCompletion</td>
                 <td>
-                    <a class="btn btn-primary" type="button" asp-controller="Pharmacist" asp-action="Find" asp-route-id="@recipe.Id">Детайли</a>
+                    <a class="btn btn-primary" type="button" asp-controller="Patient" asp-action="RecipeDetails" asp-route-id="@recipe.Id">Детайли</a>
                 </td>
             </tr>
             }

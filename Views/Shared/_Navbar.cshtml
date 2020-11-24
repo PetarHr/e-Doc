@@ -31,17 +31,15 @@
                     <span>Моето меню</span>
                 </li>
                 <li class="sidebar-dropdown">
-                    <a>
+                    <a href="#">
                         <i class="fa fa-tachometer-alt"></i>
                         <span>Моето здраве</span>
-                        <span class="badge badge-pill badge-warning">НОВО</span>
                     </a>
                     <div class="sidebar-submenu">
                         <ul>
                             <li>
                                 <a asp-controller="MyHealth" asp-action="Update">
                                     Добави запис
-                                    <span class="badge badge-pill badge-success">Версия +</span>
                                 </a>
                             </li>
                             <li>
@@ -62,7 +60,6 @@
                         <a href="#">
                             <i class="fa fa-shopping-cart"></i>
                             <span>Моите пациенти</span>
-                            <span class="badge badge-pill badge-danger">3</span>
                         </a>
                         <div class="sidebar-submenu">
                             <ul>
@@ -78,7 +75,6 @@
                                 <li>
                                     <a asp-controller="Doctor" asp-action="CreateSickLeaveList">Нов болничен лист</a>
                                 </li>
-                                <li><hr /></li>
                                 <li>
                                     <a asp-controller="Doctor" asp-action="IssuedRecipes">Издадени рецепти</a>
                                 </li>
@@ -88,34 +84,29 @@
                                 <li>
                                     <a asp-controller="Doctor" asp-action="IssuedSickLeaveLists">Издадени болнични</a>
                                 </li>
-                                <li>
-                                    <a asp-controller="Doctor" asp-action="IssuedRecipes">Издадени рецепти</a>
-                                </li>
                             </ul>
                         </div>
                     </li>
                 }
 
-                    <li class="sidebar-dropdown">
-                        <a href="#">
-                            <i class="fa fa-shopping-cart"></i>
-                            <span>Фармацевт</span>
-                            <span class="badge badge-pill badge-danger">3</span>
-                        </a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li>
-                                    <a asp-controller="Pharmacist" asp-action="MyWorkList">Списък с рецепти</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                <li class="sidebar-dropdown">
+                    <a href="#">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span>Фармацевт</span>
+                    </a>
+                    <div class="sidebar-submenu">
+                        <ul>
+                            <li>
+                                <a asp-controller="Pharmacist" asp-action="MyWorkList">Списък с рецепти</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
                 <li class="sidebar-dropdown">
                     <a href="#">
                         <i class="fa fa-shopping-cart"></i>
                         <span>Моите документи</span>
-                        <span class="badge badge-pill badge-danger">3</span>
                     </a>
                     <div class="sidebar-submenu">
                         <ul>
@@ -148,10 +139,21 @@
                     <span>Бързи връзки</span>
                 </li>
                 <li>
+                    <a asp-controller="Home" asp-action="Index">
+                        <i class="fa fa-folder"></i>
+                        <span>Начало</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Patient" asp-action="MyRecipes">
+                        <i class="fa fa-folder"></i>
+                        <span>Моите рецепти</span>
+                    </a>
+                </li>
+                <li>
                     <a asp-area="Identity" asp-page="/Account/Manage/Index">
                         <i class="fa fa-book"></i>
                         <span>Моят профил</span>
-                        <span class="badge badge-pill badge-primary">Beta</span>
                     </a>
                 </li>
                 <li>
@@ -161,9 +163,9 @@
                     </a>
                 </li>
                 <li>
-                    <a asp-controller="Patient" asp-action="MyRecipes">
-                        <i class="fa fa-folder"></i>
-                        <span>Моите рецепти</span>
+                    <a asp-controller="Home" asp-action="ContactUs">
+                        <i class="fa fa-calendar"></i>
+                        <span>Връзка с нас</span>
                     </a>
                 </li>
             </ul>
