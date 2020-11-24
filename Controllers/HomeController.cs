@@ -38,6 +38,10 @@ namespace eDoc.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public IActionResult HospitalsNearMe()
+        {
+            return this.View();
+        }
         public IActionResult Success()
         {
             return this.View();

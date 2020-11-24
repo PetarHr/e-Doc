@@ -17,21 +17,19 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
     public partial class EmailModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
 
         public EmailModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _emailSender = emailSender;
         }
-
+        [Display(Name ="Потребителско име")]
         public string Username { get; set; }
 
+        [Display(Name ="Е-поща")]
         public string Email { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
@@ -46,7 +44,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "New email")]
+            [Display(Name = "Промяна на е-поща")]
             public string NewEmail { get; set; }
         }
 
@@ -68,7 +66,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Грешка: Не намерих потребител '{_userManager.GetUserId(User)}'.");
             }
 
             await LoadAsync(user);
@@ -80,7 +78,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Грешка: Не намерих потребител '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -98,18 +96,18 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
                 var callbackUrl = Url.Page(
                     "/Account/ConfirmEmailChange",
                     pageHandler: null,
-                    values: new { userId = userId, email = Input.NewEmail, code = code },
+                    values: new { userId, email = Input.NewEmail, code },
                     protocol: Request.Scheme);
                 await _emailSender.SendEmailAsync(
                     Input.NewEmail,
                     "Confirm your email",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                StatusMessage = "Линк за потвърждение беше изпратен на посочения адрес. Моля, проверете пощата си.";
                 return RedirectToPage();
             }
 
-            StatusMessage = "Your email is unchanged.";
+            StatusMessage = "Електронната поща не е променена.";
             return RedirectToPage();
         }
 
@@ -134,7 +132,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             var callbackUrl = Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
-                values: new { area = "Identity", userId = userId, code = code },
+                values: new { area = "Identity", userId, code },
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,
