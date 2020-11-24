@@ -10,14 +10,8 @@ namespace eDoc.Data.Models
             this.Id = Guid.NewGuid().ToString();
         }
         public string Id { get; set; }
-
-        [ForeignKey(nameof(Patient))]
-        public string PatientId { get; set; }
-        public ApplicationUser Patient { get; set; }
-        [ForeignKey(nameof(Doctor))]
-        public string DoctorId { get; set; }
-        public ApplicationUser Doctor { get; set; }
-
+        public virtual ApplicationUser Patient { get; set; }
+        public virtual ApplicationUser Doctor { get; set; }
         public string RegistryNumber { get; set; }
         public DateTime DateOfIssue { get; set; }
         public DateTime StartDate { get; set; }
@@ -29,6 +23,6 @@ namespace eDoc.Data.Models
         public string DisabilityReason { get; set; }
         public string TreatmentRegimen { get; set; }
         public int TotalDaysOff => (this.EndDate - this.StartDate).Days;
-        public MKBDiagnose MKBDiagnose { get; set; }
+        public virtual MKBDiagnose MKBDiagnose { get; set; }
     }
 }

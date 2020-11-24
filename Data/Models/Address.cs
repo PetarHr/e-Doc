@@ -14,15 +14,15 @@ namespace eDoc.Data.Models
 
         [ForeignKey(nameof(Country))]
         public string CountryId { get; set; }
-        public Country Country { get; set; }
+        public virtual Country Country { get; set; }
 
         [ForeignKey(nameof(Region))]
         public string RegionId { get; set; }
-        public Region Region { get; set; }
+        public virtual Region Region { get; set; }
 
         [ForeignKey(nameof(Municipality))]
         public string MunicipalityId { get; set; }
-        public Municipality Municipality { get; set; }
+        public virtual Municipality Municipality { get; set; }
         [Display(Name = "Град")]
         public string City { get; set; }
         [Display(Name = "Улица")]

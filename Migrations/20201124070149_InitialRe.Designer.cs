@@ -10,16 +10,16 @@ using eDoc.Data;
 namespace eDoc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201122204353_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201124070149_InitialRe")]
+    partial class InitialRe
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.10")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -31,18 +31,18 @@ namespace eDoc.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
+                        .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
@@ -53,7 +53,7 @@ namespace eDoc.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -77,7 +77,7 @@ namespace eDoc.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -99,12 +99,12 @@ namespace eDoc.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -141,12 +141,12 @@ namespace eDoc.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -231,9 +231,6 @@ namespace eDoc.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("CheckUpType")
                         .HasColumnType("nvarchar(max)");
 
@@ -266,8 +263,6 @@ namespace eDoc.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
@@ -294,8 +289,8 @@ namespace eDoc.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -325,12 +320,12 @@ namespace eDoc.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("Occupation")
                         .HasColumnType("nvarchar(max)");
@@ -366,8 +361,8 @@ namespace eDoc.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("WorkplaceId")
                         .HasColumnType("nvarchar(450)");
@@ -379,11 +374,11 @@ namespace eDoc.Migrations
                     b.HasIndex("MedicalCenterId");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+                        .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
+                        .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.HasIndex("WorkplaceId");
@@ -552,9 +547,6 @@ namespace eDoc.Migrations
                     b.Property<bool>("AllowMultiCompletion")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<bool>("Completed")
                         .HasColumnType("bit");
 
@@ -571,8 +563,6 @@ namespace eDoc.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("DoctorId");
 
@@ -597,9 +587,6 @@ namespace eDoc.Migrations
             modelBuilder.Entity("eDoc.Data.Models.SickLeaveList", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("Continuation")
@@ -642,8 +629,6 @@ namespace eDoc.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("DoctorId");
 
@@ -757,6 +742,12 @@ namespace eDoc.Migrations
                     b.HasOne("eDoc.Data.Models.Region", "Region")
                         .WithMany()
                         .HasForeignKey("RegionId");
+
+                    b.Navigation("Country");
+
+                    b.Navigation("Municipality");
+
+                    b.Navigation("Region");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.Allergy", b =>
@@ -764,21 +755,23 @@ namespace eDoc.Migrations
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
                         .WithMany("MyAllergies")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.AmbulatoryList", b =>
                 {
-                    b.HasOne("eDoc.Data.Models.ApplicationUser", null)
-                        .WithMany("AmbulatoryLists")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "Doctor")
-                        .WithMany()
+                        .WithMany("AmbulatoryListsIssuedByMe")
                         .HasForeignKey("DoctorId");
 
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "Patient")
-                        .WithMany()
+                        .WithMany("MyAmbulatoryLists")
                         .HasForeignKey("PatientId");
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.ApplicationUser", b =>
@@ -794,6 +787,12 @@ namespace eDoc.Migrations
                     b.HasOne("eDoc.Data.Models.Workplace", "Workplace")
                         .WithMany("Employees")
                         .HasForeignKey("WorkplaceId");
+
+                    b.Navigation("Address");
+
+                    b.Navigation("MedicalCenter");
+
+                    b.Navigation("Workplace");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.Contact", b =>
@@ -815,6 +814,8 @@ namespace eDoc.Migrations
                     b.HasOne("eDoc.Data.Models.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
+
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.MyBloodPressure", b =>
@@ -822,6 +823,8 @@ namespace eDoc.Migrations
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
                         .WithMany("MyBloodPressure")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.MyWeight", b =>
@@ -829,31 +832,29 @@ namespace eDoc.Migrations
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "User")
                         .WithMany("MyWeight")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.Recipe", b =>
                 {
-                    b.HasOne("eDoc.Data.Models.ApplicationUser", null)
-                        .WithMany("Recipes")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "Doctor")
-                        .WithMany()
+                        .WithMany("RecipesIssuedByMe")
                         .HasForeignKey("DoctorId");
 
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "Patient")
-                        .WithMany()
+                        .WithMany("MyRecipes")
                         .HasForeignKey("PatientId");
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.SickLeaveList", b =>
                 {
-                    b.HasOne("eDoc.Data.Models.ApplicationUser", null)
-                        .WithMany("SickLeaveLists")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "Doctor")
-                        .WithMany()
+                        .WithMany("SickLeaveListsIssuedByMe")
                         .HasForeignKey("DoctorId");
 
                     b.HasOne("eDoc.Data.Models.MKBDiagnose", "MKBDiagnose")
@@ -861,8 +862,14 @@ namespace eDoc.Migrations
                         .HasForeignKey("MKBDiagnoseId");
 
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "Patient")
-                        .WithMany()
+                        .WithMany("MySickLeaveLists")
                         .HasForeignKey("PatientId");
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("MKBDiagnose");
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.Test", b =>
@@ -870,6 +877,8 @@ namespace eDoc.Migrations
                     b.HasOne("eDoc.Data.Models.AmbulatoryList", "AmbulatoryList")
                         .WithMany("Tests")
                         .HasForeignKey("AmbulatoryListId");
+
+                    b.Navigation("AmbulatoryList");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.Workplace", b =>
@@ -877,6 +886,43 @@ namespace eDoc.Migrations
                     b.HasOne("eDoc.Data.Models.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId");
+
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("eDoc.Data.Models.AmbulatoryList", b =>
+                {
+                    b.Navigation("IssuedDocs");
+
+                    b.Navigation("Tests");
+                });
+
+            modelBuilder.Entity("eDoc.Data.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("AmbulatoryListsIssuedByMe");
+
+                    b.Navigation("Contacts");
+
+                    b.Navigation("MyAllergies");
+
+                    b.Navigation("MyAmbulatoryLists");
+
+                    b.Navigation("MyBloodPressure");
+
+                    b.Navigation("MyRecipes");
+
+                    b.Navigation("MySickLeaveLists");
+
+                    b.Navigation("MyWeight");
+
+                    b.Navigation("RecipesIssuedByMe");
+
+                    b.Navigation("SickLeaveListsIssuedByMe");
+                });
+
+            modelBuilder.Entity("eDoc.Data.Models.Workplace", b =>
+                {
+                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

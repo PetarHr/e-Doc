@@ -14,22 +14,17 @@ namespace eDoc.Data.Models
             this.Tests = new HashSet<Test>();
         }
         public string Id { get; set; }
-
-        [ForeignKey(nameof(Patient))]
-        public string PatientId { get; set; }
-        public ApplicationUser Patient { get; set; }
-        [ForeignKey(nameof(Doctor))]
-        public string DoctorId { get; set; }
-        public ApplicationUser Doctor { get; set; }
+        public virtual ApplicationUser Patient { get; set; }
+        public virtual ApplicationUser Doctor { get; set; }
 
         public DateTime IssuedOn { get; set; }
         public string VisitReason { get; set; }
         public string CheckUpType { get; set; }
-        public ICollection<IssuedDoc> IssuedDocs { get; set; }
+        public virtual ICollection<IssuedDoc> IssuedDocs { get; set; }
         public string Diagnosis { get; set; }
         public string MedicalHistory { get; set; }
         public string ObjectiveCondition { get; set; }
-        public ICollection<Test> Tests { get; set; }
+        public virtual ICollection<Test> Tests { get; set; }
         public string Therapy { get; set; }
         public string Diseases { get; set; }
     }

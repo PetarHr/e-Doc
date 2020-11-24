@@ -15,7 +15,7 @@ namespace eDoc.Data.Models
 
         [ForeignKey(nameof(AmbulatoryList))]
         public string AmbulatoryListId { get; set; }
-        public AmbulatoryList AmbulatoryList { get; set; }
+        public virtual AmbulatoryList AmbulatoryList { get; set; }
 
     }
 }

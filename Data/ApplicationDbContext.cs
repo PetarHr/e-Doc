@@ -30,12 +30,6 @@ namespace eDoc.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<ApplicationUser>()
-                     .HasMany(d => d.AmbulatoryLists);
-
-            builder.Entity<ApplicationUser>()
-                    .HasMany(d => d.SickLeaveLists);
-
             builder.Entity<AmbulatoryList>()
                      .HasOne(y => y.Doctor);
             builder.Entity<AmbulatoryList>()

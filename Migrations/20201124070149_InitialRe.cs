@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace eDoc.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialRe : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,10 +11,10 @@ namespace eDoc.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -25,10 +25,10 @@ namespace eDoc.Migrations
                 name: "Countries",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Code = table.Column<string>(nullable: true),
-                    PhoneCode = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -39,9 +39,9 @@ namespace eDoc.Migrations
                 name: "MKBDiagnoses",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Code = table.Column<int>(nullable: false),
-                    Description = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,8 +52,8 @@ namespace eDoc.Migrations
                 name: "Municipalities",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -64,8 +64,8 @@ namespace eDoc.Migrations
                 name: "Regions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -76,11 +76,11 @@ namespace eDoc.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -97,17 +97,17 @@ namespace eDoc.Migrations
                 name: "Addresses",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    CountryId = table.Column<string>(nullable: true),
-                    RegionId = table.Column<string>(nullable: true),
-                    MunicipalityId = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    Street = table.Column<string>(nullable: true),
-                    StreetNumber = table.Column<int>(nullable: false),
-                    Floor = table.Column<int>(nullable: false),
-                    Apartment = table.Column<string>(nullable: true),
-                    Entrance = table.Column<string>(nullable: true),
-                    Comment = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CountryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RegionId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    MunicipalityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetNumber = table.Column<int>(type: "int", nullable: false),
+                    Floor = table.Column<int>(type: "int", nullable: false),
+                    Apartment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Entrance = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -136,9 +136,9 @@ namespace eDoc.Migrations
                 name: "MedicalCenters",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    AddressId = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -155,9 +155,9 @@ namespace eDoc.Migrations
                 name: "Workplaces",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    AddressId = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -174,36 +174,36 @@ namespace eDoc.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    FathersName = table.Column<string>(nullable: true),
-                    FamilyName = table.Column<string>(nullable: true),
-                    FullName = table.Column<string>(nullable: true),
-                    PIN = table.Column<string>(nullable: true),
-                    BirthDate = table.Column<DateTime>(nullable: false),
-                    Sex = table.Column<int>(nullable: false),
-                    AddressId = table.Column<string>(nullable: true),
-                    WorkplaceId = table.Column<string>(nullable: true),
-                    Occupation = table.Column<string>(nullable: true),
-                    UIN = table.Column<string>(nullable: true),
-                    SpecialtyCode = table.Column<string>(nullable: true),
-                    MedicalCenterId = table.Column<string>(nullable: true),
-                    MyDoctorId = table.Column<string>(nullable: true),
-                    ProfilePicture = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FathersName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FamilyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PIN = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Sex = table.Column<int>(type: "int", nullable: false),
+                    AddressId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    WorkplaceId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Occupation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UIN = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SpecialtyCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MedicalCenterId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    MyDoctorId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -232,28 +232,21 @@ namespace eDoc.Migrations
                 name: "AmbulatoryLists",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    PatientId = table.Column<string>(nullable: true),
-                    DoctorId = table.Column<string>(nullable: true),
-                    IssuedOn = table.Column<DateTime>(nullable: false),
-                    VisitReason = table.Column<string>(nullable: true),
-                    CheckUpType = table.Column<string>(nullable: true),
-                    Diagnosis = table.Column<string>(nullable: true),
-                    MedicalHistory = table.Column<string>(nullable: true),
-                    ObjectiveCondition = table.Column<string>(nullable: true),
-                    Therapy = table.Column<string>(nullable: true),
-                    Diseases = table.Column<string>(nullable: true),
-                    ApplicationUserId = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    IssuedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    VisitReason = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CheckUpType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Diagnosis = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MedicalHistory = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ObjectiveCondition = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Therapy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Diseases = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AmbulatoryLists", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AmbulatoryLists_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AmbulatoryLists_AspNetUsers_DoctorId",
                         column: x => x.DoctorId,
@@ -272,11 +265,11 @@ namespace eDoc.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -293,10 +286,10 @@ namespace eDoc.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: false)
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -313,8 +306,8 @@ namespace eDoc.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    RoleId = table.Column<string>(nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -337,10 +330,10 @@ namespace eDoc.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
-                    Value = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -357,10 +350,10 @@ namespace eDoc.Migrations
                 name: "Contacts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Type = table.Column<string>(nullable: true),
-                    Value = table.Column<string>(nullable: true),
-                    ApplicationUserId = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -377,11 +370,11 @@ namespace eDoc.Migrations
                 name: "MyAllergies",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    DiscoveredOn = table.Column<DateTime>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DiscoveredOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -398,11 +391,11 @@ namespace eDoc.Migrations
                 name: "MyBloodPressure",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Systolic = table.Column<double>(nullable: false),
-                    Diastolic = table.Column<double>(nullable: false),
-                    RecordDate = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Systolic = table.Column<double>(type: "float", nullable: false),
+                    Diastolic = table.Column<double>(type: "float", nullable: false),
+                    RecordDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -419,10 +412,10 @@ namespace eDoc.Migrations
                 name: "MyWeight",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Value = table.Column<double>(nullable: false),
-                    RecordDate = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Value = table.Column<double>(type: "float", nullable: false),
+                    RecordDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -439,24 +432,17 @@ namespace eDoc.Migrations
                 name: "Recipes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    PatientId = table.Column<string>(nullable: true),
-                    DoctorId = table.Column<string>(nullable: true),
-                    Completed = table.Column<bool>(nullable: false),
-                    AllowMultiCompletion = table.Column<bool>(nullable: false),
-                    ApplicationUserId = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Completed = table.Column<bool>(type: "bit", nullable: false),
+                    AllowMultiCompletion = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Recipes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Recipes_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Recipes_AspNetUsers_DoctorId",
                         column: x => x.DoctorId,
@@ -475,34 +461,33 @@ namespace eDoc.Migrations
                 name: "SickLeaveLists",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    PatientId = table.Column<string>(nullable: true),
-                    DoctorId = table.Column<string>(nullable: true),
-                    RegistryNumber = table.Column<string>(nullable: true),
-                    DateOfIssue = table.Column<DateTime>(nullable: false),
-                    StartDate = table.Column<DateTime>(nullable: false),
-                    EndDate = table.Column<DateTime>(nullable: false),
-                    LAKNumber = table.Column<int>(nullable: false),
-                    OutpatientJournalNumber = table.Column<int>(nullable: false),
-                    Continuation = table.Column<bool>(nullable: false),
-                    Diagnosis = table.Column<string>(nullable: true),
-                    DisabilityReason = table.Column<string>(nullable: true),
-                    TreatmentRegimen = table.Column<string>(nullable: true),
-                    MKBDiagnoseId = table.Column<string>(nullable: true),
-                    ApplicationUserId = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RegistryNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfIssue = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LAKNumber = table.Column<int>(type: "int", nullable: false),
+                    OutpatientJournalNumber = table.Column<int>(type: "int", nullable: false),
+                    Continuation = table.Column<bool>(type: "bit", nullable: false),
+                    Diagnosis = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DisabilityReason = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TreatmentRegimen = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MKBDiagnoseId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SickLeaveLists", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SickLeaveLists_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_SickLeaveLists_AspNetUsers_DoctorId",
+                        column: x => x.DoctorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SickLeaveLists_AspNetUsers_DoctorId",
-                        column: x => x.DoctorId,
+                        name: "FK_SickLeaveLists_AspNetUsers_PatientId",
+                        column: x => x.PatientId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -512,22 +497,16 @@ namespace eDoc.Migrations
                         principalTable: "MKBDiagnoses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_SickLeaveLists_AspNetUsers_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "IssuedDocuments",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    Code = table.Column<string>(nullable: true),
-                    AmbulatoryListId = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AmbulatoryListId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -544,10 +523,10 @@ namespace eDoc.Migrations
                 name: "Tests",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Result = table.Column<string>(nullable: true),
-                    AmbulatoryListId = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Result = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AmbulatoryListId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -574,11 +553,6 @@ namespace eDoc.Migrations
                 name: "IX_Addresses_RegionId",
                 table: "Addresses",
                 column: "RegionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AmbulatoryLists_ApplicationUserId",
-                table: "AmbulatoryLists",
-                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AmbulatoryLists_DoctorId",
@@ -618,6 +592,11 @@ namespace eDoc.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_AddressId",
                 table: "AspNetUsers",
                 column: "AddressId");
@@ -628,9 +607,9 @@ namespace eDoc.Migrations
                 column: "MedicalCenterId");
 
             migrationBuilder.CreateIndex(
-                name: "EmailIndex",
+                name: "IX_AspNetUsers_WorkplaceId",
                 table: "AspNetUsers",
-                column: "NormalizedEmail");
+                column: "WorkplaceId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -638,11 +617,6 @@ namespace eDoc.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_WorkplaceId",
-                table: "AspNetUsers",
-                column: "WorkplaceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contacts_ApplicationUserId",
@@ -675,11 +649,6 @@ namespace eDoc.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recipes_ApplicationUserId",
-                table: "Recipes",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Recipes_DoctorId",
                 table: "Recipes",
                 column: "DoctorId");
@@ -688,11 +657,6 @@ namespace eDoc.Migrations
                 name: "IX_Recipes_PatientId",
                 table: "Recipes",
                 column: "PatientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SickLeaveLists_ApplicationUserId",
-                table: "SickLeaveLists",
-                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SickLeaveLists_DoctorId",

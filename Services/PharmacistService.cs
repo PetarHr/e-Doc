@@ -31,6 +31,7 @@ namespace eDoc.Services
 
         public MyWorkListViewModel GetMyWorkList()
         {
+
             var userName = this._signInManager.Context.User.Identity.Name;
             var user = this._signInManager.UserManager.FindByNameAsync(userName).Result;
 

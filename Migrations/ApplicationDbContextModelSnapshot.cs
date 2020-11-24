@@ -229,9 +229,6 @@ namespace eDoc.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("CheckUpType")
                         .HasColumnType("nvarchar(max)");
 
@@ -263,8 +260,6 @@ namespace eDoc.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("DoctorId");
 
@@ -592,9 +587,6 @@ namespace eDoc.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<bool>("Continuation")
                         .HasColumnType("bit");
 
@@ -635,8 +627,6 @@ namespace eDoc.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("DoctorId");
 
@@ -769,16 +759,12 @@ namespace eDoc.Migrations
 
             modelBuilder.Entity("eDoc.Data.Models.AmbulatoryList", b =>
                 {
-                    b.HasOne("eDoc.Data.Models.ApplicationUser", null)
-                        .WithMany("AmbulatoryLists")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "Doctor")
-                        .WithMany()
+                        .WithMany("AmbulatoryListsIssuedByMe")
                         .HasForeignKey("DoctorId");
 
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "Patient")
-                        .WithMany()
+                        .WithMany("MyAmbulatoryLists")
                         .HasForeignKey("PatientId");
 
                     b.Navigation("Doctor");
@@ -865,12 +851,8 @@ namespace eDoc.Migrations
 
             modelBuilder.Entity("eDoc.Data.Models.SickLeaveList", b =>
                 {
-                    b.HasOne("eDoc.Data.Models.ApplicationUser", null)
-                        .WithMany("SickLeaveLists")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "Doctor")
-                        .WithMany()
+                        .WithMany("SickLeaveListsIssuedByMe")
                         .HasForeignKey("DoctorId");
 
                     b.HasOne("eDoc.Data.Models.MKBDiagnose", "MKBDiagnose")
@@ -878,7 +860,7 @@ namespace eDoc.Migrations
                         .HasForeignKey("MKBDiagnoseId");
 
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "Patient")
-                        .WithMany()
+                        .WithMany("MySickLeaveLists")
                         .HasForeignKey("PatientId");
 
                     b.Navigation("Doctor");
@@ -915,21 +897,25 @@ namespace eDoc.Migrations
 
             modelBuilder.Entity("eDoc.Data.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("AmbulatoryLists");
+                    b.Navigation("AmbulatoryListsIssuedByMe");
 
                     b.Navigation("Contacts");
 
                     b.Navigation("MyAllergies");
 
+                    b.Navigation("MyAmbulatoryLists");
+
                     b.Navigation("MyBloodPressure");
 
                     b.Navigation("MyRecipes");
+
+                    b.Navigation("MySickLeaveLists");
 
                     b.Navigation("MyWeight");
 
                     b.Navigation("RecipesIssuedByMe");
 
-                    b.Navigation("SickLeaveLists");
+                    b.Navigation("SickLeaveListsIssuedByMe");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.Workplace", b =>

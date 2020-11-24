@@ -79,21 +79,17 @@ namespace eDoc.Services
         {
             var recipe = db.Recipes.Where(x => x.Id == id).FirstOrDefault();
 
-            var doctor = db.Users.Where(d => d.Id == recipe.DoctorId).First();
-
-            var patient = db.Users.Where(p => p.Id == recipe.PatientId).First();
-
             var recipeViewDetails = new RecipeDetailsViewModel
             {
                 Id = recipe.Id,
 
-                DoctorFirstName = doctor.FirstName,
-                DoctorFamilyName = doctor.FamilyName,
-                DoctorUIN = doctor.UIN,
+                DoctorFirstName = recipe.Doctor.FirstName,
+                DoctorFamilyName = recipe.Doctor.FamilyName,
+                DoctorUIN = recipe.Doctor.UIN,
 
-                PatientFirstName = patient.FirstName,
-                PatientFamilyName = patient.FamilyName,
-                PatientPIN = patient.PIN,
+                PatientFirstName = recipe.Patient.FirstName,
+                PatientFamilyName = recipe.Patient.FamilyName,
+                PatientPIN = recipe.Patient.PIN,
 
                 RecipeDescription = recipe.Description,
                 RecipeCreationDate = recipe.CreatedOn,

@@ -12,8 +12,8 @@ namespace eDoc.Data.Models
         }
         public string Id { get; set; }
         public string Name { get; set; }
-        public Address Address { get; set; }
+        public virtual Address Address { get; set; }
 
-        public ICollection<ApplicationUser> Employees { get; set; }
+        public virtual ICollection<ApplicationUser> Employees { get; set; }
     }
 }
