@@ -49,9 +49,35 @@ namespace eDoc.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage ="Моля, въведете е-поща.")]
+            [EmailAddress(ErrorMessage ="Моля, въведете валидна е-поща.")]
             public string Email { get; set; }
+
+            [Required(ErrorMessage = "Моля, въведете име.")]
+            [Display(Name = "Име")]
+            [StringLength(100, ErrorMessage ="Името трябва да е между {1} и {2} символа.", MinimumLength =2)]
+            public string FirstName { get; set; }
+
+            [Required(ErrorMessage ="Моля, въведете презиме.")]
+            [Display(Name = "Презиме")]
+            [StringLength(100, ErrorMessage = "Презимето трябва да е между {1} и {2} символа.", MinimumLength = 2)]
+            public string FathersName { get; set; }
+
+            [Required(ErrorMessage = "Моля, въведете фамилия.")]
+            [Display(Name = "Фамилия")]
+            [StringLength(100, ErrorMessage = "Фамилията трябва да е между {1} и {2} символа.", MinimumLength = 2)]
+            public string FamilyName { get; set; }
+
+            public string FullName => this.FirstName + " " + this.FathersName + " " + this.FamilyName;
+            public string PIN { get; set; }
+            public DateTime BirthDate { get; set; }
+            public Sex Sex { get; set; }
+            public Workplace Workplace { get; set; }
+            public string Occupation { get; set; }
+            public string UIN { get; set; }
+            public string SpecialtyCode { get; set; }
+            public MedicalCenter MedicalCenter { get; set; }
+            public string Role { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -69,7 +95,7 @@ namespace eDoc.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl ??= Url.Content("~/");
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
@@ -102,7 +128,10 @@ namespace eDoc.Areas.Identity.Pages.Account
                 {
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                        FirstName = info.Principal.FindFirstValue(ClaimTypes.Name),
+                        FathersName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
+                        FamilyName = info.Principal.FindFirstValue(ClaimTypes.Surname)
                     };
                 }
                 return Page();
@@ -111,7 +140,7 @@ namespace eDoc.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl ??= Url.Content("~/");
             // Get the information about the user from the external login provider
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
@@ -122,11 +151,29 @@ namespace eDoc.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    FirstName = Input.FirstName,
+                    FathersName = Input.FathersName,
+                    FamilyName = Input.FamilyName,
+                    FullName = Input.FullName,
+                    PIN = Input.PIN,
+                    BirthDate = Input.BirthDate,
+                    Sex = Input.Sex,
+                    Workplace = Input.Workplace,
+                    Occupation = Input.Occupation,
+                    UIN = Input.UIN,
+                    SpecialtyCode = Input.SpecialtyCode,
+                    MedicalCenter = Input.MedicalCenter
+                };
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, Input.Role);
+
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
@@ -138,7 +185,7 @@ namespace eDoc.Areas.Identity.Pages.Account
                         var callbackUrl = Url.Page(
                             "/Account/ConfirmEmail",
                             pageHandler: null,
-                            values: new { area = "Identity", userId = userId, code = code },
+                            values: new { area = "Identity", userId, code },
                             protocol: Request.Scheme);
 
                         await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
@@ -147,7 +194,7 @@ namespace eDoc.Areas.Identity.Pages.Account
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)
                         {
-                            return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                            return RedirectToPage("./RegisterConfirmation", new { Input.Email });
                         }
 
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);

@@ -10,8 +10,8 @@ namespace eDoc.Services
         public RecipeDetailsViewModel GetRecipeDetails(string id);
         public ICollection<AmbulatoryListViewModel> GetMyAmbulatoryLists(string userId);
         public ICollection<SickLeaveListViewModel> GetMySickLeaveLists(string userId);
-        public MyDoctorViewModel GetMyDoctor(string userId);
+        public MyDoctorViewModel GetMyDoctor();
         public List<DoctorsListViewModel> GetDoctorsLists();
-        public void AssignDoctor(string patientId, string doctorId);
+        public void AssignDoctor(string doctorId);
     }
 }

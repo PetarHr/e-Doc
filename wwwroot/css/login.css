@@ -10,28 +10,33 @@ body {
   visibility: hidden;
   height: 0; }
 
+.text-danger{
+    color: red;
+}
+
 .form_wrapper {
-  background: #fff;
-  width: 400px;
-  max-width: 100%;
-  box-sizing: border-box;
-  padding: 25px;
-  margin: 1% auto 0;
-  position: relative;
-  z-index: 1;
-  border-top: 5px solid #007fff;
-  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-  -webkit-transform-origin: 50% 0%;
-  transform-origin: 50% 0%;
-  -webkit-transform: scale3d(1, 1, 1);
-  transform: scale3d(1, 1, 1);
-  -webkit-transition: none;
-  transition: none;
-  -webkit-animation: expand 0.8s 0.6s ease-out forwards;
-  animation: expand 0.8s 0.6s ease-out forwards;
-  opacity: 0; }
+    background: #fff;
+    width: 400px;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 25px;
+    margin: 1% auto 0;
+    position: relative;
+    z-index: 1;
+    border-top: 5px solid #007fff;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+    -webkit-transition: none;
+    transition: none;
+    -webkit-animation: expand 0.8s 0.6s ease-out forwards;
+    animation: expand 0.8s 0.6s ease-out forwards;
+    opacity: 0;
+}
   .form_wrapper h2 {
     font-size: 1.5em;
     line-height: 1.5em;
@@ -237,8 +242,26 @@ body {
   .credit a {
     color: #006ddb; }
 
+.btn-exService {
+    background-color: #007fff;
+    border: none;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+    .btn-exService:hover {
+        background-color: #006ddb;
+        color: white;
+    }
+
 @-webkit-keyframes check {
-  0% {
+    0% {
     height: 0;
     width: 0; }
   25% {

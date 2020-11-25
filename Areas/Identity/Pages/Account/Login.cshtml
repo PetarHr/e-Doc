@@ -2,7 +2,11 @@
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Вход - еДок";
+}
+
+@section Header {
+    <link rel="stylesheet" href="~/css/login.css" />
 }
 <section>
     <div class="form_wrapper">
@@ -17,12 +21,12 @@
 
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                         <div class="input_field">
-                            <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                            <span><i aria-hidden="true" class="fas fa-at"></i></span>
                             <input type="email" asp-for="Input.Email" placeholder="Електронна поща" />
                         </div>
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                         <div class="input_field">
-                            <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                            <span><i aria-hidden="true" class="fas fa-lock"></i></span>
                             <input type="password" asp-for="Input.Password" placeholder="Парола" />
                         </div>
                         <div class="input_field checkbox_option">
@@ -47,34 +51,51 @@
 </section>
 
 <section>
-    <h4>Use another service to log in.</h4>
-    <hr class="bg-light" />
-    @{
-        if ((Model.ExternalLogins?.Count ?? 0) == 0)
-        {
-            <div>
-                <p>
-                    There are no external authentication services configured. See <a class="text-dark" href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                    for details on setting up this ASP.NET application to support logging in via external services.
-                </p>
-            </div>
-        }
-        else
-        {
-            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+    <center>
+        <h4>Вход чрез:</h4>
+        <hr class="bg-light" width="25%" />
+        @{
+            if ((Model.ExternalLogins?.Count ?? 0) == 0)
+            {
                 <div>
                     <p>
-                        @foreach (var provider in Model.ExternalLogins)
-                        {
-                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Влез със своя @provider.DisplayName профил.">@provider.DisplayName</button>
-                        }
+                        Услугите за достъп с Microsoft и Google са в профилактика. Извинете ни за причиненото неудобство.
                     </p>
                 </div>
-            </form>
+            }
+            else
+            {
+                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                    <div>
+                        <p>
+                            @foreach (var provider in Model.ExternalLogins)
+                            {
+                                <button class="btn-exService" name="provider" value="@provider.Name" title="Влез със своя @provider.DisplayName профил."><i></i> @provider.DisplayName</button>
+                            }
+                        </p>
+                    </div>
+                </form>
+            }
         }
-    }
+    </center>
 </section>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <script>
+        //Script provides a dynamic icon setup for external provides links.
+        jQuery(document).ready(function ($) {
+            $('button.btn-exService').each(function () {
+                var value = $(this).val();
+                if (value == "Microsoft") {
+                    $(this).prop("class", "btn-exService fab fa-windows");
+                } else if (value == "Google") {
+                    $(this).prop("class", "btn-exService fab fa-google");
+                } else if (value == "LinkedIn") {
+                    $(this).prop("class", "btn-exService fab fa-linkedin-in");
+                } else {
+                    $(this).prop("class", "btn-exService fas fa-external-link-alt");
+                }
+            });
+        });
+    </script>
 }

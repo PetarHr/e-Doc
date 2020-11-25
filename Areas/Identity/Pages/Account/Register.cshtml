@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "Регистрация";
 }
+@section Header {
+    <link rel="stylesheet" href="~/css/login.css" />
+}
 <div class="form_wrapper">
     <div class="form_container">
         <div class="title_container">
@@ -97,35 +100,35 @@
                         <div class="col_half">
                             <div class="input_field" id="Occupation">
                                 <span><i aria-hidden="true" class="fa fa-user"></i></span>
-                                <input type="text" asp-for="Input.Occupation" placeholder="Професия" required />
+                                <input type="text" asp-for="Input.Occupation" placeholder="Професия" />
                             </div>
                         </div>
                         <div class="col_half" id="UIN">
                             <span asp-validation-for="Input.UIN" class="text-danger"></span>
                             <div class="input_field">
                                 <span><i aria-hidden="true" class="fa fa-user"></i></span>
-                                <input type="text" asp-for="Input.UIN" placeholder="УИН" required />
+                                <input type="text" asp-for="Input.UIN" placeholder="УИН" />
                             </div>
                         </div>
                         <div class="col_half" id="MedicalCenter">
                             <span asp-validation-for="Input.MedicalCenter" class="text-danger"></span>
                             <div class="input_field">
                                 <span><i aria-hidden="true" class="fa fa-user"></i></span>
-                                <input type="text" asp-for="Input.MedicalCenter" placeholder="Мед. център" required />
+                                <input type="text" asp-for="Input.MedicalCenter" placeholder="Мед. център" />
                             </div>
                         </div>
                         <div class="col_half" id="SpecialtyCode">
                             <span asp-validation-for="Input.SpecialtyCode" class="text-danger"></span>
                             <div class="input_field">
                                 <span><i aria-hidden="true" class="fa fa-user"></i></span>
-                                <input type="text" asp-for="Input.SpecialtyCode" placeholder="Код специалност" required />
+                                <input type="text" asp-for="Input.SpecialtyCode" placeholder="Код специалност" />
                             </div>
                         </div>
                         <div class="col_half" id="Workplace">
                             <span asp-validation-for="Input.Workplace" class="text-danger"></span>
                             <div class="input_field">
                                 <span><i aria-hidden="true" class="fa fa-user"></i></span>
-                                <input type="text" asp-for="Input.Workplace" placeholder="Работодател" required />
+                                <input type="text" asp-for="Input.Workplace" placeholder="Работодател" />
                             </div>
                         </div>
                     </div>

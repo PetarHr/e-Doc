@@ -11,11 +11,15 @@ namespace eDoc.Services
     {
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public PatientService(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
+        public PatientService(ApplicationDbContext db, 
+                              UserManager<ApplicationUser> userManager, 
+                              SignInManager<ApplicationUser> signInManager)
         {
             this.db = db;
             this.userManager = userManager;
+            this._signInManager = signInManager;
         }
         public ICollection<AmbulatoryListViewModel> GetMyAmbulatoryLists(string userId)
         {
@@ -100,11 +104,16 @@ namespace eDoc.Services
             return recipeViewDetails;
         }
 
-        public MyDoctorViewModel GetMyDoctor(string userId)
+        public MyDoctorViewModel GetMyDoctor()
         {
-            var myDoctorsId = db.Users.Find(userId).MyDoctorId;
+            var userName = this._signInManager.Context.User.Identity.Name;
+            var user = this._signInManager
+                            .UserManager
+                            .FindByNameAsync(userName)
+                            .GetAwaiter()
+                            .GetResult();
 
-            var doctor = db.Users.Where(x => x.Id == myDoctorsId).FirstOrDefault();
+            var doctor = db.Users.Where(x => x.Id == user.MyDoctorId).FirstOrDefault();
 
             if (doctor == null)
             {
@@ -149,13 +158,18 @@ namespace eDoc.Services
             return doctorsListViewModel;
         }
 
-        public void AssignDoctor(string patientId, string doctorId)
+        public void AssignDoctor(string doctorId)
         {
-            var patientDetails = db.Users.Where(p => p.Id == patientId).FirstOrDefault();
+            var userName = this._signInManager.Context.User.Identity.Name;
+            var user = this._signInManager
+                            .UserManager
+                            .FindByNameAsync(userName)
+                            .GetAwaiter()
+                            .GetResult();
 
-            patientDetails.MyDoctorId = doctorId;
+            user.MyDoctorId = doctorId;
 
-            this.db.Update(patientDetails);
+            this.db.Update(user);
             this.db.SaveChanges();
         }
     }

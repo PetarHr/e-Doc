@@ -1,33 +1,172 @@
 ﻿@page
 @model ExternalLoginModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Регистрация";
 }
+@section Header {
+    <link rel="stylesheet" href="~/css/login.css" />
+}
+<center>
+    <h1>@ViewData["Title"]</h1>
+    <h4 id="external-login-title">Създай акаунт в еДок с помощта на @Model.ProviderDisplayName.</h4>
+    <hr />
 
-<h1>@ViewData["Title"]</h1>
-<h4 id="external-login-title">Associate your @Model.ProviderDisplayName account.</h4>
-<hr />
+    <p id="external-login-description" class="text-info">
+        Изглежда нямате активен акаунт в системата.
+        За да завършите регистрацията потвърдете детайлите по-долу.
+    </p>
 
-<p id="external-login-description" class="text-info">
-    You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.
-    Please enter an email address for this site below and click the Register button to finish
-    logging in.
-</p>
+    <section>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+        <div class="form_wrapper">
+            <div class="form_container">
+                <div class="title_container">
+                    <h2>Регистрация на нов профил:</h2>
+                </div>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="row clearfix">
+                    <div>
+                        <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span> 
+                            <span asp-validation-for="Input.FathersName" class="text-danger"></span>
+                            <span asp-validation-for="Input.FamilyName" class="text-danger"></span>
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            <span asp-validation-for="Input.Sex" class="text-danger"></span>
+                            <span asp-validation-for="Input.Role" class="text-danger"></span>
+                            <span asp-validation-for="Input.PIN" class="text-danger"></span>
+                            <span asp-validation-for="Input.BirthDate" class="text-danger"></span>
+                            <span asp-validation-for="Input.Occupation" class="text-danger"></span>
+                            <span asp-validation-for="Input.UIN" class="text-danger"></span>
+                            <span asp-validation-for="Input.MedicalCenter" class="text-danger"></span>
+                            <span asp-validation-for="Input.SpecialtyCode" class="text-danger"></span>
+                            <span asp-validation-for="Input.Workplace" class="text-danger"></span>
+
+                            <div class="row clearfix">
+                                <div class="col_half">
+                                    <label>Обръщение</label>
+                                    <div class="input_field select_option">
+                                        <select>
+                                            <option>Обръщение:</option>
+                                            <option>Г-н</option>
+                                            <option>Г-жа</option>
+                                            <option>Г-ца</option>
+                                        </select>
+                                        <div class="select_arrow"></div>
+                                    </div>
+                                </div>
+                                <div class="col_half">
+                                    <label asp-for="Input.FirstName"></label>
+                                    <div class="input_field">
+                                        <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                        <input type="text" asp-for="Input.FirstName" placeholder="Име" />
+                                    </div>
+                                </div>
+                                <div class="col_half">
+                                    <label asp-for="Input.FathersName"></label>
+                                    <div class="input_field">
+                                        <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                        <input type="text" asp-for="Input.FathersName" placeholder="Презиме" />
+                                    </div>
+                                </div>
+                                <div class="col_half">
+                                    <label asp-for="Input.FamilyName"></label>
+                                    <div class="input_field">
+                                        <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                        <input type="text" asp-for="Input.FamilyName" placeholder="Фамилия" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input_field">
+                                <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+                                <input type="email" asp-for="Input.Email" placeholder="Електронна поща" required />
+                            </div>
+                            <div class="row clearfix">
+                                <label asp-for="Input.Sex"></label>
+                                <div class="input_field radio_option">
+                                    <input type="radio" asp-for="Input.Sex" value="Male" id="rd1">
+                                    <label for="rd1">Мъж</label>
+                                    <input type="radio" asp-for="Input.Sex" value="Female" id="rd2">
+                                    <label for="rd2">Жена</label>
+                                </div>
+                                <div class="col_half">
+                                    <label asp-for="Input.PIN"></label>
+                                    <div class="input_field">
+                                        <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                        <input type="text" minlength="10" maxlength="10" asp-for="Input.PIN" placeholder="ЕГН" required />
+                                    </div>
+                                </div>
+                                <label asp-for="Input.BirthDate"></label>
+                                <div class="col_half">
+                                    <div class="input_field">
+                                        <input type="date" asp-for="Input.BirthDate" placeholder="Рожден Ден" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <label asp-for="Input.Role"></label>
+                            <div class="input_field select_option">
+                                <select asp-for="Input.Role">
+                                    <option value="" disabled selected>Аз съм:</option>
+                                    <option value="ePatient">Пациент</option>
+                                    <option value="eDoctor">Доктор</option>
+                                    <option value="ePharmacist"> Фармацевт</option>
+                                    <option value="eEmployer">Работодател</option>
+                                </select>
+                                <div class="select_arrow"></div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col_half" id="Occupation">
+                                    <label asp-for="Input.Occupation"></label>
+                                    <div class="input_field">
+                                        <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                        <input type="text" asp-for="Input.Occupation" placeholder="Професия" />
+                                    </div>
+                                </div>
+                                <div class="col_half" id="UIN">
+                                    <label asp-for="Input.UIN"></label>
+                                    <div class="input_field">
+                                        <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                        <input type="text" asp-for="Input.UIN" placeholder="УИН" />
+                                    </div>
+                                </div>
+                                <div class="col_half" id="MedicalCenter">
+                                    <label asp-for="Input.MedicalCenter"></label>
+                                    <div class="input_field">
+                                        <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                        <input type="text" asp-for="Input.MedicalCenter" placeholder="Мед. център" />
+                                    </div>
+                                </div>
+                                <div class="col_half" id="SpecialtyCode">
+                                    <label asp-for="Input.SpecialtyCode"></label>
+                                    <div class="input_field">
+                                        <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                        <input type="text" asp-for="Input.SpecialtyCode" placeholder="Код специалност" />
+                                    </div>
+                                </div>
+                                <div class="col_half" id="Workplace">
+                                    <label asp-for="Input.Workplace"></label>
+                                    <div class="input_field">
+                                        <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                        <input type="text" asp-for="Input.Workplace" placeholder="Работодател" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input_field checkbox_option">
+                                <input type="checkbox" id="cb1">
+                                <label for="cb1">Приемам Условията за ползване и регистрация.</label>
+                            </div>
+                            <input class="button" type="submit" value="Създай" />
+                        </form>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-    </div>
-</div>
+        </div>
+
+    </section>
+</center>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/registrationform.js"></script>
 }

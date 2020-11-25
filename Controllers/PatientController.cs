@@ -52,9 +52,7 @@ namespace eDoc.Controllers
 
         public IActionResult MyDoctor()
         {
-            var userId = userManager.GetUserId(this.User);
-
-            var myDoctor = service.GetMyDoctor(userId);
+            var myDoctor = service.GetMyDoctor();
 
             if (myDoctor == null)
             {
@@ -73,11 +71,9 @@ namespace eDoc.Controllers
 
         public IActionResult AssignDoctor(string doctorId)
         {
-            var patientId = userManager.GetUserId(this.User);
+            service.AssignDoctor(doctorId);
 
-            service.AssignDoctor(patientId, doctorId);
-
-            return this.View("MyDoctor");
+            return this.RedirectToAction("MyDoctor");
         }
     }
 }
