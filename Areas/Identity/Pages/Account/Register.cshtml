@@ -76,13 +76,6 @@
                                 <input type="text" minlength="10" maxlength="10" asp-for="Input.PIN" placeholder="ЕГН" required />
                             </div>
                         </div>
-                        <span asp-validation-for="Input.Occupation" class="text-danger"></span>
-                        <div class="col_half">
-                            <div class="input_field">
-                                <span><i aria-hidden="true" class="fa fa-user"></i></span>
-                                <input type="text" asp-for="Input.Occupation" placeholder="Професия" required />
-                            </div>
-                        </div>
                     </div>
                     <span asp-validation-for="Input.BirthDate" class="text-danger"></span>
                     <div class="input_field">
@@ -91,7 +84,7 @@
 
                     <div class="input_field select_option">
                         <select asp-for="Input.Role">
-                            <option>Аз съм:</option>
+                            <option value="" disabled selected>Аз съм:</option>
                             <option value="ePatient">Пациент</option>
                             <option value="eDoctor">Доктор</option>
                             <option value="ePharmacist"> Фармацевт</option>
@@ -100,28 +93,35 @@
                         <div class="select_arrow"></div>
                     </div>
                     <div class="row clearfix">
+                        <span asp-validation-for="Input.Occupation" class="text-danger"></span>
                         <div class="col_half">
+                            <div class="input_field" id="Occupation">
+                                <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                                <input type="text" asp-for="Input.Occupation" placeholder="Професия" required />
+                            </div>
+                        </div>
+                        <div class="col_half" id="UIN">
                             <span asp-validation-for="Input.UIN" class="text-danger"></span>
                             <div class="input_field">
                                 <span><i aria-hidden="true" class="fa fa-user"></i></span>
                                 <input type="text" asp-for="Input.UIN" placeholder="УИН" required />
                             </div>
                         </div>
-                        <div class="col_half">
+                        <div class="col_half" id="MedicalCenter">
                             <span asp-validation-for="Input.MedicalCenter" class="text-danger"></span>
                             <div class="input_field">
                                 <span><i aria-hidden="true" class="fa fa-user"></i></span>
-                                <input type="text" asp-for="Input.MedicalCenter" placeholder="Медицински център" required />
+                                <input type="text" asp-for="Input.MedicalCenter" placeholder="Мед. център" required />
                             </div>
                         </div>
-                        <div class="col_half">
+                        <div class="col_half" id="SpecialtyCode">
                             <span asp-validation-for="Input.SpecialtyCode" class="text-danger"></span>
                             <div class="input_field">
                                 <span><i aria-hidden="true" class="fa fa-user"></i></span>
                                 <input type="text" asp-for="Input.SpecialtyCode" placeholder="Код специалност" required />
                             </div>
                         </div>
-                        <div class="col_half">
+                        <div class="col_half" id="Workplace">
                             <span asp-validation-for="Input.Workplace" class="text-danger"></span>
                             <div class="input_field">
                                 <span><i aria-hidden="true" class="fa fa-user"></i></span>
@@ -160,4 +160,5 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/registrationform.js"></script>
 }
