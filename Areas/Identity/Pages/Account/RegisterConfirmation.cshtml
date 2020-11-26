@@ -1,7 +1,7 @@
 ﻿@page
 @model RegisterConfirmationModel
 @{
-    ViewData["Title"] = "Register confirmation";
+    ViewData["Title"] = "Регистрация";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -16,7 +16,8 @@
     else
     {
 <p>
-        Инструкции за активация на продила са изпратени на електронната Ви поща.
+        Линк за активация на профила Ви е изпратен на @Model.Email . 
+    
 </p>
     }
 }

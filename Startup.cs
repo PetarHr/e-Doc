@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using eDoc.Data.Models;
 using eDoc.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace eDoc
 {
@@ -39,6 +40,8 @@ namespace eDoc
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
