@@ -30,10 +30,10 @@ namespace eDoc.Services
                     Id = x.Id,
                     PatientFullName = x.Patient.FullName, 
                     DoctorFullName = x.Doctor.FullName, 
-                    IssueDate = x.IssuedOn, 
-                    CheckUpType = x.CheckUpType, 
+                    IssueDate = x.CreatedOn, 
+                    CheckUpType = x.TypeOfCheckup, 
                     Diagnosis = x.Diagnosis,
-                    Diseases = x.Diseases, 
+                    Diseases = x.AccompanyingConditions, 
                     Therapy = x.Therapy
 
                 })

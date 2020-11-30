@@ -18,11 +18,11 @@
                     <div class="row clearfix">
                         <div class="col_half">
                             <div class="input_field select_option">
-                                <select>
+                                <select asp-for="Input.Title">
                                     <option>Обръщение:</option>
-                                    <option>Г-н</option>
-                                    <option>Г-жа</option>
-                                    <option>Г-ца</option>
+                                    <option value="0">Г-н</option>
+                                    <option value="1">Г-ца</option>
+                                    <option value="2">Г-жа</option>
                                 </select>
                                 <div class="select_arrow"></div>
                             </div>

@@ -1,4 +1,9 @@
-﻿@model eDoc.Models.Input.AmbulatoryListInputModel
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<eDoc.Data.Models.ApplicationUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+@model eDoc.Models.Input.AmbulatoryListInputModel
 
 <h1>Нов амбулаторен лист</h1>
 <div class="container-fluid">
@@ -8,9 +13,30 @@
             <div class="card-header">
                 <div class="form-row">
                     <!-- Patient details-->
-                    <div class="col-9">
+                    <div class="col">
                         <h5 class="card-title">
-                            <strong>Пациент:</strong> Господин Господинов Господинов
+                            <strong>Пациент:</strong>
+                            <select class="form-control" name="patientId" required>
+                                <option value="" disabled selected>Изберете пациент</option>
+                                <optgroup label="Моите пациенти">
+                                    @foreach (var patient in Model.PatientsList)
+                                    {
+                                        if (patient.MyDoctorId == user.Id)
+                                        {
+                                            <option value="@patient.Id"> @patient.FullName</option>
+                                        }
+                                    }
+                                </optgroup>
+                                <optgroup label="Други пациенти">
+                                    @foreach (var patient in Model.PatientsList)
+                                    {
+                                        if (patient.MyDoctorId != user.Id)
+                                        {
+                                            <option value="@patient.Id"> @patient.FullName</option>
+                                        }
+                                    }
+                                </optgroup>
+                            </select>
                         </h5>
                         <h6>
                             <strong>ЕГН:</strong> 1234567890
@@ -20,16 +46,16 @@
                         <small class="text-muted">Код на държава: BG</small><br />
                     </div>
                     <!-- Doctor details-->
-                    <div class="col-3">
+                    <div class="col">
                         <h5 class="card-title">
-                            <strong>Лекар:</strong>Доктор Докторов Докторов
-                            <small class="text-muted">Код специалност: </small><br />
+                            <strong>Лекар:</strong>@Model.DoctorFullName<br />
+                            <small class="text-muted">Код специалност: @Model.DoctorSpecialtyCode</small>
                         </h5>
                         <h6>
-                            <strong>Лечебно завеедние рег. №:</strong> 5551231123 <br />
-                            <strong>УИН:</strong> 5551231123<br />
-                            <strong>НЗОК №:</strong> 5551231123<br />
-                            <strong>УИН на заместващ/нает лекар:</strong> 5551231123
+                            <strong>Лечебно завеедние рег. №:</strong> @Model.MedicalCenterRegNumber <br />
+                            <strong>УИН:</strong> @Model.DoctorUIN<br />
+                            <strong>НЗОК №:</strong> @Model.NZOKNumber <br />
+                            <strong>УИН на заместващ/нает лекар:</strong> @Model.SubstituteUIN
                         </h6>
                         <div class="form-row align-content-center">
                             <div class="form-check mr-3">
@@ -52,13 +78,13 @@
             <div class="card-body">
                 <div class="form-row text-center">
                     <div class="col-4">
-                        <h6>АМБУЛАТОРЕН ЛИСТ № ХХХХХХ</h6>
+                        <h6>АМБУЛАТОРЕН ЛИСТ № @Model.ListId</h6>
                     </div>
                     <div class="col-4">
-                        <h6>дата: 01.01.2020г.</h6>
+                        <h6>дата: @Model.CreatedOn.ToShortDateString()</h6>
                     </div>
                     <div class="col-4">
-                        <h6>час: 16:04</h6>
+                        <h6>час: @Model.CreatedOn.ToShortTimeString()</h6>
                     </div>
                 </div>
             </div>
@@ -73,10 +99,15 @@
                                 <label class="input-group-text" for="inputGroupSelect01">Посещение за:</label>
                             </div>
                             <select class="custom-select" id="inputGroupSelect01">
-                                <option selected>Choose...</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option selected disabled>Избери...</option>
+                                <option value="1">Консултация</option>
+                                <option value="2">Профилактика</option>
+                                <option value="3">Диспансерен преглед</option>
+                                <option value="3">ВСД</option>
+                                <option value="3">Рецепта на хоспитализирано ЗОЛ</option>
+                                <option value="3">Експертиза на работоспособността</option>
+                                <option value="3">По искане на ТЕЛК</option>
+                                <option value="3">Имунизация</option>
                             </select>
                         </div>
                         <!-- Type of check-up selection -->
@@ -85,10 +116,10 @@
                                 <label class="input-group-text" for="inputGroupSelect01">Вид преглед:</label>
                             </div>
                             <select class="custom-select" id="inputGroupSelect01">
-                                <option selected>Choose...</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option selected disabled>Избери...</option>
+                                <option value="1">Амбулаторен</option>
+                                <option value="2">Домашен</option>
+                                <option value="3">Инцидентно посещение</option>
                             </select>
                         </div>
                         <!-- Issued docs section -->
@@ -127,38 +158,38 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Анамнеза</span>
                             </div>
-                            <textarea class="form-control" aria-label="Анамнеза"></textarea>
+                            <textarea class="form-control" asp-for="MedicalHistory"></textarea>
                         </div>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Обективно състояние</span>
                             </div>
-                            <textarea class="form-control" aria-label="Обективно състояние"></textarea>
+                            <textarea class="form-control" asp-for="ObjectiveCondition"></textarea>
                         </div>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Изследвания</span>
                             </div>
-                            <textarea class="form-control" aria-label="Изследвания"></textarea>
+                            <textarea class="form-control" asp-for="Examinations"></textarea>
                         </div>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Терапия</span>
                             </div>
-                            <textarea class="form-control" aria-label="Терапия"></textarea>
+                            <textarea class="form-control" asp-for="Therapy"></textarea>
                         </div>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Основна диагноза</span>
                             </div>
-                            <input class="form-control" placeholder="МКБ" />
-                            <textarea class="form-control" aria-label="Основна диагноза"></textarea>
+                            <input class="form-control" asp-for="MKBDiagnose.Code" />
+                            <textarea class="form-control" asp-for="Diagnosis"></textarea>
                         </div>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Придружаващи заболявания и усложнения</span>
                             </div>
-                            <textarea class="form-control" aria-label="Придружаващи заболявания и усложнения"></textarea>
+                            <textarea class="form-control" asp-for="AccompanyingConditions"></textarea>
                         </div>
                     </div>
                 </div>

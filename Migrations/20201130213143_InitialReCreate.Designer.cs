@@ -10,8 +10,8 @@ using eDoc.Data;
 namespace eDoc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201124070149_InitialRe")]
-    partial class InitialRe
+    [Migration("20201130213143_InitialReCreate")]
+    partial class InitialReCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -228,25 +228,36 @@ namespace eDoc.Migrations
 
             modelBuilder.Entity("eDoc.Data.Models.AmbulatoryList", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
 
-                    b.Property<string>("CheckUpType")
+                    b.Property<string>("AccompanyingConditions")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Diagnosis")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Diseases")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DoctorId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("IssuedOn")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Examinations")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IssuedDocuments")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MKBDiagnoseId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("MedicalHistory")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NZONNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ObjectiveCondition")
@@ -255,7 +266,16 @@ namespace eDoc.Migrations
                     b.Property<string>("PatientId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("SubstituteType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SubstituteUIN")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Therapy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TypeOfCheckup")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VisitReason")
@@ -264,6 +284,8 @@ namespace eDoc.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
+
+                    b.HasIndex("MKBDiagnoseId");
 
                     b.HasIndex("PatientId");
 
@@ -354,6 +376,9 @@ namespace eDoc.Migrations
                     b.Property<string>("SpecialtyCode")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Title")
+                        .HasColumnType("int");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -426,19 +451,19 @@ namespace eDoc.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("eDoc.Data.Models.IssuedDoc", b =>
+            modelBuilder.Entity("eDoc.Data.Models.IssuedDocument", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AmbulatoryListId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("AmbulatoryListId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -639,27 +664,6 @@ namespace eDoc.Migrations
                     b.ToTable("SickLeaveLists");
                 });
 
-            modelBuilder.Entity("eDoc.Data.Models.Test", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AmbulatoryListId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Result")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AmbulatoryListId");
-
-                    b.ToTable("Tests");
-                });
-
             modelBuilder.Entity("eDoc.Data.Models.Workplace", b =>
                 {
                     b.Property<string>("Id")
@@ -765,11 +769,17 @@ namespace eDoc.Migrations
                         .WithMany("AmbulatoryListsIssuedByMe")
                         .HasForeignKey("DoctorId");
 
+                    b.HasOne("eDoc.Data.Models.MKBDiagnose", "MKBDiagnose")
+                        .WithMany()
+                        .HasForeignKey("MKBDiagnoseId");
+
                     b.HasOne("eDoc.Data.Models.ApplicationUser", "Patient")
                         .WithMany("MyAmbulatoryLists")
                         .HasForeignKey("PatientId");
 
                     b.Navigation("Doctor");
+
+                    b.Navigation("MKBDiagnose");
 
                     b.Navigation("Patient");
                 });
@@ -802,10 +812,10 @@ namespace eDoc.Migrations
                         .HasForeignKey("ApplicationUserId");
                 });
 
-            modelBuilder.Entity("eDoc.Data.Models.IssuedDoc", b =>
+            modelBuilder.Entity("eDoc.Data.Models.IssuedDocument", b =>
                 {
                     b.HasOne("eDoc.Data.Models.AmbulatoryList", null)
-                        .WithMany("IssuedDocs")
+                        .WithMany("IssuedDocumentsList")
                         .HasForeignKey("AmbulatoryListId");
                 });
 
@@ -872,15 +882,6 @@ namespace eDoc.Migrations
                     b.Navigation("Patient");
                 });
 
-            modelBuilder.Entity("eDoc.Data.Models.Test", b =>
-                {
-                    b.HasOne("eDoc.Data.Models.AmbulatoryList", "AmbulatoryList")
-                        .WithMany("Tests")
-                        .HasForeignKey("AmbulatoryListId");
-
-                    b.Navigation("AmbulatoryList");
-                });
-
             modelBuilder.Entity("eDoc.Data.Models.Workplace", b =>
                 {
                     b.HasOne("eDoc.Data.Models.Address", "Address")
@@ -892,9 +893,7 @@ namespace eDoc.Migrations
 
             modelBuilder.Entity("eDoc.Data.Models.AmbulatoryList", b =>
                 {
-                    b.Navigation("IssuedDocs");
-
-                    b.Navigation("Tests");
+                    b.Navigation("IssuedDocumentsList");
                 });
 
             modelBuilder.Entity("eDoc.Data.Models.ApplicationUser", b =>

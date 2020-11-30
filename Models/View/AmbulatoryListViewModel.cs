@@ -7,7 +7,7 @@ namespace eDoc.Models.View
 {
     public class AmbulatoryListViewModel
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string PatientFullName { get; set; }
         public string DoctorFullName { get; set; }
         public DateTime IssueDate { get; set; }

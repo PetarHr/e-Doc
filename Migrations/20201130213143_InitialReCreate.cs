@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace eDoc.Migrations
 {
-    public partial class InitialRe : Migration
+    public partial class InitialReCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -175,6 +175,7 @@ namespace eDoc.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Title = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FathersName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FamilyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -232,17 +233,24 @@ namespace eDoc.Migrations
                 name: "AmbulatoryLists",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    IssuedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NZONNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubstituteUIN = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubstituteType = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     VisitReason = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CheckUpType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Diagnosis = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TypeOfCheckup = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IssuedDocuments = table.Column<bool>(type: "bit", nullable: false),
                     MedicalHistory = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ObjectiveCondition = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Examinations = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Therapy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Diseases = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Diagnosis = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MKBDiagnoseId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    AccompanyingConditions = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -257,6 +265,12 @@ namespace eDoc.Migrations
                         name: "FK_AmbulatoryLists_AspNetUsers_PatientId",
                         column: x => x.PatientId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AmbulatoryLists_MKBDiagnoses_MKBDiagnoseId",
+                        column: x => x.MKBDiagnoseId,
+                        principalTable: "MKBDiagnoses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -504,35 +518,15 @@ namespace eDoc.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AmbulatoryListId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    AmbulatoryListId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IssuedDocuments", x => x.Id);
                     table.ForeignKey(
                         name: "FK_IssuedDocuments_AmbulatoryLists_AmbulatoryListId",
-                        column: x => x.AmbulatoryListId,
-                        principalTable: "AmbulatoryLists",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tests",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Result = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AmbulatoryListId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tests", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tests_AmbulatoryLists_AmbulatoryListId",
                         column: x => x.AmbulatoryListId,
                         principalTable: "AmbulatoryLists",
                         principalColumn: "Id",
@@ -558,6 +552,11 @@ namespace eDoc.Migrations
                 name: "IX_AmbulatoryLists_DoctorId",
                 table: "AmbulatoryLists",
                 column: "DoctorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AmbulatoryLists_MKBDiagnoseId",
+                table: "AmbulatoryLists",
+                column: "MKBDiagnoseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AmbulatoryLists_PatientId",
@@ -674,11 +673,6 @@ namespace eDoc.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tests_AmbulatoryListId",
-                table: "Tests",
-                column: "AmbulatoryListId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Workplaces_AddressId",
                 table: "Workplaces",
                 column: "AddressId");
@@ -723,19 +717,16 @@ namespace eDoc.Migrations
                 name: "SickLeaveLists");
 
             migrationBuilder.DropTable(
-                name: "Tests");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "MKBDiagnoses");
 
             migrationBuilder.DropTable(
                 name: "AmbulatoryLists");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "MKBDiagnoses");
 
             migrationBuilder.DropTable(
                 name: "MedicalCenters");

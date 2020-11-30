@@ -48,34 +48,17 @@ namespace eDoc.Services
             var ambulatoryListInputModel = new AmbulatoryListInputModel
             {
                 PatientsList = listAllPatients,
-                DoctorId = doctor.Id,
-                DoctorFullName = doctor.FullName
+                DoctorFullName = doctor.FullName,
+                DoctorSpecialtyCode = doctor.SpecialtyCode,
+                DoctorUIN = doctor.UIN,
+                CreatedOn = DateTime.Now
             };
 
             return ambulatoryListInputModel;
         }
         public void CreateAmbulatoryList(AmbulatoryListInputModel input)
         {
-            var patient = _db.Users.Where(x => x.Id == input.PatientId).FirstOrDefault();
-            var doctor = _db.Users.Where(x => x.Id == input.DoctorId).FirstOrDefault();
-
-            var ambulatoryList = new AmbulatoryList
-            {
-                CheckUpType = input.CheckUpType,
-                Diagnosis = input.Diagnosis, 
-                Diseases = input.Diseases,
-                Doctor = doctor,
-                Patient = patient,
-                IssuedOn = DateTime.UtcNow, 
-                MedicalHistory = input.MedicalHistory, 
-                ObjectiveCondition = input.ObjectiveCondition, 
-                Therapy = input.Therapy, 
-                VisitReason = input.VisitReason
-            };
-
-            this._db.AmbulatoryLists.Add(ambulatoryList);
-            this._db.SaveChanges();
-
+            throw new NotImplementedException("Създаването на амбулаторни листове не е готово.");
         }
 
         public void CreateSickLeaveList(SickLeaveListInputModel input)

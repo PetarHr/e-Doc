@@ -24,6 +24,7 @@ namespace eDoc.Data.Models
             this.MyWeight = new HashSet<MyWeight>();
             this.MyBloodPressure = new HashSet<MyBloodPressure>();
         }
+        public Title Title { get; set; }
         public string FirstName { get; set; }
         public string FathersName { get; set; }
         public string FamilyName { get; set; }

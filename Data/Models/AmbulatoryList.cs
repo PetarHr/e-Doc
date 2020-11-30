@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eDoc.Data.Models
 {
@@ -9,23 +7,25 @@ namespace eDoc.Data.Models
     {
         public AmbulatoryList()
         {
-            this.Id = Guid.NewGuid().ToString();
-            this.IssuedDocs = new HashSet<IssuedDoc>();
-            this.Tests = new HashSet<Test>();
+            this.IssuedDocumentsList = new HashSet<IssuedDocument>();
         }
-        public string Id { get; set; }
+        public int Id { get; set; }
         public virtual ApplicationUser Patient { get; set; }
         public virtual ApplicationUser Doctor { get; set; }
-
-        public DateTime IssuedOn { get; set; }
+        public string NZONNumber { get; set; }
+        public string SubstituteUIN { get; set; }
+        public SubstituteType SubstituteType { get; set; }
+        public DateTime CreatedOn { get; set; }
         public string VisitReason { get; set; }
-        public string CheckUpType { get; set; }
-        public virtual ICollection<IssuedDoc> IssuedDocs { get; set; }
-        public string Diagnosis { get; set; }
+        public string TypeOfCheckup { get; set; }
+        public bool IssuedDocuments { get; set; }
+        public virtual ICollection<IssuedDocument> IssuedDocumentsList { get; set; }
         public string MedicalHistory { get; set; }
         public string ObjectiveCondition { get; set; }
-        public virtual ICollection<Test> Tests { get; set; }
+        public string Examinations { get; set; }
         public string Therapy { get; set; }
-        public string Diseases { get; set; }
+        public string Diagnosis { get; set; }
+        public virtual MKBDiagnose MKBDiagnose { get; set; }
+        public string AccompanyingConditions { get; set; }
     }
 }
