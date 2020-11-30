@@ -85,14 +85,15 @@ namespace eDoc.Services
 
             var recipeViewDetails = new RecipeDetailsViewModel
             {
-                Id = recipe.Id,
+                RecipeId = recipe.Id,
 
-                DoctorFirstName = recipe.Doctor.FirstName,
-                DoctorFamilyName = recipe.Doctor.FamilyName,
+                DoctorFullName = recipe.Doctor.FullName,
                 DoctorUIN = recipe.Doctor.UIN,
+                
+                MedCenterName = recipe.Doctor.MedicalCenter?.Name,
+                MedCenterAddress = recipe.Doctor.MedicalCenter?.Address?.Street,
 
-                PatientFirstName = recipe.Patient.FirstName,
-                PatientFamilyName = recipe.Patient.FamilyName,
+                PatientFullName = recipe.Patient.FullName,
                 PatientPIN = recipe.Patient.PIN,
 
                 RecipeDescription = recipe.Description,

@@ -1,38 +1,58 @@
-﻿@using eDoc.Models.View.Pharmacist
+﻿@using eDoc.Models.View
 @model RecipeDetailsViewModel
 
-<div class="card-deck">
-    <div class="card">
-        <img class="rounded-circle" 
-             width="150" 
-             src="https://bootdey.com/img/Content/avatar/avatar7.png" 
-             alt="Doctor's image">
+<div class="container-fluid">
+    <h1>еДок - Рецепта</h1>
 
+
+    <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Доктор:</h5>
-            <h6>Пациент: @Model.PatientName</h6>
-            <h6>EGN: @Model.PatientPIN</h6>
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="card-title">
+                        <strong>Издадена от:</strong> Д-р @Model.DoctorFullName
+                    </h5>
+                    <h6>
+                        <strong>УИН:</strong> @Model.DoctorUIN
+                    </h6>
+                    <small class="text-muted">Медицински център: @Model.MedCenterName</small><br />
+                    <small class="text-muted">Адрес: @Model.MedCenterAddress</small>
+                </div>
+                <div class="col-6">
+                    <h5 class="card-title">
+                        <strong>Пациент: </strong>@Model.PatientFullName
+                    </h5>
+                    <h6>
+                        <strong>ЕГН: </strong>@Model.PatientPIN
+                    </h6>
+                    <small class="text-muted">Адрес: @Model.PatientAddress</small><br />
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="card-title">Предписание:</h5>
+                </div>
+                <div class="col-3">
+                    <small class="text-muted"><strong>Издадена на: </strong>@Model.RecipeCreationDate</small><br />
+                    <small class="text-muted"><strong>За многократно изпълнение:</strong> @Model.AllowMultiCompletion</small>
+                </div>
+                <div class="col-3">
+                    <small class="text-muted"><strong>Изпълнена:</strong> @Model.RecipeCompleted</small> <br />
+                    <a class="btn btn-outline-primary" type="button" asp-controller="Pharmacist" asp-action="Complete" asp-route-id="@Model.RecipeId">Изпълни</a>
+                </div>
+                <div class="col-12">
+                    <p>
+                        @Model.RecipeDescription
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<div class="card">
 
-    <h5 class="card-title">Предписание:</h5>
-    <p>
-        ID: @Model.Id
-    </p>
-    <p>
-        Created on: @Model.CreatedOn
-    </p>
-    <p>
-        Completed: @Model.Completed
-    </p>
-    <p>
-        Allow multi completion: @Model.AllowMultiCompletion
-    </p>
-    <p>
-        Perscription: @Model.Perscription
-    </p>
-    <a class="btn btn-primary" type="button" asp-controller="Pharmacist" asp-action="Complete" asp-route-id="@Model.Id">Изпълни</a>
-
-</div>
+    

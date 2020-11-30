@@ -28,24 +28,6 @@ namespace eDoc.Services
             await this._db.SaveChangesAsync();
         }
 
-        public RecipeDetailsViewModel Find(string recipeId)
-        {
-            var recipe = this._db.Recipes.Find(recipeId);
-
-            var recipeViewModel = new RecipeDetailsViewModel
-            {
-                AllowMultiCompletion = recipe.AllowMultiCompletion,
-                Completed = recipe.Completed,
-                CreatedOn = recipe.CreatedOn,
-                Id = recipe.Id,
-                PatientName = recipe.Patient.FullName,
-                PatientPIN = recipe.Patient.PIN,
-                Perscription = recipe.Description
-            };
-            
-            return recipeViewModel;
-        }
-
         public MyWorkListViewModel GetMyWorkList()
         {
 

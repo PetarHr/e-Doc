@@ -1,32 +1,46 @@
 ﻿@model eDoc.Models.View.RecipeDetailsViewModel
+<div class="container-fluid">
+    <h1>еДок - Рецепта</h1>
 
-<div class="card-deck">
+
     <div class="card">
-        <img class="rounded-circle" width="150" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Doctor's image">
         <div class="card-body">
-            <h5 class="card-title">Доктор:</h5>
-            <h6>Име: @Model.DoctorFirstName</h6>
-            <h6>Фамилия: @Model.DoctorFamilyName</h6>
-            <h6>УИН: @Model.DoctorUIN</h6>
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="card-title">
+                        <strong>Издадена от:</strong> Д-р @Model.DoctorFullName</h5>
+                    <h6>
+                        <strong>УИН:</strong> @Model.DoctorUIN</h6>
+                    <small class="text-muted">Медицински център: @Model.MedCenterName</small><br />
+                    <small class="text-muted">Адрес: @Model.MedCenterAddress</small>
+                </div>
+                <div class="col-6">
+                    <h5 class="card-title">
+                        <strong>Пациент: </strong>@Model.PatientFullName</h5>
+                    <h6>
+                        <strong>ЕГН: </strong>@Model.PatientPIN</h6>
+                    <small class="text-muted">Адрес: @Model.PatientAddress</small><br />
+                    
+                </div>
+
+            </div>
+            
         </div>
         <div class="card-footer">
-            <small class="text-muted">Информация за медицинския център...</small>
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="card-title">Предписание:</h5>
+                </div>
+                <div class="col-6">
+                    <small class="text-muted"><strong>Издадена на: </strong>@Model.RecipeCreationDate</small><br />
+                    <small class="text-muted"><strong>За многократно изпълнение:</strong> @Model.AllowMultiCompletion</small>
+                </div>
+                <div class="col-12">
+                    <p>
+                        @Model.RecipeDescription
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="card">
-        <img class="rounded-circle" width="150" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Doctor's image">
-        <div class="card-body">
-            <h5 class="card-title">Пациент:</h5>
-            <h6>Име: @Model.PatientFirstName</h6>
-            <h6>Фамилия: @Model.PatientFamilyName</h6>
-            <h6>ЕГН: @Model.PatientPIN</h6>
-        </div>
-    </div>
-</div>
-<div class="card">
-
-    <h5 class="card-title">Предписание:</h5>
-    <p>
-        @Model.RecipeDescription
-    </p>
 </div>

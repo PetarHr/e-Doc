@@ -7,10 +7,13 @@ namespace eDoc.Controllers
     public class PharmacistController : Controller
     {
         private readonly IPharmacistService _pharmacistService;
+        private readonly IPatientService _patientService;
 
-        public PharmacistController(IPharmacistService pharmacistService)
+        public PharmacistController(IPharmacistService pharmacistService, 
+                                    IPatientService patientService)
         {
             this._pharmacistService = pharmacistService;
+            this._patientService = patientService;
         }
 
         public IActionResult MyWorkList()
@@ -21,7 +24,7 @@ namespace eDoc.Controllers
 
         public IActionResult Find(string id)
         {
-            var recipeDetails = _pharmacistService.Find(id);
+            var recipeDetails = _patientService.GetRecipeDetails(id);
 
             return this.View(recipeDetails);
         }
