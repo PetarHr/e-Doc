@@ -8,7 +8,7 @@ namespace eDoc.Models.Input
 {
     public class AmbulatoryListInputModel
     {
-        public string Id { get; set; }
+        public string ListId { get; set; }
         public ICollection<ApplicationUser> PatientsList { get; set; }
         public string PatientFullName { get; set; }
         public string PatientId { get; set; }

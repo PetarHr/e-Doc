@@ -10,6 +10,7 @@ namespace eDoc.Services
     public interface IDoctorService
     {
         public void CreateRecipe(CreateRecipeInputModel input);
+        public AmbulatoryListInputModel PrepareAmbListInputModel();
         public void CreateAmbulatoryList(AmbulatoryListInputModel input);
         public void CreateSickLeaveList(SickLeaveListInputModel input);
         public ICollection<ApplicationUser> GetAllPatients();

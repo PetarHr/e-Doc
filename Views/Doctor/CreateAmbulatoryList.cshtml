@@ -1,39 +1,175 @@
 ﻿@model eDoc.Models.Input.AmbulatoryListInputModel
 
-<form method="post">
-    <div class="form-group">
-        <label for="doctorFullName">Издадена от:</label>
-        <input type="text" class="form-control" id="doctorFullName" name="doctorFullName" value="@Model.DoctorFullName" disabled>
-        <input type="text" class="form-control" name="doctorId" value="@Model.DoctorId" hidden>
+<h1>Нов амбулаторен лист</h1>
+<div class="container-fluid">
+    <form class="form-control-dark">
+        <div class="card">
+            <!--Top container for patient & doctor details -->
+            <div class="card-header">
+                <div class="form-row">
+                    <!-- Patient details-->
+                    <div class="col-9">
+                        <h5 class="card-title">
+                            <strong>Пациент:</strong> Господин Господинов Господинов
+                        </h5>
+                        <h6>
+                            <strong>ЕГН:</strong> 1234567890
+                        </h6>
+                        <small class="text-muted">Дата на раждане: 12.01.2020г.</small><br />
+                        <small class="text-muted">Адрес: ул. Номер №1, ет.2, ап.54</small><br />
+                        <small class="text-muted">Код на държава: BG</small><br />
+                    </div>
+                    <!-- Doctor details-->
+                    <div class="col-3">
+                        <h5 class="card-title">
+                            <strong>Лекар:</strong>Доктор Докторов Докторов
+                            <small class="text-muted">Код специалност: </small><br />
+                        </h5>
+                        <h6>
+                            <strong>Лечебно завеедние рег. №:</strong> 5551231123 <br />
+                            <strong>УИН:</strong> 5551231123<br />
+                            <strong>НЗОК №:</strong> 5551231123<br />
+                            <strong>УИН на заместващ/нает лекар:</strong> 5551231123
+                        </h6>
+                        <div class="form-row align-content-center">
+                            <div class="form-check mr-3">
+                                <input class="form-check-input" type="radio" name="typeOfSubstitute" id="substitute" value="0">
+                                <label class="form-check-label" for="substitute">
+                                    Заместващ
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="typeOfSubstitute" id="hired" value="1">
+                                <label class="form-check-label" for="hired">
+                                    Нает
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Ambulatory list №, create date & time -->
+            <div class="card-body">
+                <div class="form-row text-center">
+                    <div class="col-4">
+                        <h6>АМБУЛАТОРЕН ЛИСТ № ХХХХХХ</h6>
+                    </div>
+                    <div class="col-4">
+                        <h6>дата: 01.01.2020г.</h6>
+                    </div>
+                    <div class="col-4">
+                        <h6>час: 16:04</h6>
+                    </div>
+                </div>
+            </div>
+            <!-- Main content of the Ambulatory list-->
+            <div class="card-footer">
+                <div class="form-row text-center">
+                    <!-- Left hand-side of the form-->
+                    <div class="col">
+                        <!-- Reason for the visit selection -->
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Посещение за:</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01">
+                                <option selected>Choose...</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                        <!-- Type of check-up selection -->
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Вид преглед:</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01">
+                                <option selected>Choose...</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                        <!-- Issued docs section -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                            <label class="form-check-label" for="defaultCheck1">
+                                Издадени документи
+                            </label>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Избери</button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">Медицинско направление</a>
+                                    <a class="dropdown-item" href="#">Направление за ВСД и назначени ВСД</a>
+                                    <a class="dropdown-item" href="#">Направление за МДД</a>
+                                    <a class="dropdown-item" href="#">Направление за КП, КПр, АПр</a>
+                                    <a class="dropdown-item" href="#">Болничен лист №</a>
+                                    <a class="dropdown-item" href="#">Рецепта</a>
+                                    <a class="dropdown-item" href="#">Рецептурна книжка №</a>
+                                    <a class="dropdown-item" href="#">Бързо известие</a>
+                                    <a class="dropdown-item" href="#">Етапна епикриза</a>
+                                    <a class="dropdown-item" href="#">Медицинска бележка</a>
+                                    <div role="separator" class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Талон за МЕ №</a>
+                                    <a class="dropdown-item" href="#">Талон за ТЕЛК №</a>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                        </div>
 
-        <select class="form-control" name="patientId" required>
-            <option value="" disabled selected>Изберете пациент</option>
-            <optgroup label="Моите пациенти">
-                @foreach (var patient in Model.PatientsList)
-                {
-                    if (patient.MyDoctorId == User.Identity.Name)
-                    {
-                        <option value="@patient.Id"> @patient.FullName (@patient.PIN)</option>
-                    }
-                }
-            </optgroup>
-            <optgroup label="Други пациенти">
-                @foreach (var patient in Model.PatientsList)
-                {
-                    if (patient.MyDoctorId != User.Identity.Name)
-                    {
-                        <option value="@patient.Id"> @patient.FullName (@patient.PIN)</option>
-                    }
-                }
-            </optgroup>
-        </select>
-        <input class="form-control" asp-for="CheckUpType" type="text" placeholder="Тип преглед" required />
-        <input class="form-control" asp-for="VisitReason" type="text" placeholder="Причина за посещение" required />
-        <input class="form-control" asp-for="Diagnosis" type="text" placeholder="Диагноза" required />
-        <input class="form-control" asp-for="Diseases" type="text" placeholder="Заболяване" required />
-        <input class="form-control" asp-for="MedicalHistory" type="text" placeholder="Предшестващи заболявания" required />
-        <input class="form-control" asp-for="ObjectiveCondition" type="text" placeholder="Обективно състояние" required />
-        <input class="form-control" asp-for="Therapy" type="text" placeholder="Терапия" required />
-    </div>
-    <button type="submit" class="btn btn-primary">Създай</button>
-</form>
+                    </div>
+                    <!-- Right hand-side of the form-->
+                    <div class="col">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Анамнеза</span>
+                            </div>
+                            <textarea class="form-control" aria-label="Анамнеза"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Обективно състояние</span>
+                            </div>
+                            <textarea class="form-control" aria-label="Обективно състояние"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Изследвания</span>
+                            </div>
+                            <textarea class="form-control" aria-label="Изследвания"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Терапия</span>
+                            </div>
+                            <textarea class="form-control" aria-label="Терапия"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Основна диагноза</span>
+                            </div>
+                            <input class="form-control" placeholder="МКБ" />
+                            <textarea class="form-control" aria-label="Основна диагноза"></textarea>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Придружаващи заболявания и усложнения</span>
+                            </div>
+                            <textarea class="form-control" aria-label="Придружаващи заболявания и усложнения"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+}

@@ -38,6 +38,22 @@ namespace eDoc.Services
             this._db.SaveChanges();
         }
 
+        public AmbulatoryListInputModel PrepareAmbListInputModel()
+        {
+            var listAllPatients = this.GetAllPatients();
+
+            var doctorUserName = _signInManager.Context.User.Identity.Name;
+            var doctor = this._db.Users.Where(x => x.UserName == doctorUserName).FirstOrDefault();
+
+            var ambulatoryListInputModel = new AmbulatoryListInputModel
+            {
+                PatientsList = listAllPatients,
+                DoctorId = doctor.Id,
+                DoctorFullName = doctor.FullName
+            };
+
+            return ambulatoryListInputModel;
+        }
         public void CreateAmbulatoryList(AmbulatoryListInputModel input)
         {
             var patient = _db.Users.Where(x => x.Id == input.PatientId).FirstOrDefault();
@@ -128,5 +144,6 @@ namespace eDoc.Services
 
             return listsIssueByUser;
         }
+
     }
 }
