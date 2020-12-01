@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using eDoc.Services.Attributes;
 
 namespace eDoc.Areas.Identity.Pages.Account
 {
@@ -49,6 +50,7 @@ namespace eDoc.Areas.Identity.Pages.Account
             public string FathersName { get; set; }
             public string FamilyName { get; set; }
             public string FullName => this.FirstName + " " + this.FathersName + " " + this.FamilyName;
+            [EGN]
             public string PIN { get; set; }
             public DateTime BirthDate { get; set; }
             public Sex Sex { get; set; }
@@ -89,11 +91,6 @@ namespace eDoc.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                if (!IsPINValid(Input.PIN))
-                {
-                    ModelState.AddModelError("ЕГН:", "Моля, въведете валидно ЕГН.");
-                    return Page();
-                }
                     var user = new ApplicationUser
                     {
                         UserName = Input.Email,
@@ -147,65 +144,6 @@ namespace eDoc.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
-        }
-        /// <summary>
-        /// Валидира ЕГН според алгоритъма на ЕСГРАО. Благодарности на автора: Драган Драганов (Dr4g0)
-        /// </summary>
-        /// <param name="personalIDNumber">ЕГН</param>
-        /// <returns>True/False дали ЕГН-то е валидно.</returns>
-        public static bool IsPINValid(string personalIDNumber)
-        {
-            if (personalIDNumber.Length != 10)
-            {
-                return false;
-            }
-            foreach (char digit in personalIDNumber)
-            {
-                if (!Char.IsDigit(digit))
-                {
-                    return false;
-                }
-            }
-            int month = int.Parse(personalIDNumber.Substring(2, 2));
-            int year = 0;
-            if (month < 13)
-            {
-                year = int.Parse("19" + personalIDNumber.Substring(0, 2));
-            }
-            else if (month < 33)
-            {
-                month -= 20;
-                year = int.Parse("18" + personalIDNumber.Substring(0, 2));
-            }
-            else
-            {
-                month -= 40;
-                year = int.Parse("20" + personalIDNumber.Substring(0, 2));
-            }
-            int day = int.Parse(personalIDNumber.Substring(4, 2));
-            DateTime dateOfBirth = new DateTime();
-            if (!DateTime.TryParse(String.Format("{0}/{1}/{2}", day, month, year), out dateOfBirth))
-            {
-                return false;
-            }
-            int[] weights = new int[] { 2, 4, 8, 5, 10, 9, 7, 3, 6 };
-            int totalControlSum = 0;
-            for (int i = 0; i < 9; i++)
-            {
-                totalControlSum += weights[i] * (personalIDNumber[i] - '0');
-            }
-            int controlDigit = 0;
-            int reminder = totalControlSum % 11;
-            if (reminder < 10)
-            {
-                controlDigit = reminder;
-            }
-            int lastDigitFromIDNumber = int.Parse(personalIDNumber[9..]);
-            if (lastDigitFromIDNumber != controlDigit)
-            {
-                return false;
-            }
-            return true;
         }
     }
 }
