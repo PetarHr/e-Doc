@@ -1,5 +1,5 @@
-﻿using eDoc.Data.Models;
-using eDoc.Models.View;
+﻿using eDoc.Models.View;
+using eDoc.Models.View.Patient;
 using System.Collections.Generic;
 
 namespace eDoc.Services
@@ -12,6 +12,7 @@ namespace eDoc.Services
         public ICollection<SickLeaveListViewModel> GetMySickLeaveLists(string userId);
         public MyDoctorViewModel GetMyDoctor();
         public List<DoctorsListViewModel> GetDoctorsLists();
+        public PatientDetailsViewModel GetPatientDetails(string userId);
         public void AssignDoctor(string doctorId);
     }
 }

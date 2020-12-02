@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using eDoc.Data.Models;
 using eDoc.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Newtonsoft.Json;
 
 namespace eDoc
 {
@@ -43,6 +44,7 @@ namespace eDoc
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddControllersWithViews();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddRazorPages();
             services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
             {

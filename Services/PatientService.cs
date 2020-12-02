@@ -1,6 +1,7 @@
 ﻿using eDoc.Data;
 using eDoc.Data.Models;
 using eDoc.Models.View;
+using eDoc.Models.View.Patient;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace eDoc.Services
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public PatientService(ApplicationDbContext db, 
-                              UserManager<ApplicationUser> userManager, 
+        public PatientService(ApplicationDbContext db,
+                              UserManager<ApplicationUser> userManager,
                               SignInManager<ApplicationUser> signInManager)
         {
             this.db = db;
@@ -28,12 +29,12 @@ namespace eDoc.Services
                 .Select(x => new AmbulatoryListViewModel
                 {
                     Id = x.Id,
-                    PatientFullName = x.Patient.FullName, 
-                    DoctorFullName = x.Doctor.FullName, 
-                    IssueDate = x.CreatedOn, 
-                    CheckUpType = x.TypeOfCheckup, 
+                    PatientFullName = x.Patient.FullName,
+                    DoctorFullName = x.Doctor.FullName,
+                    IssueDate = x.CreatedOn,
+                    CheckUpType = x.TypeOfCheckup,
                     Diagnosis = x.Diagnosis,
-                    Diseases = x.AccompanyingConditions, 
+                    Diseases = x.AccompanyingConditions,
                     Therapy = x.Therapy
 
                 })
@@ -47,13 +48,13 @@ namespace eDoc.Services
 
             var sickLeaves = db.SickLeaveLists.Where(x => x.Patient.Id == userId)
                 .Select(x => new SickLeaveListViewModel
-                { 
-                    Id = x.Id, 
-                    DoctorFullName = x.Doctor.FullName, 
-                    PatientFullName = x.Patient.FullName, 
-                    IssueDate = x.DateOfIssue, 
-                    StartDate = x.StartDate, 
-                    EndDate = x.EndDate, 
+                {
+                    Id = x.Id,
+                    DoctorFullName = x.Doctor.FullName,
+                    PatientFullName = x.Patient.FullName,
+                    IssueDate = x.DateOfIssue,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
                     Employer = x.Patient.Workplace.Name
                 })
                 .ToList();
@@ -89,7 +90,7 @@ namespace eDoc.Services
 
                 DoctorFullName = recipe.Doctor.FullName,
                 DoctorUIN = recipe.Doctor.UIN,
-                
+
                 MedCenterName = recipe.Doctor.MedicalCenter?.Name,
                 MedCenterAddress = recipe.Doctor.MedicalCenter?.Address?.Street,
 
@@ -123,11 +124,11 @@ namespace eDoc.Services
 
             var myDoctorView = new MyDoctorViewModel
             {
-                DoctorId = doctor.Id, 
-                DoctorFullName = doctor.FullName, 
-                DoctorSpecialty = doctor.Occupation, 
-                DoctorProfilePicture = "https://bootdey.com/img/Content/avatar/avatar7.png", 
-                DoctorMedicalCenterName = doctor.MedicalCenter?.Name, 
+                DoctorId = doctor.Id,
+                DoctorFullName = doctor.FullName,
+                DoctorSpecialty = doctor.Occupation,
+                DoctorProfilePicture = "https://bootdey.com/img/Content/avatar/avatar7.png",
+                DoctorMedicalCenterName = doctor.MedicalCenter?.Name,
                 DoctorMedicalCenterAddress = doctor.MedicalCenter?.Address.Street + " № "
                                                 + doctor.MedicalCenter?.Address.StreetNumber + ", "
                                                 + doctor.MedicalCenter?.Address.City + ", "
@@ -173,5 +174,41 @@ namespace eDoc.Services
             this.db.Update(user);
             this.db.SaveChanges();
         }
+
+        public PatientDetailsViewModel GetPatientDetails(string userId)
+        {
+            var patient = this.db.Users.Find(userId);
+            var аddressDetails = "Няма въведен адрес";
+
+            if (patient != null)
+            {
+                if (patient.Address != null)
+                {
+                    аddressDetails = string.Concat("ул. ", patient.Address?.Street, ", ",
+                                                "№ ", patient.Address?.StreetNumber, ", ",
+                                                "Вход: ", patient.Address?.Entrance, ", ",
+                                                "Етаж: ", patient.Address?.Floor, ", ",
+                                                "Апартамент: ", patient.Address?.Apartment, ", ",
+                                                "Град: ", patient.Address?.City, ", ",
+                                                "Държава: ", patient.Address?.Country.Name, ".");
+                };
+
+                var patienDetails = new PatientDetailsViewModel
+                {
+                    BirthDate = patient.BirthDate,
+                    PIN = CleanPIN(patient.PIN),
+                    FullAddress = аddressDetails,
+                    CountryCode = patient.Address?.Country?.Code
+                };
+
+            return patienDetails;
+        }
+            return null;
+        }
+
+    private static string CleanPIN(string PIN)
+    {
+        return string.Concat(PIN.Remove(6), "****");
     }
+}
 }

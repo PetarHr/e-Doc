@@ -16,7 +16,7 @@
                     <div class="col">
                         <h5 class="card-title">
                             <strong>Пациент:</strong>
-                            <select class="form-control" name="patientId" required>
+                            <select class="form-control" name="patientSelect" id="patientSelect" required>
                                 <option value="" disabled selected>Изберете пациент</option>
                                 <optgroup label="Моите пациенти">
                                     @foreach (var patient in Model.PatientsList)
@@ -39,11 +39,11 @@
                             </select>
                         </h5>
                         <h6>
-                            <strong>ЕГН:</strong> 1234567890
+                            <strong>ЕГН:</strong> <text id="EGN">111</text>
                         </h6>
-                        <small class="text-muted">Дата на раждане: 12.01.2020г.</small><br />
-                        <small class="text-muted">Адрес: ул. Номер №1, ет.2, ап.54</small><br />
-                        <small class="text-muted">Код на държава: BG</small><br />
+                        <small class="text-muted">Дата на раждане: <text id="BirthDate">111</text></small><br />
+                        <small class="text-muted">Адрес: <text id="Address">111</text></small><br />
+                        <small class="text-muted">Код на държава: <text id="CountryCode">111</text></small><br />
                     </div>
                     <!-- Doctor details-->
                     <div class="col">
@@ -154,17 +154,17 @@
                     </div>
                     <!-- Right hand-side of the form-->
                     <div class="col">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Анамнеза</span>
+                        <div class="input-group row m-0">
+                            <div class="input-group-prepend col-4 p-0 d-flex flex-column align-items-stretch align-content-stretch">
+                                <span class="input-group-text h-100">Анамнеза</span>
                             </div>
-                            <textarea class="form-control" asp-for="MedicalHistory"></textarea>
+                            <textarea class="form-control col-8" asp-for="MedicalHistory"></textarea>
                         </div>
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Обективно състояние</span>
+                            <div class="input-group-prepend col-4 p-0 d-flex flex-column align-items-stretch align-content-stretch">
+                                <span class="input-group-text h-100 text-wrap">Обективно състояние</span>
                             </div>
-                            <textarea class="form-control" asp-for="ObjectiveCondition"></textarea>
+                            <textarea class="form-control col-8" asp-for="ObjectiveCondition"></textarea>
                         </div>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -203,4 +203,43 @@
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).on('change', '#patientSelect', function (e) {
+            var id = this.options[e.target.selectedIndex].value;
+            $.ajax({
+                method: 'GET',
+                url: 'https://localhost:44305/api',
+                contentType: 'application/json; charset=utf-8',
+                data: { "id": id },
+                dataType: 'json'
+            })
+                .done(function success(data) {
+                    let birthDate = new Date(data.birthDate);
+
+                    //Remove the values in the fields
+                    $("#EGN").contents().remove();
+                    $("#BirthDate").contents().remove();
+                    $("#Address").contents().remove();
+                    $("#CountryCode").contents().remove();
+                    //Populate the values from the server
+                    $("#EGN").prepend(data.pin);
+                    $("#Address").prepend(data.fullAddress);
+                    $("#BirthDate").prepend(
+                                               birthDate.getDate() + '.' +
+                                               (birthDate.getMonth()+1) + '.' +
+                                               birthDate.getFullYear() + ' г.'
+                    );
+                    $("#CountryCode").prepend(data.countryCode);
+                })
+                .fail(function fail(data, status) {
+                    alert('AJAX Request failed.');
+                });
+
+            console.log(id)
+        });
+
+
+
+    </script>
 }
