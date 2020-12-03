@@ -55,7 +55,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
         private async Task LoadAsync(ApplicationUser user)
         {
             var userProfile = await _userManager.GetUserAsync(this.User);
-       
+
             var userAddress = this._db.Addresses.Where(x => x.Id == userProfile.AddressId).FirstOrDefault();
 
             if (userAddress != null)

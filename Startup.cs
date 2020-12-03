@@ -10,6 +10,7 @@ using eDoc.Data.Models;
 using eDoc.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc;
 
 namespace eDoc
 {
@@ -31,7 +32,7 @@ namespace eDoc
                     Configuration.GetConnectionString("DefaultConnection"));
                 options.UseLazyLoadingProxies();
             });
-                
+
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = true;
@@ -43,7 +44,10 @@ namespace eDoc
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(configure =>
+            {
+                configure.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
             services.AddControllers().AddNewtonsoftJson();
             services.AddRazorPages();
             services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
@@ -60,7 +64,7 @@ namespace eDoc
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
                               IWebHostEnvironment env,
-                              RoleManager<IdentityRole> roleManager, 
+                              RoleManager<IdentityRole> roleManager,
                               UserManager<ApplicationUser> userManager)
         {
             if (env.IsDevelopment())
@@ -78,7 +82,7 @@ namespace eDoc
             app.UseStaticFiles();
 
             app.UseRouting();
-            
+
             app.UseAuthentication();
 #pragma warning disable CS4014 // Seeder method should not be awaited.
             SeederService.Initialize(roleManager, userManager);
@@ -87,6 +91,10 @@ namespace eDoc
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "Administration",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
