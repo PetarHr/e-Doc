@@ -1,17 +1,22 @@
-﻿using eDoc.Data.Models;
+﻿using eDoc.Data;
+using eDoc.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace eDoc.Services
 {
     public static class SeederService
     {
         public static async Task Initialize(RoleManager<IdentityRole> roleManager,
-                                             UserManager<ApplicationUser> userManager)
+                                             UserManager<ApplicationUser> userManager,
+                                             ApplicationDbContext db)
         {
             await InitializeRoles(roleManager);
             InitializeDemoProfiles(userManager);
+            await InitializeMKBListAsync(db);
         }
 
         private static void InitializeDemoProfiles(UserManager<ApplicationUser> userManager)
@@ -97,6 +102,48 @@ namespace eDoc.Services
             {
                 await roleManager.CreateAsync(new IdentityRole("eEmployer"));
             }
+        }
+
+        private static async Task InitializeMKBListAsync(ApplicationDbContext db)
+        {
+            List<MKBDiagnose> MKBList = db.MKBDiagnoses.ToList();
+
+            if (MKBList.Count != 0)
+            {
+                return;
+            }
+
+            string[] lines = System.IO.File.ReadAllLines(@"D:\Проекти\MKBArraySeeder\TXTArray\ArrayBG.txt");
+
+
+            foreach (string line in lines)
+            {
+                if (line.Contains("достига до вас благодарение") ||
+                    line.Contains("Международна класификация на"))
+                {
+                    continue;
+                }
+                else
+                {
+                    var tokens = line.Split(' ', 2, StringSplitOptions.None);
+
+                    if (tokens[0] != null || tokens[1] != null)
+                    {
+
+                        var MKBDiagnose = new MKBDiagnose
+                        {
+                            Code = tokens[0].Replace("*",""),
+                            Description = tokens[1]
+                        };
+
+                        MKBList.Add(MKBDiagnose);
+                    }
+
+                }
+            }
+
+            await db.AddRangeAsync(MKBList);
+            await db.SaveChangesAsync();
         }
     }
 }

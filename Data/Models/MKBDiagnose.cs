@@ -9,7 +9,7 @@ namespace eDoc.Data.Models
             this.Id = Guid.NewGuid().ToString();
         }
         public string Id { get; set; }
-        public int Code { get; set; }
+        public string Code { get; set; }
         public string Description { get; set; }
     }
 }

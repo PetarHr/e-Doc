@@ -35,7 +35,7 @@ namespace eDoc.Models.Input
         [Required]
         public string Diagnosis { get; set; }
         [Required]
-        public int MKBDiagnoseCode { get; set; }
+        public string  MKBDiagnoseCode { get; set; }
         [Required]
         public string MKBDiagnoseDescription { get; set; }
         [Required]
