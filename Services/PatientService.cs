@@ -32,7 +32,7 @@ namespace eDoc.Services
                     PatientFullName = x.Patient.FullName,
                     DoctorFullName = x.Doctor.FullName,
                     IssueDate = x.CreatedOn,
-                    CheckUpType = x.TypeOfCheckup,
+                    CheckUpType = x.TypeOfCheckup.ToString(),
                     Diagnosis = x.Diagnosis,
                     Diseases = x.AccompanyingConditions,
                     Therapy = x.Therapy

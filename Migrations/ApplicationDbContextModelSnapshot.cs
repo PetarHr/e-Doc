@@ -255,7 +255,7 @@ namespace eDoc.Migrations
                     b.Property<string>("MedicalHistory")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NZONNumber")
+                    b.Property<string>("NZOKNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ObjectiveCondition")
@@ -264,20 +264,17 @@ namespace eDoc.Migrations
                     b.Property<string>("PatientId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("SubstituteType")
+                    b.Property<int?>("SubstituteType")
                         .HasColumnType("int");
-
-                    b.Property<string>("SubstituteUIN")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Therapy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TypeOfCheckup")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TypeOfCheckup")
+                        .HasColumnType("int");
 
-                    b.Property<string>("VisitReason")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("VisitReason")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

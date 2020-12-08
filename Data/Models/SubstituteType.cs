@@ -4,7 +4,8 @@ namespace eDoc.Data.Models
 {
     public enum SubstituteType
     {
-        Нает = 0, 
-        Заместващ = 1
+        Неопределен = 0,
+        Нает = 1, 
+        Заместващ = 2
     }
 }

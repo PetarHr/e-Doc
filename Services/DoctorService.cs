@@ -49,6 +49,7 @@ namespace eDoc.Services
             {
                 PatientsList = listAllPatients,
                 DoctorFullName = doctor.FullName,
+                DoctorId = doctor.Id,
                 DoctorSpecialtyCode = doctor.SpecialtyCode,
                 DoctorUIN = doctor.UIN,
                 CreatedOn = DateTime.Now
@@ -58,7 +59,40 @@ namespace eDoc.Services
         }
         public void CreateAmbulatoryList(AmbulatoryListInputModel input)
         {
-            throw new NotImplementedException("Създаването на амбулаторни листове не е готово.");
+            var doctor = this._db.Users.Find(input.DoctorId);
+            var patient = this._db.Users.Find(input.PatientId);
+
+            if (doctor == null || patient == null)
+            {
+                return;
+            }
+
+            var ambulatoryList = new AmbulatoryList
+            {
+                CreatedOn = input.CreatedOn,
+                AccompanyingConditions = input.AccompanyingConditions, 
+                Diagnosis = input.Diagnosis, 
+                Doctor = doctor,
+                IssuedDocuments = input.IssuedDocuments, 
+                Examinations = input.Examinations, 
+                //IssuedDocumentsList = @TODO
+                MedicalHistory = input.MedicalHistory, 
+                MKBDiagnose = new MKBDiagnose
+                            {
+                                Code = input.MKBDiagnoseCode, 
+                                Description = input.MKBDiagnoseDescription
+                            },
+                NZOKNumber = input.NZOKNumber, 
+                ObjectiveCondition = input.ObjectiveCondition, 
+                Patient = patient,
+                SubstituteType = input.SubstituteType, 
+                Therapy = input.Therapy, 
+                TypeOfCheckup = input.TypeOfCheckup, 
+                VisitReason = input.VisitReason
+            };
+
+            this._db.AmbulatoryLists.Add(ambulatoryList);
+            this._db.SaveChanges();
         }
 
         public void CreateSickLeaveList(SickLeaveListInputModel input)
