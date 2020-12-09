@@ -31,7 +31,7 @@ namespace eDoc.Services
                 Doctor = doctor,
                 AllowMultiCompletion = input.AllowMultiCompletion,
                 CreatedOn = DateTime.UtcNow,
-                Description = input.RecipeDescription
+                Description = input.Description
             };
 
             this._db.Recipes.Add(recipe);
@@ -124,7 +124,7 @@ namespace eDoc.Services
 
         public ICollection<ApplicationUser> GetAllPatients()
         {
-            return _signInManager.UserManager.GetUsersInRoleAsync("ePatient").GetAwaiter().GetResult().ToList(); ;
+            return _signInManager.UserManager.GetUsersInRoleAsync("ePatient").GetAwaiter().GetResult().ToList();
         }
 
         public ICollection<ApplicationUser> GetDoctorPatients(string doctorId)
@@ -162,5 +162,27 @@ namespace eDoc.Services
             return listsIssueByUser;
         }
 
+        public CreateRecipeInputModel PrepareRecipeInputModel()
+        {
+            var doctorUserName = _signInManager.Context.User.Identity.Name;
+            var doctor = this._db.Users.Where(x => x.UserName == doctorUserName).FirstOrDefault();
+            var patientList = _signInManager
+                                            .UserManager
+                                            .GetUsersInRoleAsync("ePatient")
+                                            .GetAwaiter()
+                                            .GetResult()
+                                            .ToList();
+
+            var inputModel = new CreateRecipeInputModel
+            {
+                DoctorId = doctor.Id,
+                DoctorFullName = doctor.FullName,
+                DoctorSpecialtyCode = doctor.SpecialtyCode,
+                DoctorUIN = doctor.UIN,
+                PatientsList = patientList, 
+                CreatedOn = DateTime.Now
+            };
+            return inputModel;
+        }
     }
 }

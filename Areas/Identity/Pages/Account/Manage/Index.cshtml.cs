@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System;
+using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace eDoc.Areas.Identity.Pages.Account.Manage
 {
@@ -52,7 +54,7 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Required]
-            [Display(Name ="Лично име")]
+            [Display(Name = "Лично име")]
             [StringLength(100, ErrorMessage = "Полето трябва да е между {2} и {1} символа.", MinimumLength = 2)]
             public string FirstName { get; set; }
             [Required]
@@ -95,11 +97,11 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
                 FathersName = userProfile.FathersName,
                 FamilyName = userProfile.FamilyName,
                 PhoneNumber = phoneNumber,
-                DateOfBirth = userProfile.BirthDate, 
-                PIN = userProfile.PIN, 
-                Sex = userProfile.Sex, 
-                Occupation = userProfile.Occupation, 
-                UIN = userProfile.UIN, 
+                DateOfBirth = userProfile.BirthDate,
+                PIN = userProfile.PIN,
+                Sex = userProfile.Sex,
+                Occupation = userProfile.Occupation,
+                UIN = userProfile.UIN,
                 SpecialtyCode = userProfile.SpecialtyCode
             };
         }
@@ -142,8 +144,19 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
 
             if (Input.ProfilePicture != null)
             {
-                user.ProfilePicture = await UploadProfilePictureAsync(user);
+                if (
+                FormFileExtensions.IsImage(Input.ProfilePicture))
+                {
+
+                    user.ProfilePicture = await UploadProfilePictureAsync(user);
+                }
+                else
+                {
+                    StatusMessage = "Грешка: Прикачен е невалиден формат за профилна снимка.";
+                    return RedirectToPage();
+                }
             }
+
 
             if (Input.DateOfBirth >= DateTime.Today)
             {
@@ -200,5 +213,88 @@ namespace eDoc.Areas.Identity.Pages.Account.Manage
             return picturePath;
         }
 
+
+    }
+    public static class FormFileExtensions
+    {
+        public const int ImageMinimumBytes = 512;
+
+        public static bool IsImage(this IFormFile postedFile)
+        {
+            //-------------------------------------------
+            //  Check the image mime types
+            //-------------------------------------------
+            if (postedFile.ContentType.ToLower() != "image/jpg" &&
+                        postedFile.ContentType.ToLower() != "image/jpeg" &&
+                        postedFile.ContentType.ToLower() != "image/pjpeg" &&
+                        postedFile.ContentType.ToLower() != "image/gif" &&
+                        postedFile.ContentType.ToLower() != "image/x-png" &&
+                        postedFile.ContentType.ToLower() != "image/png")
+            {
+                return false;
+            }
+
+            //-------------------------------------------
+            //  Check the image extension
+            //-------------------------------------------
+            if (Path.GetExtension(postedFile.FileName).ToLower() != ".jpg"
+                && Path.GetExtension(postedFile.FileName).ToLower() != ".png"
+                && Path.GetExtension(postedFile.FileName).ToLower() != ".gif"
+                && Path.GetExtension(postedFile.FileName).ToLower() != ".jpeg")
+            {
+                return false;
+            }
+
+            //-------------------------------------------
+            //  Attempt to read the file and check the first bytes
+            //-------------------------------------------
+            try
+            {
+                if (!postedFile.OpenReadStream().CanRead)
+                {
+                    return false;
+                }
+                //------------------------------------------
+                //check whether the image size exceeding the limit or not
+                //------------------------------------------ 
+                if (postedFile.Length < ImageMinimumBytes)
+                {
+                    return false;
+                }
+
+                byte[] buffer = new byte[ImageMinimumBytes];
+                postedFile.OpenReadStream().Read(buffer, 0, ImageMinimumBytes);
+                string content = System.Text.Encoding.UTF8.GetString(buffer);
+                if (Regex.IsMatch(content, @"<script|<html|<head|<title|<body|<pre|<table|<a\s+href|<img|<plaintext|<cross\-domain\-policy",
+                    RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Multiline))
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            //-------------------------------------------
+            //  Try to instantiate new Bitmap, if .NET will throw exception
+            //  we can assume that it's not a valid image
+            //-------------------------------------------
+
+            try
+            {
+                using var bitmap = new System.Drawing.Bitmap(postedFile.OpenReadStream());
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally
+            {
+                postedFile.OpenReadStream().Position = 0;
+            }
+
+            return true;
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace eDoc.Services
         public AmbulatoryListInputModel PrepareAmbListInputModel();
         public void CreateAmbulatoryList(AmbulatoryListInputModel input);
         public void CreateSickLeaveList(SickLeaveListInputModel input);
+        public CreateRecipeInputModel PrepareRecipeInputModel();
         public ICollection<ApplicationUser> GetAllPatients();
         public ICollection<ApplicationUser> GetDoctorPatients(string doctorId);
         public ICollection<Recipe> GetRecipesIssueByMe();

@@ -23,7 +23,6 @@ namespace eDoc
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -61,8 +60,7 @@ namespace eDoc
             services.AddTransient<IPharmacistService, PharmacistService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app,
+        public async void Configure(IApplicationBuilder app,
                               IWebHostEnvironment env,
                               RoleManager<IdentityRole> roleManager,
                               UserManager<ApplicationUser> userManager,
@@ -81,25 +79,21 @@ namespace eDoc
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthentication();
-#pragma warning disable CS4014 // Seeder method should not be awaited.
-            SeederService.Initialize(roleManager, userManager, db);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            await SeederService.Initialize(roleManager, userManager, db);
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "Administration",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+
+                endpoints.MapControllerRoute(
+                    name: "Administration",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

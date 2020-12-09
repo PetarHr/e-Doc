@@ -23,9 +23,9 @@ namespace eDoc.Controllers
 
         public IActionResult CreateRecipe()
         {
-            var patientsList = _doctorService.GetAllPatients();
+            var recipeModel = _doctorService.PrepareRecipeInputModel();
 
-            return this.View(patientsList);
+            return this.View(recipeModel);
         }
 
         [HttpPost]

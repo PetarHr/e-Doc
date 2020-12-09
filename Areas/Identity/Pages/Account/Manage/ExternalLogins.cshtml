@@ -1,14 +1,14 @@
 ﻿@page
 @model ExternalLoginsModel
 @{
-    ViewData["Title"] = "Manage your external logins";
+    ViewData["Title"] = "Управлявайте Вашите свързани профили";
     ViewData["ActivePage"] = ManageNavPages.ExternalLogins;
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
 @if (Model.CurrentLogins?.Count > 0)
 {
-    <h4>Registered Logins</h4>
+    <h4>Свързани профили</h4>
     <table class="table">
         <tbody>
             @foreach (var login in Model.CurrentLogins)
@@ -22,7 +22,7 @@
                                 <div>
                                     <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
                                     <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
-                                    <button type="submit" class="btn btn-primary" title="Remove this @login.ProviderDisplayName login from your account">Remove</button>
+                                    <button type="submit" class="btn btn-primary" title="Remove this @login.ProviderDisplayName login from your account">Премахни</button>
                                 </div>
                             </form>
                         }
@@ -38,8 +38,9 @@
 }
 @if (Model.OtherLogins?.Count > 0)
 {
-    <h4>Add another service to log in.</h4>
+    <h4>Свържете външен профил към eDoc</h4>
     <hr />
+    <p>Можете да свържете Вашие еДок профил с външен профил, който да се използва за достъп до системата. За целта може да изберете измежду следните външни профили:</p>
     <form id="link-login-form" asp-page-handler="LinkLogin" method="post" class="form-horizontal">
         <div id="socialLoginList">
             <p>
