@@ -10,8 +10,8 @@ using eDoc.Data;
 namespace eDoc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201208093831_SubsType")]
-    partial class SubsType
+    [Migration("20201209095553_InitialRe")]
+    partial class InitialRe
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -275,8 +275,8 @@ namespace eDoc.Migrations
                     b.Property<int>("TypeOfCheckup")
                         .HasColumnType("int");
 
-                    b.Property<string>("VisitReason")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("VisitReason")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -474,8 +474,8 @@ namespace eDoc.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Code")
-                        .HasColumnType("int");
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");

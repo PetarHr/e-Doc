@@ -37,7 +37,33 @@ namespace eDoc.Services
                     Occupation = "УНГ",
                     UIN = "УИН12345",
                     SpecialtyCode = "99897",
-                    EmailConfirmed = true
+                    EmailConfirmed = true, 
+                    Title = Title.Господин,
+                    Address = new Address
+                    {
+                        Apartment = "12", 
+                        City = "Пловдив", 
+                        Comment = "Това е основният ми адрес.", 
+                        Country = new Country
+                        {
+                                Code = "BGR", 
+                                Name = "България", 
+                                PhoneCode = "+359"
+                        }, 
+                        Entrance = "Вход А", 
+                        Floor = 1, 
+                        Street = "ул. Първа",
+                        StreetNumber = 34, 
+                        Region = new Region
+                        {
+                            Name = "Пловдив"
+                        }, 
+                        Municipality = new Municipality
+                        {
+                            Name = "Пловдив"
+                        }
+                    }
+
                 };
 
                 IdentityResult result = userManager.CreateAsync(user, "Doctor@edoc.com1").Result;
@@ -62,7 +88,32 @@ namespace eDoc.Services
                     BirthDate = DateTime.UtcNow,
                     Sex = 0,
                     Occupation = "Оксиженист",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    Title = Title.Господин,
+                    Address = new Address
+                    {
+                        Apartment = "12",
+                        City = "Пловдив",
+                        Comment = "Това е основният ми адрес.",
+                        Country = new Country
+                        {
+                            Code = "BGR",
+                            Name = "България",
+                            PhoneCode = "+359"
+                        },
+                        Entrance = "Вход А",
+                        Floor = 1,
+                        Street = "ул. Първа",
+                        StreetNumber = 34,
+                        Region = new Region
+                        {
+                            Name = "Пловдив"
+                        },
+                        Municipality = new Municipality
+                        {
+                            Name = "Пловдив"
+                        }
+                    }
                 };
 
                 IdentityResult result = userManager.CreateAsync(user, "Patient@edoc.com1").Result;
@@ -70,6 +121,106 @@ namespace eDoc.Services
                 if (result.Succeeded)
                 {
                     userManager.AddToRoleAsync(user, "ePatient").Wait();
+                }
+            };
+
+            if (userManager.FindByEmailAsync("Admin@edoc.com1").Result == null)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = "Admin@edoc.com1",
+                    Email = "Admin@edoc.com1",
+                    FirstName = "Администратор",
+                    FathersName = "@",
+                    FamilyName = "еДок",
+                    FullName = "Администратор @ еДок",
+                    PIN = "5555555555",
+                    BirthDate = DateTime.UtcNow,
+                    Sex = 0,
+                    Occupation = "Администратор",
+                    EmailConfirmed = true,
+                    Title = Title.Господин,
+                    Address = new Address
+                    {
+                        Apartment = "12",
+                        City = "Пловдив",
+                        Comment = "Това е основният ми адрес.",
+                        Country = new Country
+                        {
+                            Code = "BGR",
+                            Name = "България",
+                            PhoneCode = "+359"
+                        },
+                        Entrance = "Вход А",
+                        Floor = 1,
+                        Street = "ул. Първа",
+                        StreetNumber = 34,
+                        Region = new Region
+                        {
+                            Name = "Пловдив"
+                        },
+                        Municipality = new Municipality
+                        {
+                            Name = "Пловдив"
+                        }
+                    }
+                };
+
+                IdentityResult result = userManager.CreateAsync(user, "Admin@edoc.com1").Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "GodModeAdmin").Wait();
+                }
+            };
+
+            if (userManager.FindByEmailAsync("Pharmacist@edoc.com1").Result == null)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = "Pharmacist@edoc.com1",
+                    Email = "Pharmacist@edoc.com1",
+                    FirstName = "Фармацевт",
+                    FathersName = "@",
+                    FamilyName = "еДок",
+                    FullName = "Фармацевт @ еДок",
+                    PIN = "5555555555",
+                    BirthDate = DateTime.UtcNow,
+                    Sex = 0,
+                    Occupation = "Фармацевт",
+                    EmailConfirmed = true,
+                    Title = Title.Господин,
+                    Address = new Address
+                    {
+                        Apartment = "12",
+                        City = "Пловдив",
+                        Comment = "Това е основният ми адрес.",
+                        Country = new Country
+                        {
+                            Code = "BGR",
+                            Name = "България",
+                            PhoneCode = "+359"
+                        },
+                        Entrance = "Вход А",
+                        Floor = 1,
+                        Street = "ул. Първа",
+                        StreetNumber = 34,
+                        Region = new Region
+                        {
+                            Name = "Пловдив"
+                        },
+                        Municipality = new Municipality
+                        {
+                            Name = "Пловдив"
+                        }
+                    }
+                };
+
+                IdentityResult result = userManager.CreateAsync(user, "Pharmacist@edoc.com1").Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "ePharmacist").Wait();
                 }
             };
         }

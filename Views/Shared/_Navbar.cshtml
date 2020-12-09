@@ -174,7 +174,7 @@
     </div>
     <!-- sidebar-content  -->
     <div class="sidebar-footer">
-        <a href="#">
+        @*<a href="#">
             <i class="fa fa-bell"></i>
             <span class="badge badge-pill badge-warning notification">3</span>
         </a>
@@ -185,9 +185,9 @@
         <a href="#">
             <i class="fa fa-cog"></i>
             <span class="badge-sonar"></span>
-        </a>
+        </a>*@
         <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <i class="fa fa-power-off"></i>
+            <i class="fas fa-power-off"> Изход</i>
         </a>
     </div>
 </nav>

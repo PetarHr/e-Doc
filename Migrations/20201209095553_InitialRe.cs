@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace eDoc.Migrations
 {
-    public partial class InitialReCreate : Migration
+    public partial class InitialRe : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,7 +40,7 @@ namespace eDoc.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Code = table.Column<int>(type: "int", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -237,12 +237,11 @@ namespace eDoc.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    NZONNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubstituteUIN = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubstituteType = table.Column<int>(type: "int", nullable: false),
+                    NZOKNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubstituteType = table.Column<int>(type: "int", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    VisitReason = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TypeOfCheckup = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VisitReason = table.Column<int>(type: "int", nullable: false),
+                    TypeOfCheckup = table.Column<int>(type: "int", nullable: false),
                     IssuedDocuments = table.Column<bool>(type: "bit", nullable: false),
                     MedicalHistory = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ObjectiveCondition = table.Column<string>(type: "nvarchar(max)", nullable: true),
