@@ -29,6 +29,7 @@ namespace eDoc.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreateRecipe(CreateRecipeInputModel input)
         {
             _doctorService.CreateRecipe(input);
@@ -44,6 +45,7 @@ namespace eDoc.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreateAmbulatoryList(AmbulatoryListInputModel input)
         {
             _doctorService.CreateAmbulatoryList(input);
@@ -53,17 +55,9 @@ namespace eDoc.Controllers
 
         public IActionResult CreateSickLeaveList()
         {
-            var allPatients = _doctorService.GetAllPatients();
-            var doctor = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+            var sickLeaveInputModel = _doctorService.PrepareSickLeaveInputModel();
 
-            var createSickLeaveModel = new SickLeaveListInputModel
-            {
-                PatientsList = allPatients,
-                DoctorId = doctor.Id,
-                DoctorFullName = doctor.FullName
-            };
-
-            return this.View(createSickLeaveModel);
+            return this.View(sickLeaveInputModel);
         }
 
         [HttpPost]

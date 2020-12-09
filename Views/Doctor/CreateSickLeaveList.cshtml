@@ -1,50 +1,198 @@
-﻿@model eDoc.Models.Input.SickLeaveListInputModel
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<eDoc.Data.Models.ApplicationUser> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+@model eDoc.Models.Input.SickLeaveListInputModel
 
-<form method="post">
-    <div class="form-group">
-        <label for="doctorFullName">Издадена от:</label>
-        <input type="text" class="form-control" id="doctorFullName" name="doctorFullName" value="@Model.DoctorFullName" disabled>
-        <input type="text" class="form-control" name="doctorId" value="@Model.DoctorId" hidden>
+<h1>Нов болничен лист</h1>
+<div class="container-fluid">
+    <form class="form-control-dark" method="post">
+        <div class="card">
+            <!--Top container for patient & doctor details -->
+            <div class="card-header">
+                <div class="form-row">
+                    <!-- Patient details-->
+                    <div class="col">
+                        <h5 class="card-title">
+                            <strong>Пациент:</strong>
+                            <select class="form-control" asp-for="@Model.PatientId" required>
+                                <option value="" selected>Изберете пациент</option>
+                                <optgroup label="Моите пациенти">
+                                    @foreach (var patient in Model.PatientsList)
+                                    {
+                                        if (patient.MyDoctorId == user.Id)
+                                        {
+                                            <option value="@patient.Id"> @patient.FullName</option>
+                                        }
+                                    }
+                                </optgroup>
+                                <optgroup label="Други пациенти">
+                                    @foreach (var patient in Model.PatientsList)
+                                    {
+                                        if (patient.MyDoctorId != user.Id)
+                                        {
+                                            <option value="@patient.Id"> @patient.FullName</option>
+                                        }
+                                    }
+                                </optgroup>
+                            </select>
+                        </h5>
+                        <h6>
+                            <strong>ЕГН:</strong> <text id="EGN"></text>
+                        </h6>
+                        <small class="text-muted">Дата на раждане: <text id="BirthDate"></text></small><br />
+                        <small class="text-muted">Адрес: <text id="Address"></text></small><br />
+                        <small class="text-muted">Код на държава: <text id="CountryCode"></text></small><br />
+                    </div>
+                    <!-- Doctor details-->
+                    <div class="col">
+                        <h5 class="card-title">
+                            <strong>Лекар:</strong><br />
+                            @Model.DoctorFullName<br />
+                            <input asp-for="@Model.DoctorId" hidden />
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <!-- SickLeave list №, create date & time -->
+            <div class="card-body">
+                <div class="form-row text-center">
+                    <div class="col-4">
+                        <h6>
+                            № от кн. за регистр. на болнични листове:<br />
+                            <input asp-for="@Model.RegistryNumber" />
+                        </h6>
+                    </div>
+                    <div class="col-4">
+                        <h6>дата: @Model.DateOfIssue.ToShortDateString()</h6>
+                    </div>
+                    <div class="col-4">
+                        <h6>час: @Model.DateOfIssue.ToShortTimeString()</h6>
+                    </div>
+                    <input asp-for="@Model.DateOfIssue" hidden />
+                </div>
+            </div>
+            <!-- Main content of the Ambulatory list-->
+            <div class="card-footer">
+                <div class="form-row text-center">
+                    <!-- Left hand-side of the form-->
+                    <div class="col">
+                        <!-- LAK, Journal numbers-->
+                        <div class="col-4">
+                            <h6>
+                                <label class="label-default" asp-for="LAKNumber">ЛАК №:</label>
+                                <input asp-for="LAKNumber" />
+                                <span asp-validation-for="LAKNumber" class="text-danger"></span>
+                            </h6>
+                            <label class="label-default" asp-for="StartDate">В отпуск от:</label>
+                            <input asp-for="StartDate" />
+                            <span asp-validation-for="StartDate" class="text-danger"></span>
 
-        <select class="form-control" name="patientId" required>
-            <option value="" disabled selected>Изберете пациент</option>
-            <optgroup label="Моите пациенти">
-                @foreach (var patient in Model.PatientsList)
-                {
-                    if (patient.MyDoctorId == User.Identity.Name)
-                    {
-                        <option value="@patient.Id"> @patient.FullName (@patient.PIN)</option>
-                    }
-                }
-            </optgroup>
-            <optgroup label="Други пациенти">
-                @foreach (var patient in Model.PatientsList)
-                {
-                    if (patient.MyDoctorId != User.Identity.Name)
-                    {
-                        <option value="@patient.Id"> @patient.FullName (@patient.PIN)</option>
-                    }
-                }
-            </optgroup>
-        </select>
-        <select class="form-control" asp-for="MKBDiagnoseId" required>
-            <option value="" disabled selected>Диагноза по МКБ</option>
-            @foreach (var diagnose in Model.MKBDiagnoseList)
-            {
-                <option value="@diagnose.Id">@diagnose.Code / @diagnose.Description</option>
-            }
-        </select>
-        <input class="form-control" asp-for="LAKNumber" type="text" placeholder="ЛАК №" required />
-        <input class="form-control" asp-for="Continuation" type="text" placeholder="Продължение" required />
-        <input class="form-control" asp-for="DateOfIssue" type="text" placeholder="Дата на издаване" required />
-        <input class="form-control" asp-for="Diagnosis" type="text" placeholder="Диагноза" required />
-        <input class="form-control" asp-for="DisabilityReason" type="text" placeholder="Причина за нетрудоспособност" required />
-        <input class="form-control" asp-for="StartDate" type="text" placeholder="Начална дата" required />
-        <input class="form-control" asp-for="EndDate" type="text" placeholder="Крайна дата" required />
-        <input class="form-control" asp-for="OutpatientJournalNumber" type="text" placeholder="Номер в болничен журнал" required />
-        <input class="form-control" asp-for="RegistryNumber" type="text" placeholder="Номер в регистър" required />
-        <input class="form-control" asp-for="TotalDaysOff" type="text" placeholder="Общо дни" required />
-        <input class="form-control" asp-for="TreatmentRegimen" type="text" placeholder="Режим на лечение" required />
-    </div>
-    <button type="submit" class="btn btn-primary">Създай</button>
-</form>
+                            <span asp-validation-for="EndDate" class="text-danger"></span>
+                            <label class="label-default" asp-for="EndDate">В отпуск до:</label>
+                            <input asp-for="EndDate" />
+
+                            <label class="label-default" asp-for="OutpatientJournalNumber"></label>
+                            <input asp-for="OutpatientJournalNumber" placeholder="" />
+                            <span asp-validation-for="OutpatientJournalNumber" class="text-danger"></span>
+
+                            <label class="label-default" asp-for="Continuation">Продължение</label>
+                            <input asp-for="Continuation" placeholder="" />
+
+                        </div>
+                    </div>
+                    <!-- Right hand-side of the form-->
+                    <div class="col">
+                        <div class="input-group row m-0">
+                            <div class="input-group-prepend col-4 p-0 d-flex flex-column align-items-stretch align-content-stretch">
+                                <span class="input-group-text h-100">Диагноза:</span>
+                            </div>
+                            <textarea class="form-control col-8" asp-for="Diagnosis" placeholder="Диагноза..."></textarea>
+                        </div>
+                        <strong>Диагноза по МКБ:</strong>
+                        <select class="form-control" asp-for="MKBDiagnoseId" required>
+                            <option value="" selected>Моля, изберете...</option>
+                            @foreach (var diagnose in Model.MKBDiagnoseList)
+                            {
+                                <option value="@diagnose.Id"> @diagnose.Description (Код: @diagnose.Code)</option>
+                            }
+                        </select>
+                        <textarea class="form-control col-8" asp-for="DisabilityReason" placeholder="Причина..."></textarea>
+
+                        <!-- Type of check-up selection -->
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="checkupType">Режим на лечение:</label>
+                            </div>
+                            <span asp-validation-for="TreatmentRegimen" class="text-danger"></span>
+                            <select class="custom-select" asp-for="TreatmentRegimen" id="checkupType">
+                                <option selected disabled>Избери...</option>
+                                <option value="1">Болничен</option>
+                                <option value="2">Санаторно-курортен</option>
+                                <option value="3">Домашен - стаен</option>
+                                <option value="4">Домашен - амбулаторен</option>
+                                <option value="5">Домашен - на легло, постоянно или за определени часове от деня</option>
+                                <option value="6">Свободен - без право на напускане на населеното място</option>
+                                <option value="7">Свободен - с право на напускане на населеното място в границите на РБ</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="create">Създай</button>
+        <button type="reset" class="btn btn-outline-danger" id="reset">Нулирай</button>
+    </form>
+
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).on('change', '#PatientId', function (e) {
+            var id = this.options[e.target.selectedIndex].value;
+            $.ajax({
+                method: 'GET',
+                url: '/api/PatientDetails',
+                contentType: 'application/json; charset=utf-8',
+                data: { "id": id },
+                dataType: 'json'
+            })
+                .done(function success(data) {
+                    let birthDate = new Date(data.birthDate);
+
+                    //Remove the values in the fields
+                    $("#EGN").contents().remove();
+                    $("#BirthDate").contents().remove();
+                    $("#Address").contents().remove();
+                    $("#CountryCode").contents().remove();
+                    //Populate the values from the server
+                    $("#EGN").prepend(data.pin);
+                    $("#Address").prepend(data.fullAddress);
+                    $("#BirthDate").prepend(
+                        birthDate.getDate() + '.' +
+                        (birthDate.getMonth() + 1) + '.' +
+                        birthDate.getFullYear() + ' г.'
+                    );
+                    $("#CountryCode").prepend(data.countryCode);
+                })
+                .fail(function fail(data, status) {
+                    alert('AJAX Request failed.');
+                });
+        });
+    </script>
+    <!-- Reset button clean up-->
+    <script>
+
+        $(document).on('click', '#reset', function (e) {
+            //Remove the values in the fields
+            $("#EGN").contents().remove();
+            $("#BirthDate").contents().remove();
+            $("#Address").contents().remove();
+            $("#CountryCode").contents().remove();
+        });
+    </script>
+}

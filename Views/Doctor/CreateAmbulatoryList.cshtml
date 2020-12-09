@@ -218,7 +218,7 @@
             var id = this.options[e.target.selectedIndex].value;
             $.ajax({
                 method: 'GET',
-                url: 'https://localhost:44305/api',
+                url: '/api/PatientDetails',
                 contentType: 'application/json; charset=utf-8',
                 data: { "id": id },
                 dataType: 'json'

@@ -627,14 +627,14 @@ namespace eDoc.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LAKNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("LAKNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MKBDiagnoseId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("OutpatientJournalNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("OutpatientJournalNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PatientId")
                         .HasColumnType("nvarchar(450)");

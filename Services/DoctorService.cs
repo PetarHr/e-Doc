@@ -19,6 +19,28 @@ namespace eDoc.Services
             this._db = db;
             this._signInManager = signInManager;
         }
+        public CreateRecipeInputModel PrepareRecipeInputModel()
+        {
+            var doctorUserName = _signInManager.Context.User.Identity.Name;
+            var doctor = this._db.Users.Where(x => x.UserName == doctorUserName).FirstOrDefault();
+            var patientList = _signInManager
+                                            .UserManager
+                                            .GetUsersInRoleAsync("ePatient")
+                                            .GetAwaiter()
+                                            .GetResult()
+                                            .ToList();
+
+            var inputModel = new CreateRecipeInputModel
+            {
+                DoctorId = doctor.Id,
+                DoctorFullName = doctor.FullName,
+                DoctorSpecialtyCode = doctor.SpecialtyCode,
+                DoctorUIN = doctor.UIN,
+                PatientsList = patientList,
+                CreatedOn = DateTime.Now
+            };
+            return inputModel;
+        }
 
         public void CreateRecipe(CreateRecipeInputModel input)
         {
@@ -57,6 +79,7 @@ namespace eDoc.Services
 
             return ambulatoryListInputModel;
         }
+
         public void CreateAmbulatoryList(AmbulatoryListInputModel input)
         {
             var doctor = this._db.Users.Find(input.DoctorId);
@@ -94,6 +117,27 @@ namespace eDoc.Services
             this._db.AmbulatoryLists.Add(ambulatoryList);
             this._db.SaveChanges();
         }
+      
+
+        public SickLeaveListInputModel PrepareSickLeaveInputModel()
+        {
+            var listAllPatients = this.GetAllPatients();
+            var MKBList = _db.MKBDiagnoses.ToList();
+
+            var doctorUserName = _signInManager.Context.User.Identity.Name;
+            var doctor = this._db.Users.Where(x => x.UserName == doctorUserName).FirstOrDefault();
+
+            var sickLeaveInputModel = new SickLeaveListInputModel
+            {
+                DoctorFullName = doctor.FullName, 
+                DoctorId = doctor.Id, 
+                PatientsList = listAllPatients, 
+                MKBDiagnoseList = MKBList, 
+                DateOfIssue = DateTime.Now
+            };
+
+            return sickLeaveInputModel;
+        }
 
         public void CreateSickLeaveList(SickLeaveListInputModel input)
         {
@@ -110,16 +154,16 @@ namespace eDoc.Services
                 DateOfIssue = input.DateOfIssue,
                 Diagnosis = input.Diagnosis,
                 DisabilityReason = input.DisabilityReason,
+                StartDate = input.StartDate,
                 EndDate = input.EndDate,
                 MKBDiagnose = mkbdiagnose,
                 OutpatientJournalNumber = input.OutpatientJournalNumber,
                 RegistryNumber = input.RegistryNumber,
-                StartDate = input.StartDate,
-                TreatmentRegimen = input.TreatmentRegimen
-            };
+                TreatmentRegimen = input.TreatmentRegimen, 
+        };
 
             this._db.SickLeaveLists.Add(sickLeave);
-            this._db.SaveChanges();
+            var result = this._db.SaveChanges();
         }
 
         public ICollection<ApplicationUser> GetAllPatients()
@@ -160,29 +204,6 @@ namespace eDoc.Services
             var listsIssueByUser = user.SickLeaveListsIssuedByMe;
 
             return listsIssueByUser;
-        }
-
-        public CreateRecipeInputModel PrepareRecipeInputModel()
-        {
-            var doctorUserName = _signInManager.Context.User.Identity.Name;
-            var doctor = this._db.Users.Where(x => x.UserName == doctorUserName).FirstOrDefault();
-            var patientList = _signInManager
-                                            .UserManager
-                                            .GetUsersInRoleAsync("ePatient")
-                                            .GetAwaiter()
-                                            .GetResult()
-                                            .ToList();
-
-            var inputModel = new CreateRecipeInputModel
-            {
-                DoctorId = doctor.Id,
-                DoctorFullName = doctor.FullName,
-                DoctorSpecialtyCode = doctor.SpecialtyCode,
-                DoctorUIN = doctor.UIN,
-                PatientsList = patientList, 
-                CreatedOn = DateTime.Now
-            };
-            return inputModel;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace eDoc.Services
         {
             await InitializeRoles(roleManager);
             InitializeDemoProfiles(userManager);
-            await InitializeMKBListAsync(db);
+            InitializeMKBList(db);
         }
 
         private static void InitializeDemoProfiles(UserManager<ApplicationUser> userManager)
@@ -255,7 +255,7 @@ namespace eDoc.Services
             }
         }
 
-        private static async Task InitializeMKBListAsync(ApplicationDbContext db)
+        private static void InitializeMKBList(ApplicationDbContext db)
         {
             List<MKBDiagnose> MKBList = db.MKBDiagnoses.ToList();
 
@@ -287,14 +287,17 @@ namespace eDoc.Services
                             Description = tokens[1]
                         };
 
-                        MKBList.Add(MKBDiagnose);
+                        if (!MKBList.Contains(MKBDiagnose))
+                        {
+                            MKBList.Add(MKBDiagnose);
+                        }
                     }
 
                 }
             }
 
-            await db.AddRangeAsync(MKBList);
-            await db.SaveChangesAsync();
+            db.MKBDiagnoses.AddRange(MKBList);
+            db.SaveChanges();
         }
     }
 }

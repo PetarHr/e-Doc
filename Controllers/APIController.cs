@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace eDoc.Controllers
 {
-    [Route("/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class APIController : ControllerBase
+    public class PatientDetailsController : ControllerBase
     {
         private readonly IPatientService _patientService;
 
-        public APIController(IPatientService patientService)
+        public PatientDetailsController(IPatientService patientService)
         {
             this._patientService = patientService;
         }
