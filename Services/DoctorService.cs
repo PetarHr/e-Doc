@@ -194,24 +194,52 @@ namespace eDoc.Services
             return recipeList;
         }
 
-        public ICollection<AmbulatoryList> GetAmbulatoryListsIssueByMe()
+        public List<AmbulatoryListsIssuedByMeViewModel> GetAmbulatoryListsIssueByMe()
         {
             var userName = _signInManager.Context.User.Identity.Name;
             var user = this._db.Users.Where(x => x.UserName == userName).FirstOrDefault();
 
-            var listsIssueByUser = user.AmbulatoryListsIssuedByMe;
+            List<AmbulatoryListsIssuedByMeViewModel> ambulatoryLists = new List<AmbulatoryListsIssuedByMeViewModel>();
 
-            return listsIssueByUser;
+            foreach (var list in user.AmbulatoryListsIssuedByMe)
+            {
+                var ambulatoryList = new AmbulatoryListsIssuedByMeViewModel
+                {
+                    Id = list.Id,
+                    CreatedOn = list.CreatedOn,
+                    DoctorFullName = list.Doctor.FullName, 
+                    ObjectiveCondition = list.ObjectiveCondition, 
+                    PatientFullName = list.Patient.FullName, 
+                    Therapy = list.Therapy
+                };
+
+                ambulatoryLists.Add(ambulatoryList);
+            }
+            return ambulatoryLists;
         }
 
-        public ICollection<SickLeaveList> GetSickLeavesIssueByMe()
+        public List<SickLeavesIssueByMyViewModel> GetSickLeavesIssueByMe()
         {
             var userName = _signInManager.Context.User.Identity.Name;
             var user = this._db.Users.Where(x => x.UserName == userName).FirstOrDefault();
 
-            var listsIssueByUser = user.SickLeaveListsIssuedByMe;
+            List<SickLeavesIssueByMyViewModel> sickLeaveLists = new List<SickLeavesIssueByMyViewModel>();
 
-            return listsIssueByUser;
+            foreach (var list in user.SickLeaveListsIssuedByMe)
+            {
+                var sickLeave = new SickLeavesIssueByMyViewModel
+                {
+                    Id = list.Id,
+                    Continuation = list.Continuation ? "Да" : "He", 
+                    CreatedOn = list.DateOfIssue, 
+                    Diagnosis = list.Diagnosis, 
+                    DoctorFullName = list.Doctor.FullName, 
+                    PatientFullName = list.Patient.FullName
+                };
+
+                sickLeaveLists.Add(sickLeave);
+            }
+            return sickLeaveLists;
         }
     }
 }

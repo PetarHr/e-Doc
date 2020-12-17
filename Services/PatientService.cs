@@ -281,5 +281,46 @@ namespace eDoc.Services
         };
             return ambulatoryListViewModel;
         }
+
+        public SickLeaveDetailsViewModel GetSickLeaveDetails(string id)
+        {
+            var sickLeave = db.SickLeaveLists.Find(id);
+
+            var sickLeaveDetails = new SickLeaveDetailsViewModel
+            {
+                PatientFullName = sickLeave.Patient.FullName,
+                PatientAddress = string.Concat("ул. ", sickLeave.Patient.Address?.Street, ", ",
+                                                "№ ", sickLeave.Patient.Address?.StreetNumber, ", ",
+                                                "Вход: ", sickLeave.Patient.Address?.Entrance, ", ",
+                                                "Етаж: ", sickLeave.Patient.Address?.Floor, ", ",
+                                                "Апартамент: ", sickLeave.Patient.Address?.Apartment, ", ",
+                                                "Град: ", sickLeave.Patient.Address?.City, ", ",
+                                                "Държава: ", sickLeave.Patient.Address?.Country.Name, "."),
+                DoctorFullName = sickLeave.Doctor.FullName, 
+                DoctorAddress = string.Concat("ул. ", sickLeave.Doctor.Address?.Street, ", ",
+                                                "№ ", sickLeave.Doctor.Address?.StreetNumber, ", ",
+                                                "Вход: ", sickLeave.Doctor.Address?.Entrance, ", ",
+                                                "Етаж: ", sickLeave.Doctor.Address?.Floor, ", ",
+                                                "Апартамент: ", sickLeave.Doctor.Address?.Apartment, ", ",
+                                                "Град: ", sickLeave.Doctor.Address?.City, ", ",
+                                                "Държава: ", sickLeave.Doctor.Address?.Country.Name, "."),
+                LAKNumber = sickLeave.LAKNumber, 
+                Continuation = sickLeave.Continuation ? "Да" : "Не", 
+                DateOfIssue = sickLeave.DateOfIssue, 
+                Diagnosis = sickLeave.Diagnosis, 
+                DisabilityReason = sickLeave.DisabilityReason, 
+                EndDate = sickLeave.EndDate, 
+                MKBDiagnose = sickLeave.MKBDiagnose.Description, 
+                OutpatientJournalNumber = sickLeave.OutpatientJournalNumber, 
+                RegistryNumber = sickLeave.RegistryNumber, 
+                StartDate = sickLeave.StartDate, 
+                TreatmentRegimen = sickLeave.TreatmentRegimen.ToString(), 
+                PatientPIN = CleanPIN(sickLeave.Patient.PIN), 
+                PatientCountryCode = sickLeave.Patient.Address.Country.Code, 
+                PatientDateOfBirth = sickLeave.Patient.BirthDate
+            };
+
+            return sickLeaveDetails;
+        }
     }
 }

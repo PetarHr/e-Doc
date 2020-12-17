@@ -61,6 +61,7 @@ namespace eDoc.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreateSickLeaveList(SickLeaveListInputModel input)
         {
             _doctorService.CreateSickLeaveList(input);

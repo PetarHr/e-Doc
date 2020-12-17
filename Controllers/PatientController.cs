@@ -28,7 +28,7 @@ namespace eDoc.Controllers
         }
         public IActionResult RecipeDetails(string id)
         {
-             var recipeDetails = service.GetRecipeDetails(id);
+            var recipeDetails = service.GetRecipeDetails(id);
 
             return View(recipeDetails);
         }
@@ -37,6 +37,13 @@ namespace eDoc.Controllers
             var ambulatoryListDetails = service.GetAmbulgatoryListDetails(id);
 
             return View(ambulatoryListDetails);
+        }
+
+        public IActionResult SickLeaveDetails(string id)
+        {
+            var sickLeave = service.GetSickLeaveDetails(id);
+
+            return View(sickLeave);
         }
 
         public IActionResult MyAmbulatoryLists()

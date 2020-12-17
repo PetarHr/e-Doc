@@ -20,7 +20,7 @@ namespace eDoc.Services
         public ICollection<ApplicationUser> GetAllPatients();
         public ICollection<ApplicationUser> GetDoctorPatients(string doctorId);
         public List<RecipesIssuedByMeViewModel> GetRecipesIssueByMe();
-        public ICollection<AmbulatoryList> GetAmbulatoryListsIssueByMe();
-        public ICollection<SickLeaveList> GetSickLeavesIssueByMe();
+        public List<AmbulatoryListsIssuedByMeViewModel> GetAmbulatoryListsIssueByMe();
+        public List<SickLeavesIssueByMyViewModel> GetSickLeavesIssueByMe();
     }
 }

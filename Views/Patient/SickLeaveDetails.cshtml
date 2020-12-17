@@ -1,0 +1,86 @@
+﻿@model eDoc.Models.View.Patient.SickLeaveDetailsViewModel
+
+<h1>Болничен лист</h1>
+<div class="container-fluid">
+    <form class="form-control-dark" method="post">
+        <div class="card">
+            <!--Top container for patient & doctor details -->
+            <div class="card-header">
+                <div class="form-row">
+                    <!-- Patient details-->
+                    <div class="col">
+                        <h5 class="card-title">
+                            <strong>Пациент: @Model.PatientFullName</strong>
+
+                        </h5>
+                        <h6>
+                            <strong>ЕГН:</strong> @Model.PatientPIN
+                        </h6>
+                        <small class="text-muted">Дата на раждане: @Model.PatientDateOfBirth</small><br />
+                        <small class="text-muted">Адрес: @Model.PatientAddress</small><br />
+                        <small class="text-muted">Код на държава: @Model.PatientCountryCode</small><br />
+                    </div>
+                    <!-- Doctor details-->
+                    <div class="col">
+                        <h5 class="card-title">
+                            <strong>Лекар:</strong><br />
+                            @Model.DoctorFullName<br />
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <!-- SickLeave list №, create date & time -->
+            <div class="card-body">
+                <div class="form-row text-center">
+                    <div class="col-4">
+                        <h6>
+                            № от кн. за регистр. на болнични листове:<br />
+                            @Model.RegistryNumber
+                        </h6>
+                    </div>
+                    <div class="col-4">
+                        <h6>дата: @Model.DateOfIssue.ToShortDateString()</h6>
+                    </div>
+                    <div class="col-4">
+                        <h6>час: @Model.DateOfIssue.ToShortTimeString()</h6>
+                    </div>
+                </div>
+            </div>
+            <!-- Main content of the Ambulatory list-->
+            <div class="card-footer">
+                <div class="form-row text-center">
+                    <!-- Left hand-side of the form-->
+                    <div class="col">
+                        <!-- LAK, Journal numbers-->
+                        <div class="col-6">
+                            <h6>
+                                <label class="label-default" asp-for="LAKNumber">ЛАК №:</label>
+                                @Model.LAKNumber<br />
+                            </h6>
+                            <label class="label-default" asp-for="StartDate">В отпуск от:</label>
+                            @Model.StartDate<br />
+
+                            <label class="label-default" asp-for="EndDate">В отпуск до:</label>
+                            @Model.EndDate<br />
+
+                            <label class="label-default" asp-for="Continuation">Продължение: </label>
+                            @Model.Continuation
+
+                        </div>
+                    </div>
+                    <!-- Right hand-side of the form-->
+                    <div class="col">
+
+                        <span>Диагноза:</span>
+
+                        @Model.Diagnosis
+                        <br />
+                        <strong>Диагноза по МКБ:</strong>
+                        @Model.MKBDiagnose
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

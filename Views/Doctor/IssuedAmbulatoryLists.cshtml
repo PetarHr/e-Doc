@@ -1,5 +1,5 @@
-﻿@using eDoc.Data.Models
-@model ICollection<AmbulatoryList>
+﻿@using eDoc.Models.View.Doctor
+@model List<AmbulatoryListsIssuedByMeViewModel>
 
     <h1>Издадени амбулаторни листове</h1>
     <table class="table table-sm">
@@ -19,8 +19,8 @@
             {
             <tr>
                 <td>@list.Id</td>
-                <td>@list.Patient.FullName</td>
-                <td>@list.Doctor.FullName</td>
+                <td>@list.PatientFullName</td>
+                <td>@list.DoctorFullName</td>
                 <td>@list.CreatedOn</td>
                 <td>@list.Therapy</td>
                 <td>@list.ObjectiveCondition</td>
