@@ -9,13 +9,14 @@
                 <div class="card-body">
                     <h5 class="card-title">Име: @doctor.FullName</h5>
                     <p class="card-text">Специалност: @doctor.Specialty</p>
+                    <p class="card-text">Телефон: @doctor.ContactPhone</p>
+                    <p class="card-text">Е-мейл: @doctor.ContactEmail</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Пълен адрес</li>
-                    <li class="list-group-item">Медицинско задевениде</li>
+                    <li class="list-group-item">Медицински център: @doctor.MedicalCenter</li>
+                    <li class="list-group-item">Адрес: @doctor.WorkplaceAddress</li>
                 </ul>
                 <div class="card-body">
-                    <a class="card-link">Пълен профил</a>
                     <a class="card-link" asp-controller="Patient" asp-action="AssignDoctor" asp-route-doctorId="@doctor.Id">Запиши ме!</a>
                 </div>
             </div>

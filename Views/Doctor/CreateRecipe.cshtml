@@ -2,7 +2,7 @@
 @model CreateRecipeInputModel
 
 <h1>Нова Рецепта</h1>
-<div class="container-fluid col-5">
+<div class="container-fluid col-9">
     <form class="form-control-dark" method="post">
         <div class="card">
             <!--Top container for patient & doctor details -->
@@ -97,7 +97,7 @@
             var id = this.options[e.target.selectedIndex].value;
             $.ajax({
                 method: 'GET',
-                url: 'https://localhost:44305/api',
+                url: '/api/PatientDetails',
                 contentType: 'application/json; charset=utf-8',
                 data: { "id": id },
                 dataType: 'json'

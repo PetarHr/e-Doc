@@ -32,6 +32,12 @@ namespace eDoc.Controllers
 
             return View(recipeDetails);
         }
+        public IActionResult AmbulatoryListDetails(string id)
+        {
+            var ambulatoryListDetails = service.GetAmbulgatoryListDetails(id);
+
+            return View(ambulatoryListDetails);
+        }
 
         public IActionResult MyAmbulatoryLists()
         {
@@ -67,6 +73,13 @@ namespace eDoc.Controllers
             var doctorsList = service.GetDoctorsLists();
 
             return this.View(doctorsList);
+        }
+
+        public IActionResult RemoveMyDoctor()
+        {
+            service.RemoveMyDoctor();
+
+            return this.RedirectToAction("MyDoctor");
         }
 
         public IActionResult AssignDoctor(string doctorId)

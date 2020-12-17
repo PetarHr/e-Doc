@@ -54,7 +54,6 @@
                             <small class="text-muted">Код специалност: @Model.DoctorSpecialtyCode</small>
                         </h5>
                         <h6>
-                            <strong>Лечебно заведение рег. №:</strong> @Model.MedicalCenterRegNumber <br />
                             <strong>УИН:</strong> @Model.DoctorUIN<br />
                             <strong>НЗОК №: </strong><input asp-for="@Model.NZOKNumber" value="@Model.NZOKNumber"><br />
                         </h6>
@@ -124,35 +123,6 @@
                                 <option value="3">Инцидентно посещение</option>
                             </select>
                         </div>
-                        <!-- Issued docs section -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                            <label class="form-check-label" for="defaultCheck1">
-                                Издадени документи
-                            </label>
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Избери</button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Медицинско направление</a>
-                                    <a class="dropdown-item" href="#">Направление за ВСД и назначени ВСД</a>
-                                    <a class="dropdown-item" href="#">Направление за МДД</a>
-                                    <a class="dropdown-item" href="#">Направление за КП, КПр, АПр</a>
-                                    <a class="dropdown-item" href="#">Болничен лист №</a>
-                                    <a class="dropdown-item" href="#">Рецепта</a>
-                                    <a class="dropdown-item" href="#">Рецептурна книжка №</a>
-                                    <a class="dropdown-item" href="#">Бързо известие</a>
-                                    <a class="dropdown-item" href="#">Етапна епикриза</a>
-                                    <a class="dropdown-item" href="#">Медицинска бележка</a>
-                                    <div role="separator" class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Талон за МЕ №</a>
-                                    <a class="dropdown-item" href="#">Талон за ТЕЛК №</a>
-                                </div>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Text input with dropdown button">
-                        </div>
-
                     </div>
                     <!-- Right hand-side of the form-->
                     <div class="col">
@@ -179,13 +149,6 @@
                                 <span class="input-group-text">Терапия</span>
                             </div>
                             <textarea class="form-control" asp-for="Therapy"></textarea>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">МКБ Код/Диагноза</span>
-                            </div>
-                            <input class="form-control" asp-for="MKBDiagnoseCode" />
-                            <textarea class="form-control" asp-for="MKBDiagnoseDescription"></textarea>
                         </div>
                         <div class="input-group">
                             <div class="input-group-prepend">

@@ -11,7 +11,7 @@ namespace eDoc.Models.View
         public string FullName { get; set; }
         public string Specialty { get; set; }
         public string MedicalCenter { get; set; }
-        public string Address { get; set; }
+        public string WorkplaceAddress { get; set; }
         public string ContactPhone { get; set; }
         public string ContactEmail { get; set; }
     }

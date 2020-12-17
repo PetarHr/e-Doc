@@ -12,7 +12,7 @@
         </div>
         <vc:user-profile user="@userManager.GetUserId(this.User)" />
         <!-- sidebar-header  -->
-        <div class="sidebar-search">
+        @*<div class="sidebar-search">
             <div>
                 <div class="input-group">
                     <input type="text" class="form-control search-menu" placeholder="Търся...">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
         <!-- sidebar-search  -->
         <div class="sidebar-menu">
             <ul>
@@ -88,21 +88,22 @@
                         </div>
                     </li>
                 }
-
-                <li class="sidebar-dropdown">
-                    <a href="#">
-                        <i class="fas fa-prescription-bottle-alt"></i>
-                        <span>Фармацевт</span>
-                    </a>
-                    <div class="sidebar-submenu">
-                        <ul>
-                            <li>
-                                <a asp-controller="Pharmacist" asp-action="MyWorkList">Списък с рецепти</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
+                @if (User.IsInRole("ePharmacist"))
+                {
+                    <li class="sidebar-dropdown">
+                        <a href="#">
+                            <i class="fas fa-prescription-bottle-alt"></i>
+                            <span>Фармацевт</span>
+                        </a>
+                        <div class="sidebar-submenu">
+                            <ul>
+                                <li>
+                                    <a asp-controller="Pharmacist" asp-action="MyWorkList">Списък с рецепти</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                }
                 <li class="sidebar-dropdown">
                     <a href="#">
                         <i class="far fa-folder-open"></i>
@@ -130,7 +131,7 @@
                     <div class="sidebar-submenu">
                         <ul>
                             <li>
-                                <a asp-controller="Home" asp-action="HospitalsNearMe">Болници близо до мен</a>
+                                <a asp-controller="Home" asp-action="HospitalsNearMe">Близо до мен</a>
                             </li>
                         </ul>
                     </div>
@@ -175,17 +176,17 @@
     <!-- sidebar-content  -->
     <div class="sidebar-footer">
         @*<a href="#">
-            <i class="fa fa-bell"></i>
-            <span class="badge badge-pill badge-warning notification">3</span>
-        </a>
-        <a href="#">
-            <i class="fa fa-envelope"></i>
-            <span class="badge badge-pill badge-success notification">7</span>
-        </a>
-        <a href="#">
-            <i class="fa fa-cog"></i>
-            <span class="badge-sonar"></span>
-        </a>*@
+                <i class="fa fa-bell"></i>
+                <span class="badge badge-pill badge-warning notification">3</span>
+            </a>
+            <a href="#">
+                <i class="fa fa-envelope"></i>
+                <span class="badge badge-pill badge-success notification">7</span>
+            </a>
+            <a href="#">
+                <i class="fa fa-cog"></i>
+                <span class="badge-sonar"></span>
+            </a>*@
         <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
             <i class="fas fa-power-off"> Изход</i>
         </a>

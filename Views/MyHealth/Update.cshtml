@@ -3,41 +3,41 @@
 @inject UserManager<ApplicationUser> userManager
 @model eDoc.Models.View.MyHealth.MyHealthDetailsViewModel
 
-<form method="post" asp-controller="MyHealth" asp-action="Update">
-    <div class="card" style="width: 18rem;">
-        <vc:profile-picture user="@userManager.GetUserId(this.User)" />
-        <div class="card-body">
-            <h5 class="card-title">@Model.UserFullName</h5>
-            <p class="card-text">Възраст: @Model.Age г.</p>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                Тегло:
-                <input asp-for="@Model.MyWeight.Value" /> кг.
-            </li>
-            <li class="list-group-item">
-                Кръвно:
-                <input asp-for="@Model.MyBloodPressure.Systolic" />(систолично) /
-                <input asp-for="@Model.MyBloodPressure.Diastolic" /> (диастоличното)
-            </li>
-            <li class="list-group-item">
-                Алергии:
-            </li>
-            @foreach (var allergy in Model.AllergiesList)
-            {
-                if (@allergy.Description != "Няма запазени алергии.")
-                {
-                    <li>
-                        <input asp-for="@allergy.Description" />
+        <form method="post" asp-controller="MyHealth" asp-action="Update" class="text-center">
+            <div class="card" style="width: 18rem;">
+                <vc:profile-picture user="@userManager.GetUserId(this.User)" />
+                <div class="card-body">
+                    <h5 class="card-title">@Model.UserFullName</h5>
+                    <p class="card-text">Възраст: @Model.Age г.</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        Тегло: <br />
+                        <input asp-for="@Model.MyWeight.Value" /> кг.
                     </li>
-                }
-            }
-            <li class="list-group-item">
-                <button type="button" class="btn btn-outline-success">Редактирай алергии</button>
-            </li>
-        </ul>
-        <div class="card-body">
-            <button type="submit" class="btn btn-outline-success">Запази</button>
-        </div>
-    </div>
-</form>
+                    <li class="list-group-item">
+                        Кръвно: <br />
+                        <input asp-for="@Model.MyBloodPressure.Systolic" />(систолично) <br />
+                        <input asp-for="@Model.MyBloodPressure.Diastolic" /> (диастоличното)
+                    </li>
+                    <li class="list-group-item">
+                        Алергии:
+                    </li>
+                    @foreach (var allergy in Model.AllergiesList)
+                    {
+                        if (@allergy.Description != "Няма запазени алергии.")
+                        {
+                            <li>
+                                <input asp-for="@allergy.Description" />
+                            </li>
+                        }
+                    }
+                    <li class="list-group-item">
+                        <a type="button" class="btn btn-outline-success" asp-controller="MyHealth" asp-action="History">Редактирай алергии</a>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <button type="submit" class="btn btn-outline-success">Запази</button>
+                </div>
+            </div>
+        </form>

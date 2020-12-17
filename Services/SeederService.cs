@@ -15,13 +15,13 @@ namespace eDoc.Services
                                              ApplicationDbContext db)
         {
             await InitializeRoles(roleManager);
-            InitializeDemoProfiles(userManager);
-            InitializeMKBList(db);
+            await InitializeDemoProfilesAsync(userManager);
+            await InitializeMKBListAsync(db);
         }
 
-        private static void InitializeDemoProfiles(UserManager<ApplicationUser> userManager)
+        private static async Task InitializeDemoProfilesAsync(UserManager<ApplicationUser> userManager)
         {
-            if (userManager.FindByEmailAsync("Doctor@edoc.com1").Result == null)
+            if (await userManager.FindByEmailAsync("Doctor@edoc.com1") == null)
             {
                 var user = new ApplicationUser
                 {
@@ -255,7 +255,7 @@ namespace eDoc.Services
             }
         }
 
-        private static void InitializeMKBList(ApplicationDbContext db)
+        private static async Task InitializeMKBListAsync(ApplicationDbContext db)
         {
             List<MKBDiagnose> MKBList = db.MKBDiagnoses.ToList();
 
@@ -297,7 +297,7 @@ namespace eDoc.Services
             }
 
             db.MKBDiagnoses.AddRange(MKBList);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
     }
 }

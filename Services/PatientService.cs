@@ -91,11 +91,20 @@ namespace eDoc.Services
                 DoctorFullName = recipe.Doctor.FullName,
                 DoctorUIN = recipe.Doctor.UIN,
 
-                MedCenterName = recipe.Doctor.MedicalCenter?.Name,
-                MedCenterAddress = recipe.Doctor.MedicalCenter?.Address?.Street,
+                MedCenterName = string.IsNullOrEmpty(recipe.Doctor.Workplace?.Name) ? "Не е подочен" : recipe.Doctor.Workplace.Name,
+                MedCenterAddress = string.IsNullOrEmpty(recipe.Doctor.Workplace.Address.Street) ? "Не е посочен" :
+                                                "ул. " + recipe.Doctor.Workplace.Address.Street + " № "
+                                                + recipe.Doctor.Workplace.Address.StreetNumber + ", гр. "
+                                                + recipe.Doctor.Workplace.Address.City + ", "
+                                                + recipe.Doctor.Workplace.Address.Country.Name,
 
                 PatientFullName = recipe.Patient.FullName,
-                PatientPIN = recipe.Patient.PIN,
+                PatientAddress = string.IsNullOrEmpty(recipe.Patient.Address?.Street) ? "Не е посочен" :
+                                                "ул. " + recipe.Patient.Address.Street + " № "
+                                                + recipe.Patient.Address.StreetNumber + ", гр. "
+                                                + recipe.Patient.Address.City + ", "
+                                                + recipe.Patient.Address.Country.Name,
+                PatientPIN = CleanPIN(recipe.Patient.PIN),
 
                 RecipeDescription = recipe.Description,
                 RecipeCreationDate = recipe.CreatedOn,
@@ -108,7 +117,10 @@ namespace eDoc.Services
 
         public MyDoctorViewModel GetMyDoctor()
         {
-            var userName = this._signInManager.Context.User.Identity.Name;
+            var userName = this._signInManager
+                               .Context.User
+                               .Identity
+                               .Name;
             var user = this._signInManager
                             .UserManager
                             .FindByNameAsync(userName)
@@ -127,12 +139,11 @@ namespace eDoc.Services
                 DoctorId = doctor.Id,
                 DoctorFullName = doctor.FullName,
                 DoctorSpecialty = doctor.Occupation,
-                DoctorProfilePicture = "https://bootdey.com/img/Content/avatar/avatar7.png",
-                DoctorMedicalCenterName = doctor.MedicalCenter?.Name,
-                DoctorMedicalCenterAddress = doctor.MedicalCenter?.Address.Street + " № "
-                                                + doctor.MedicalCenter?.Address.StreetNumber + ", "
-                                                + doctor.MedicalCenter?.Address.City + ", "
-                                                + doctor.MedicalCenter?.Address.Country
+                DoctorMedicalCenterName = doctor.Workplace.Name,
+                DoctorMedicalCenterAddress = "ул. " + doctor.Workplace.Address.Street + " № "
+                                                + doctor.Workplace.Address.StreetNumber + ", гр. "
+                                                + doctor.Workplace.Address.City + ", "
+                                                + doctor.Workplace.Address.Country.Name
             };
 
             return myDoctorView;
@@ -151,7 +162,15 @@ namespace eDoc.Services
                 {
                     Id = doctor.Id,
                     FullName = doctor.FullName,
+                    MedicalCenter = doctor.Workplace.Name,
+                    WorkplaceAddress = string.IsNullOrEmpty(doctor.Workplace.Name) ?
+                                                "Не е зададен" :
+                                                "ул. " + doctor.Workplace.Address.Street + " № "
+                                                + doctor.Workplace.Address.StreetNumber + ", гр. "
+                                                + doctor.Workplace.Address.City + ", "
+                                                + doctor.Workplace.Address.Country.Name,
                     ContactEmail = doctor.Email,
+                    ContactPhone = string.IsNullOrEmpty(doctor.PhoneNumber) ? "Не е посочен" : doctor.PhoneNumber,
                     Specialty = doctor.SpecialtyCode,
                 };
 
@@ -201,14 +220,66 @@ namespace eDoc.Services
                     CountryCode = patient.Address?.Country?.Code
                 };
 
-            return patienDetails;
-        }
+                return patienDetails;
+            }
             return null;
         }
+        public void RemoveMyDoctor()
+        {
+            var userName = this._signInManager
+                                 .Context.User
+                                 .Identity
+                                 .Name;
+            var user = this._signInManager
+                            .UserManager
+                            .FindByNameAsync(userName)
+                            .GetAwaiter()
+                            .GetResult();
 
-    private static string CleanPIN(string PIN)
-    {
-        return string.Concat(PIN.Remove(6), "****");
+            user.MyDoctorId = string.Empty;
+
+            this.db.Update(user);
+            this.db.SaveChanges();
+        }
+        private static string CleanPIN(string PIN)
+        {
+            return string.Concat(PIN.Remove(6), "****");
+        }
+
+        public AmbulatoryListDetailsViewModel GetAmbulgatoryListDetails(string id)
+        {
+            var ambulatoryList = this.db.AmbulatoryLists.Find(id);
+
+            var ambulatoryListViewModel = new AmbulatoryListDetailsViewModel
+            {
+                Id = ambulatoryList.Id, 
+                AccompanyingConditions = ambulatoryList.AccompanyingConditions, 
+                PatientAddress = string.Concat("ул. ", ambulatoryList.Patient.Address?.Street, ", ",
+                                                "№ ", ambulatoryList.Patient.Address?.StreetNumber, ", ",
+                                                "Вход: ", ambulatoryList.Patient.Address?.Entrance, ", ",
+                                                "Етаж: ", ambulatoryList.Patient.Address?.Floor, ", ",
+                                                "Апартамент: ", ambulatoryList.Patient.Address?.Apartment, ", ",
+                                                "Град: ", ambulatoryList.Patient.Address?.City, ", ",
+                                                "Държава: ", ambulatoryList.Patient.Address?.Country.Name, "."), 
+                CreatedOn = ambulatoryList.CreatedOn, 
+                Diagnosis = ambulatoryList.Diagnosis, 
+                DoctorFullName = ambulatoryList.Doctor.FullName, 
+                DoctorSpecialtyCode = ambulatoryList.Doctor.SpecialtyCode, 
+                DoctorUIN = ambulatoryList.Doctor.UIN, 
+                Examinations = ambulatoryList.Examinations, 
+                MedicalHistory = ambulatoryList.MedicalHistory, 
+                NZOKNumber = ambulatoryList.NZOKNumber, 
+                ObjectiveCondition = ambulatoryList.ObjectiveCondition, 
+                PatientCountryCode = ambulatoryList.Patient.Address?.Country?.Code, 
+                PatientDateOfBirth = ambulatoryList.Patient.BirthDate, 
+                PatientFullName = ambulatoryList.Patient.FullName, 
+                PatientPIN = CleanPIN(ambulatoryList.Patient.PIN), 
+                SubstituteType = ambulatoryList.SubstituteType, 
+                TypeOfCheckup = ambulatoryList.TypeOfCheckup,
+                Therapy = ambulatoryList.Therapy, 
+                VisitReason = ambulatoryList.VisitReason
+        };
+            return ambulatoryListViewModel;
+        }
     }
-}
 }

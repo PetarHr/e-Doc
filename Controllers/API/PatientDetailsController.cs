@@ -2,7 +2,8 @@
 using eDoc.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace eDoc.Controllers
+
+namespace eDoc.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]

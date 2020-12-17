@@ -1,5 +1,5 @@
-﻿@using eDoc.Data.Models
-@model ICollection<Recipe>
+﻿@using eDoc.Models.View.Doctor
+@model List<RecipesIssuedByMeViewModel>
 
     <h1>Издадени рецепти</h1>
     <table class="table table-sm">
@@ -19,8 +19,8 @@
             {
             <tr>
                 <td>@recipe.Id</td>
-                <td>@recipe.Patient.FullName</td>
-                <td>@recipe.Doctor.FullName</td>
+                <td>@recipe.PatientFullName</td>
+                <td>@recipe.DoctorFullName</td>
                 <td>@recipe.CreatedOn</td>
                 <td>@recipe.Completed</td>
                 <td>@recipe.AllowMultiCompletion</td>

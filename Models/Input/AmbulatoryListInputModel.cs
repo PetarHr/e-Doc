@@ -14,7 +14,6 @@ namespace eDoc.Models.Input
         public string PatientId { get; set; }
         public string DoctorFullName { get; set; }
         public string DoctorSpecialtyCode { get; set; }
-        public string MedicalCenterRegNumber { get; set; }
         public string DoctorId { get; set; }
         public string DoctorUIN { get; set; }
         public string NZOKNumber { get; set; }
@@ -22,8 +21,6 @@ namespace eDoc.Models.Input
         public DateTime CreatedOn { get; set; }
         public VisitReason VisitReason { get; set; }
         public TypeOfCheckup TypeOfCheckup { get; set; }
-        public bool IssuedDocuments { get; set; }
-        public ICollection<IssuedDocument> IssuedDocumentsList { get; set; }
         [Required]
         public string MedicalHistory { get; set; }
         [Required]
@@ -34,10 +31,6 @@ namespace eDoc.Models.Input
         public string Therapy { get; set; }
         [Required]
         public string Diagnosis { get; set; }
-        [Required]
-        public string  MKBDiagnoseCode { get; set; }
-        [Required]
-        public string MKBDiagnoseDescription { get; set; }
         [Required]
         public string AccompanyingConditions { get; set; }
     }

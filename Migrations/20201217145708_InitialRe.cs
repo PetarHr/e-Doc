@@ -233,8 +233,7 @@ namespace eDoc.Migrations
                 name: "AmbulatoryLists",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PatientId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DoctorId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     NZOKNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -481,8 +480,8 @@ namespace eDoc.Migrations
                     DateOfIssue = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LAKNumber = table.Column<int>(type: "int", nullable: false),
-                    OutpatientJournalNumber = table.Column<int>(type: "int", nullable: false),
+                    LAKNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OutpatientJournalNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Continuation = table.Column<bool>(type: "bit", nullable: false),
                     Diagnosis = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DisabilityReason = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -519,7 +518,7 @@ namespace eDoc.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AmbulatoryListId = table.Column<int>(type: "int", nullable: true)
+                    AmbulatoryListId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {

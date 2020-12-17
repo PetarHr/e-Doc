@@ -93,10 +93,6 @@
                             <label class="label-default" asp-for="EndDate">В отпуск до:</label>
                             <input asp-for="EndDate" />
 
-                            <label class="label-default" asp-for="OutpatientJournalNumber"></label>
-                            <input asp-for="OutpatientJournalNumber" placeholder="" />
-                            <span asp-validation-for="OutpatientJournalNumber" class="text-danger"></span>
-
                             <label class="label-default" asp-for="Continuation">Продължение</label>
                             <input asp-for="Continuation" placeholder="" />
 
@@ -118,7 +114,6 @@
                                 <option value="@diagnose.Id"> @diagnose.Description (Код: @diagnose.Code)</option>
                             }
                         </select>
-                        <textarea class="form-control col-8" asp-for="DisabilityReason" placeholder="Причина..."></textarea>
 
                         <!-- Type of check-up selection -->
                         <div class="input-group mb-3">

@@ -1,5 +1,6 @@
 ﻿using eDoc.Data.Models;
 using eDoc.Models.Input;
+using eDoc.Models.View.Doctor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace eDoc.Services
         public void CreateSickLeaveList(SickLeaveListInputModel input);
         public ICollection<ApplicationUser> GetAllPatients();
         public ICollection<ApplicationUser> GetDoctorPatients(string doctorId);
-        public ICollection<Recipe> GetRecipesIssueByMe();
+        public List<RecipesIssuedByMeViewModel> GetRecipesIssueByMe();
         public ICollection<AmbulatoryList> GetAmbulatoryListsIssueByMe();
         public ICollection<SickLeaveList> GetSickLeavesIssueByMe();
     }

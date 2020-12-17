@@ -1,6 +1,7 @@
 ﻿using eDoc.Data;
 using eDoc.Data.Models;
 using eDoc.Models.Input;
+using eDoc.Models.View.Doctor;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace eDoc.Services
         private readonly ApplicationDbContext _db;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public DoctorService(ApplicationDbContext db, 
+        public DoctorService(ApplicationDbContext db,
                              SignInManager<ApplicationUser> signInManager)
         {
             this._db = db;
@@ -93,31 +94,24 @@ namespace eDoc.Services
             var ambulatoryList = new AmbulatoryList
             {
                 CreatedOn = input.CreatedOn,
-                AccompanyingConditions = input.AccompanyingConditions, 
-                Diagnosis = input.Diagnosis, 
+                AccompanyingConditions = input.AccompanyingConditions,
+                Diagnosis = input.Diagnosis,
                 Doctor = doctor,
-                IssuedDocuments = input.IssuedDocuments, 
-                Examinations = input.Examinations, 
-                //IssuedDocumentsList = @TODO
-                MedicalHistory = input.MedicalHistory, 
-                MKBDiagnose = new MKBDiagnose
-                            {
-                                Code = input.MKBDiagnoseCode, 
-                                Description = input.MKBDiagnoseDescription
-                            },
-                NZOKNumber = input.NZOKNumber, 
-                ObjectiveCondition = input.ObjectiveCondition, 
+                Examinations = input.Examinations,
+                MedicalHistory = input.MedicalHistory,
+                NZOKNumber = input.NZOKNumber,
+                ObjectiveCondition = input.ObjectiveCondition,
                 Patient = patient,
-                SubstituteType = input.SubstituteType, 
-                Therapy = input.Therapy, 
-                TypeOfCheckup = input.TypeOfCheckup, 
+                SubstituteType = input.SubstituteType,
+                Therapy = input.Therapy,
+                TypeOfCheckup = input.TypeOfCheckup,
                 VisitReason = input.VisitReason
             };
 
             this._db.AmbulatoryLists.Add(ambulatoryList);
             this._db.SaveChanges();
         }
-      
+
 
         public SickLeaveListInputModel PrepareSickLeaveInputModel()
         {
@@ -129,10 +123,10 @@ namespace eDoc.Services
 
             var sickLeaveInputModel = new SickLeaveListInputModel
             {
-                DoctorFullName = doctor.FullName, 
-                DoctorId = doctor.Id, 
-                PatientsList = listAllPatients, 
-                MKBDiagnoseList = MKBList, 
+                DoctorFullName = doctor.FullName,
+                DoctorId = doctor.Id,
+                PatientsList = listAllPatients,
+                MKBDiagnoseList = MKBList,
                 DateOfIssue = DateTime.Now
             };
 
@@ -159,8 +153,8 @@ namespace eDoc.Services
                 MKBDiagnose = mkbdiagnose,
                 OutpatientJournalNumber = input.OutpatientJournalNumber,
                 RegistryNumber = input.RegistryNumber,
-                TreatmentRegimen = input.TreatmentRegimen, 
-        };
+                TreatmentRegimen = input.TreatmentRegimen,
+            };
 
             this._db.SickLeaveLists.Add(sickLeave);
             var result = this._db.SaveChanges();
@@ -176,14 +170,28 @@ namespace eDoc.Services
             return this._db.Users.Where(u => u.MyDoctorId == doctorId).ToList();
         }
 
-        public ICollection<Recipe> GetRecipesIssueByMe()
+        public List<RecipesIssuedByMeViewModel> GetRecipesIssueByMe()
         {
             var userName = _signInManager.Context.User.Identity.Name;
             var user = this._db.Users.Where(x => x.UserName == userName).FirstOrDefault();
 
-            var recipesIssuedByUser = user.RecipesIssuedByMe;
+            List<RecipesIssuedByMeViewModel> recipeList = new List<RecipesIssuedByMeViewModel>();
 
-            return recipesIssuedByUser;
+            foreach (var issuedRecipe in user.RecipesIssuedByMe)
+            {
+                var recipe = new RecipesIssuedByMeViewModel
+                {
+                    Id = issuedRecipe.Id,
+                    DoctorFullName = issuedRecipe.Doctor.FullName,
+                    PatientFullName = issuedRecipe.Patient.FullName,
+                    CreatedOn = issuedRecipe.CreatedOn,
+                    AllowMultiCompletion = issuedRecipe.AllowMultiCompletion ? "Да" : "Не",
+                    Completed = issuedRecipe.Completed ? "Да" : "Не"
+                };
+
+                recipeList.Add(recipe);
+            }
+            return recipeList;
         }
 
         public ICollection<AmbulatoryList> GetAmbulatoryListsIssueByMe()

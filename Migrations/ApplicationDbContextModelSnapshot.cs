@@ -226,10 +226,8 @@ namespace eDoc.Migrations
 
             modelBuilder.Entity("eDoc.Data.Models.AmbulatoryList", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AccompanyingConditions")
                         .HasColumnType("nvarchar(max)");
@@ -451,8 +449,8 @@ namespace eDoc.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("AmbulatoryListId")
-                        .HasColumnType("int");
+                    b.Property<string>("AmbulatoryListId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");

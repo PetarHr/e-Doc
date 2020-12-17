@@ -60,7 +60,7 @@ namespace eDoc
             services.AddTransient<IPharmacistService, PharmacistService>();
         }
 
-        public async void Configure(IApplicationBuilder app,
+        public void Configure(IApplicationBuilder app,
                               IWebHostEnvironment env,
                               RoleManager<IdentityRole> roleManager,
                               UserManager<ApplicationUser> userManager,
@@ -81,7 +81,9 @@ namespace eDoc
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
-            await SeederService.Initialize(roleManager, userManager, db);
+#pragma warning disable CS4014 // Seeder should not be awaited.
+            SeederService.Initialize(roleManager, userManager, db);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
