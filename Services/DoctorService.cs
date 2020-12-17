@@ -241,5 +241,15 @@ namespace eDoc.Services
             }
             return sickLeaveLists;
         }
+
+        public void RemovePatient(string id)
+        {
+            var user = this._db.Users.Find(id);
+
+            user.MyDoctorId = string.Empty;
+
+            this._db.Update(user);
+            this._db.SaveChanges();
+        }
     }
 }

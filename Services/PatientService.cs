@@ -91,15 +91,15 @@ namespace eDoc.Services
                 DoctorFullName = recipe.Doctor.FullName,
                 DoctorUIN = recipe.Doctor.UIN,
 
-                MedCenterName = string.IsNullOrEmpty(recipe.Doctor.Workplace?.Name) ? "Не е подочен" : recipe.Doctor.Workplace.Name,
-                MedCenterAddress = string.IsNullOrEmpty(recipe.Doctor.Workplace.Address.Street) ? "Не е посочен" :
+                MedCenterName = string.IsNullOrEmpty(recipe.Doctor.Workplace?.Name) ? "Не е посочен център" : recipe.Doctor.Workplace.Name,
+                MedCenterAddress = string.IsNullOrEmpty(recipe.Doctor.Workplace?.Address?.Street) ? "Не е посочен адрес" :
                                                 "ул. " + recipe.Doctor.Workplace.Address.Street + " № "
                                                 + recipe.Doctor.Workplace.Address.StreetNumber + ", гр. "
                                                 + recipe.Doctor.Workplace.Address.City + ", "
                                                 + recipe.Doctor.Workplace.Address.Country.Name,
 
                 PatientFullName = recipe.Patient.FullName,
-                PatientAddress = string.IsNullOrEmpty(recipe.Patient.Address?.Street) ? "Не е посочен" :
+                PatientAddress = string.IsNullOrEmpty(recipe.Patient.Address?.Street) ? "Не е посочен адрес" :
                                                 "ул. " + recipe.Patient.Address.Street + " № "
                                                 + recipe.Patient.Address.StreetNumber + ", гр. "
                                                 + recipe.Patient.Address.City + ", "
@@ -164,13 +164,13 @@ namespace eDoc.Services
                     FullName = doctor.FullName,
                     MedicalCenter = doctor.Workplace.Name,
                     WorkplaceAddress = string.IsNullOrEmpty(doctor.Workplace.Name) ?
-                                                "Не е зададен" :
+                                                "Не е зададен адрес" :
                                                 "ул. " + doctor.Workplace.Address.Street + " № "
                                                 + doctor.Workplace.Address.StreetNumber + ", гр. "
                                                 + doctor.Workplace.Address.City + ", "
                                                 + doctor.Workplace.Address.Country.Name,
                     ContactEmail = doctor.Email,
-                    ContactPhone = string.IsNullOrEmpty(doctor.PhoneNumber) ? "Не е посочен" : doctor.PhoneNumber,
+                    ContactPhone = string.IsNullOrEmpty(doctor.PhoneNumber) ? "Не е посочен телефон" : doctor.PhoneNumber,
                     Specialty = doctor.SpecialtyCode,
                 };
 
@@ -187,6 +187,11 @@ namespace eDoc.Services
                             .FindByNameAsync(userName)
                             .GetAwaiter()
                             .GetResult();
+
+            if (doctorId == user.Id)
+            {
+                return;
+            }
 
             user.MyDoctorId = doctorId;
 

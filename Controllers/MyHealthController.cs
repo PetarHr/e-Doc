@@ -1,10 +1,12 @@
 ﻿using eDoc.Models.View.MyHealth;
 using eDoc.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace eDoc.Controllers
 {
+    [Authorize]
     public class MyHealthController : Controller
     {
         private readonly IMyHealthService _healthService;
@@ -28,6 +30,7 @@ namespace eDoc.Controllers
             return this.View(myHealth);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Update(MyHealthDetailsViewModel input)
         {
             if (!ModelState.IsValid)
@@ -37,7 +40,6 @@ namespace eDoc.Controllers
 
             var myWeight = input.MyWeight;
             var myBloodPressure = input.MyBloodPressure;
-            //TODO: Implement allergy list update -> var myAllergiesList = input.AllergiesList;
 
             await _healthService.UpdateWeight(myWeight);
             await _healthService.UpdateBloodPressure(myBloodPressure);

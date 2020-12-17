@@ -22,5 +22,6 @@ namespace eDoc.Services
         public List<RecipesIssuedByMeViewModel> GetRecipesIssueByMe();
         public List<AmbulatoryListsIssuedByMeViewModel> GetAmbulatoryListsIssueByMe();
         public List<SickLeavesIssueByMyViewModel> GetSickLeavesIssueByMe();
+        public void RemovePatient(string id);
     }
 }

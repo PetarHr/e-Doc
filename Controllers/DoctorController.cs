@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace eDoc.Controllers
 {
     [Authorize]
+    [Authorize(Roles = "eDoctor,GodModeAdmin")]
     public class DoctorController : Controller
     {
         private readonly IDoctorService _doctorService;
@@ -97,7 +98,14 @@ namespace eDoc.Controllers
             return this.View(issuedSickLeaves);
         }
 
-        
+        public IActionResult RemovePatient(string id)
+        {
+            this._doctorService.RemovePatient(id);
+
+            return this.RedirectToAction("MyPatients");
+        }
+
+
 
     }
 }

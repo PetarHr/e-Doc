@@ -1,31 +1,25 @@
 ﻿@model List<eDoc.Data.Models.ApplicationUser>
 
-
-<div class="card-deck" style="width: 50rem;">
-    @foreach (var user in Model)
+<div class="card-columns">
+    @foreach (var patient in Model)
     {
-        <div class="card">
+        <div class="card" style="width: 18rem;">
             <img class="card-img-top" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Профилна снимка">
             <div class="card-body">
-                <h5 class="card-title">Име: @user.FullName</h5>
-                <p class="card-text">Град: @user.Address?.City</p>
+                <h5 class="card-title">Име: @patient.FullName</h5>
+                <p class="card-text">Град: @patient.Address.City</p>
+                <p class="card-text">Телефон: @patient.PhoneNumber</p>
+                <p class="card-text">Е-мейл: @patient.Email</p>
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Пациент от: ДАТА</li>
-                <li class="list-group-item">Град</li>
-            </ul>
             <div class="card-body">
-                <a class="card-link">Пълен профил</a>
-                <a class="card-link">Е-мейл</a>
-                <a class="card-link">Обаждане</a>
-                <a class="card-link text-danger">Премахни</a>
+                <a class="card-link text-danger" asp-controller="Doctor" asp-action="RemovePatient" asp-route-Id="@patient.Id">Отпиши !</a>
             </div>
         </div>
     }
-
     @if (Model.Count == 0)
     {
-            <h1>Не са открити пациенти.</h1>
+        <center>
+            <h2>Не са открити пациенти.</h2>
+        </center>
     }
 </div>
-

@@ -2,6 +2,7 @@
 using eDoc.Data.Models;
 using eDoc.Models.View.Pharmacist;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,13 +35,29 @@ namespace eDoc.Services
             var userName = this._signInManager.Context.User.Identity.Name;
             var user = this._signInManager.UserManager.FindByNameAsync(userName).Result;
 
-            var recipesList = this._db.Recipes.Where(x => x.Completed == false).ToList();
+            var recipesList = this._db.Recipes.Where(x => x.Completed == false || x.AllowMultiCompletion == true).ToList();
+            var activeRecipes = new List<PharmacistRecipesViewModel>();
+
+            foreach (var recipe in recipesList)
+            {
+                var recipeData = new PharmacistRecipesViewModel
+                {
+                    RecipeId = recipe.Id,
+                    CreatedOn = recipe.CreatedOn,
+                    DoctorFullName = recipe.Doctor.FullName,
+                    PatientFullName = recipe.Patient.FullName,
+                    Completed = recipe.Completed ? "Да" : "Не",
+                    AllowMultiCompletion = recipe.AllowMultiCompletion ? "Да" : "Не"
+                };
+
+                activeRecipes.Add(recipeData);
+            }
 
             var myWorklist = new MyWorkListViewModel
             {
                 PharmacistName = user.FullName,
-                WorkplaceName = user.Workplace?.Name, 
-                RecipesList = recipesList
+                WorkplaceName = string.IsNullOrEmpty(user.Workplace?.Name) ? "Не е зададено" : user.Workplace.Name,
+                RecipesList = activeRecipes
             };
 
             return myWorklist;

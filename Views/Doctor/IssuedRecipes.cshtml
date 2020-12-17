@@ -17,17 +17,24 @@
         <tbody>
             @foreach (var recipe in Model)
             {
-            <tr>
-                <td>@recipe.Id</td>
-                <td>@recipe.PatientFullName</td>
-                <td>@recipe.DoctorFullName</td>
-                <td>@recipe.CreatedOn</td>
-                <td>@recipe.Completed</td>
-                <td>@recipe.AllowMultiCompletion</td>
-                <td>
-                    <a class="btn btn-primary" type="button" asp-controller="Patient" asp-action="RecipeDetails" asp-route-id="@recipe.Id">Детайли</a>
-                </td>
-            </tr>
+                <tr>
+                    <td>@recipe.Id</td>
+                    <td>@recipe.PatientFullName</td>
+                    <td>@recipe.DoctorFullName</td>
+                    <td>@recipe.CreatedOn</td>
+                    <td>@recipe.Completed</td>
+                    <td>@recipe.AllowMultiCompletion</td>
+                    <td>
+                        <a class="btn btn-primary" type="button" asp-controller="Patient" asp-action="RecipeDetails" asp-route-id="@recipe.Id">Детайли</a>
+                    </td>
+                </tr>
+            }            @if (Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="6" class="text-center">
+                        <span class="text-danger">Не са открити издадени рецепти.</span>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

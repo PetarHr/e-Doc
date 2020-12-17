@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace eDoc.Controllers
 {
     [Authorize]
+    [Authorize(Roles = "ePatient,GodModeAdmin, eDoctor")]
     public class PatientController : Controller
     {
         private readonly IPatientService service;
@@ -91,6 +92,7 @@ namespace eDoc.Controllers
 
         public IActionResult AssignDoctor(string doctorId)
         {
+
             service.AssignDoctor(doctorId);
 
             return this.RedirectToAction("MyDoctor");

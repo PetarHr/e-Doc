@@ -7,10 +7,10 @@ namespace eDoc.Models.View.Pharmacist
     {
         public MyWorkListViewModel()
         {
-            this.RecipesList = new HashSet<Recipe>();
+            this.RecipesList = new List<PharmacistRecipesViewModel>();
         }
         public string PharmacistName { get; set; }
         public string WorkplaceName { get; set; }
-        public ICollection<Recipe> RecipesList { get; set; }
+        public List<PharmacistRecipesViewModel> RecipesList { get; set; }
     }
 }

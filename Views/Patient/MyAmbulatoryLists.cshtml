@@ -18,17 +18,26 @@
         <tbody>
             @foreach (var list in Model)
             {
-            <tr>
-                <td>@list.Id</td>
-                <td>@list.PatientFullName</td>
-                <td>@list.DoctorFullName</td>
-                <td>@list.IssueDate</td>
-                <td>@list.CheckUpType</td>
-                <td>@list.Diagnosis</td>
-                <td>@list.Diseases</td>
-                <td>@list.Therapy</td>
-            </tr>
+                <tr>
+                    <td>@list.Id</td>
+                    <td>@list.PatientFullName</td>
+                    <td>@list.DoctorFullName</td>
+                    <td>@list.IssueDate</td>
+                    <td>@list.CheckUpType</td>
+                    <td>@list.Diagnosis</td>
+                    <td>@list.Diseases</td>
+                    <td>@list.Therapy</td>
+                    <td><a class="btn btn-primary" type="button" asp-controller="Patient" asp-action="AmbulatoryListDetails" asp-route-id="@list.Id">Детайли</a></td>
+                </tr>
             }
-            
+            @if (Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="6" class="text-center">
+                        <span class="text-danger">Не са открити издадени амбулаторни листове.</span>
+                    </td>
+                </tr>
+            }
+
         </tbody>
     </table>
