@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace eDoc.Controllers
 {
     [Authorize]
-    [Authorize(Roles = "ePatient,GodModeAdmin, eDoctor")]
+    [Authorize]
     public class PatientController : Controller
     {
         private readonly IPatientService service;

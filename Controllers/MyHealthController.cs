@@ -53,5 +53,12 @@ namespace eDoc.Controllers
 
             return this.View(userHistory);
         }
+
+        public IActionResult Remove(string id)
+        {
+            _healthService.RemoveRecord(id);
+
+            return this.RedirectToAction("History");
+        }
     }
 }

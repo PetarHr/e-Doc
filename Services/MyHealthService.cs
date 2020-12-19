@@ -132,5 +132,21 @@ namespace eDoc.Services
             await this._db.SaveChangesAsync();
         }
 
+        public void RemoveRecord(string id)
+        {
+            var weightRecord = this._db.MyWeight.Find(id);
+            var bloodPressureRecord = this._db.MyBloodPressure.Find(id);
+
+            if (weightRecord != null)
+            {
+                this._db.MyWeight.Remove(weightRecord);
+                this._db.SaveChanges();
+            }
+            if (bloodPressureRecord != null)
+            {
+                this._db.MyBloodPressure.Remove(bloodPressureRecord);
+                this._db.SaveChanges();
+            }
+        }
     }
 }

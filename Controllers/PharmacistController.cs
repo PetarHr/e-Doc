@@ -36,7 +36,6 @@ namespace eDoc.Controllers
             return this.View(recipeDetails);
         }
 
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Complete(string id)
         {
             await _pharmacistService.CompleteAsync(id);

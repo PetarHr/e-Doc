@@ -12,5 +12,6 @@ namespace eDoc.Services
         public Task AddAllergy(Allergy input);
         public MyHealthDetailsViewModel GetMyHealthStats();
         public MyHealthHistoryViewModel GetMyHistory();
+        public void RemoveRecord(string id);
     }
 }

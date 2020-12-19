@@ -20,21 +20,6 @@
                         <input asp-for="@Model.MyBloodPressure.Systolic" />(систолично) <br />
                         <input asp-for="@Model.MyBloodPressure.Diastolic" /> (диастоличното)
                     </li>
-                    <li class="list-group-item">
-                        Алергии:
-                    </li>
-                    @foreach (var allergy in Model.AllergiesList)
-                    {
-                        if (@allergy.Description != "Няма запазени алергии.")
-                        {
-                            <li>
-                                <input asp-for="@allergy.Description" />
-                            </li>
-                        }
-                    }
-                    <li class="list-group-item">
-                        <a type="button" class="btn btn-outline-success" asp-controller="MyHealth" asp-action="History">Редактирай алергии</a>
-                    </li>
                 </ul>
                 <div class="card-body">
                     <button type="submit" class="btn btn-outline-success">Запази</button>

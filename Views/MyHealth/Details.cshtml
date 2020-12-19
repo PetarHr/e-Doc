@@ -12,13 +12,6 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Тегло: @Model.MyWeight?.Value</li>
                 <li class="list-group-item">Кръвно: @Model.MyBloodPressure?.Systolic / @Model.MyBloodPressure?.Diastolic </li>
-                <li class="list-group-item">
-                    Алергии:
-                </li>
-                @foreach (var allergy in Model.AllergiesList)
-                {
-                    <li>@allergy.Description</li>
-                }
             </ul>
             <div class="card-body">
                 <a asp-controller="MyHealth" asp-action="Update" class="btn btn-outline-info">Промени</a>
