@@ -72,6 +72,7 @@ namespace eDoc.Controllers
             {
                 return View("MissingDoctor");
             }
+
             return this.View(myDoctor);
         }
 

@@ -3,21 +3,27 @@
 @inject UserManager<ApplicationUser> userManager
 @model eDoc.Models.View.MyHealth.MyHealthDetailsViewModel
 
+    <div class="mr-4">
         <form method="post" asp-controller="MyHealth" asp-action="Update" class="text-center">
             <div class="card" style="width: 18rem;">
                 <vc:profile-picture user="@userManager.GetUserId(this.User)" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="card-body">
                     <h5 class="card-title">@Model.UserFullName</h5>
                     <p class="card-text">Възраст: @Model.Age г.</p>
                 </div>
                 <ul class="list-group list-group-flush">
+
                     <li class="list-group-item">
                         Тегло: <br />
+                        <span asp-validation-for="@Model.MyWeight.Value" class="text-danger"></span>
                         <input asp-for="@Model.MyWeight.Value" /> кг.
                     </li>
                     <li class="list-group-item">
                         Кръвно: <br />
+                        <span asp-validation-for="@Model.MyBloodPressure.Systolic" class="text-danger"></span>
                         <input asp-for="@Model.MyBloodPressure.Systolic" />(систолично) <br />
+                        <span asp-validation-for="@Model.MyBloodPressure.Diastolic" class="text-danger"></span>
                         <input asp-for="@Model.MyBloodPressure.Diastolic" /> (диастоличното)
                     </li>
                 </ul>
@@ -26,3 +32,4 @@
                 </div>
             </div>
         </form>
+    </div>

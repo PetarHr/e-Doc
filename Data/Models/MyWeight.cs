@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eDoc.Data.Models
@@ -10,6 +11,7 @@ namespace eDoc.Data.Models
             this.Id = Guid.NewGuid().ToString();
         }
         public string Id { get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "Моля, въведете валидна стойност за тегло.")]
         public double Value { get; set; }
         public DateTime RecordDate { get; set; }
         
