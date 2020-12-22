@@ -1,6 +1,8 @@
 # **e-Doc**
 *e-Health platform*
 
+Try it out at: https://edoconline.azurewebsites.net/
+
 ## What's inside?
 The platform accomodates several e-document issue & management functions such as: 
 
